@@ -1,0 +1,12 @@
+<div class="container">
+  <div class="row card p-3">
+      <h1 class="">User Form</h1><br>
+      <form >
+          <div *ngFor="let field of formFields">
+            <label>{{ field?.label }}</label>
+            <input class="form-control" type="{{ field?.type }}" id="{{field?.name}}">
+          </div>
+          <button class="btn btn-primary mt-2" type="submit" (click)="submitForm()">Submit</button>
+      </form>
+  </div>
+</div>

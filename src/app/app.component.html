@@ -1,0 +1,9 @@
+<section>
+  <app-header *ngIf="router.url != '/sign-in'"></app-header>
+  <div class="container-fluid">
+    <div class="row">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+  <app-footer></app-footer>
+</section>

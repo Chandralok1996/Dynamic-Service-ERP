@@ -1,0 +1,12 @@
+.bg-img {
+    background-image: url('../../assets/bgWallpaper.png');
+    background-repeat: no-repeat;
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    overflow-x: hidden;
+    top: 0 !important;
+    background-size: 100% 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
