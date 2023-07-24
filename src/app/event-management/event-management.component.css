@@ -8,3 +8,11 @@
     margin-left: 0;
     margin-right: 0;
 }
+
+.mat-mdc-header-row {
+    background: #3f51b5;
+}
+
+th {
+    color: white !important;
+}
