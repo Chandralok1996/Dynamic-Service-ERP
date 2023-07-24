@@ -14,7 +14,21 @@ export class LoginComponent {
   form: any;
   private subscription: Subscription = new Subscription();
 
-  constructor(private toaster: ToasterService, private service: AppService, private router: Router) {}
+  constructor(private toaster: ToasterService, private service: AppService, public router: Router) {
+    this.service.user.subscribe((res: any) => {
+      const response = JSON.parse(res);
+      if(response?.roleName) {
+        if(response.roleName == 'developer') {
+          this.router.navigate(['/home']);
+        } else {
+          console.log(response)
+          this.router.navigate(['/home']);
+        }
+      }
+    }, (error: any) => {
+      console.log(error);
+    }); 
+  }
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -23,9 +37,9 @@ export class LoginComponent {
     });
   }
 
-  ngAfterViewInit(): void {
-    this.service.logout();    
-  }
+  // ngAfterViewInit(): void {
+  //   this.service.logout();    
+  // }
 
   get formCtrl() {
     return this.form.controls;
@@ -41,12 +55,7 @@ export class LoginComponent {
       this.service.userLogIn(match).subscribe((res: any) => {
         if (res.status) {
           this.toaster.success('User login successful!');
-          const response = res.response;
-          if(response.roleName == 'developer') {
-            this.router.navigate(['/admin']);
-          } else {
-            this.router.navigate(['/home']);
-          }
+          window.location.reload();
         } else {
           this.toaster.error(res.message);
         }

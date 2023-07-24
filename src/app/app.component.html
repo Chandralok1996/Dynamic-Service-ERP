@@ -1,4 +1,4 @@
-<section>
+<!-- <section>
   <app-header *ngIf="router.url != '/sign-in'"></app-header>
   <div class="container-fluid">
     <div class="row">
@@ -6,4 +6,24 @@
     </div>
   </div>
   <app-footer></app-footer>
-</section>
+
+ 
+</section> -->
+
+
+<mat-sidenav-container >
+
+  <mat-sidenav #sidenav>
+    <app-sidenav-list (closeSideNav)="sidenav.close()"></app-sidenav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <app-header *ngIf="router.url != '/sign-in'" (SideNavToggle)="sidenav.toggle()"></app-header>
+   
+
+    <main>
+      <router-outlet></router-outlet>
+    </main>
+    
+  </mat-sidenav-content>
+</mat-sidenav-container>

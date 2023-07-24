@@ -11,10 +11,15 @@ import { FooterComponent } from './_shared/footer/footer.component';
 import { HeaderComponent } from './_shared/header/header.component';
 import { AuthInterceptorService } from './_services';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SidenavListComponent } from './_shared/sidenav-list/sidenav-list.component';
+
+
+
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SidenavListComponent,
   ],
   imports: [
     BrowserModule,
@@ -25,6 +30,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     RouterModule,
     BrowserModule,
     MaterialModule,
+
     ToastrModule.forRoot({
       timeOut: 2500,
       positionClass: 'toast-bottom-right',

@@ -2,11 +2,12 @@ import { Component, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { AdminService, ToasterService } from 'src/app/_services';
+import { AdminService, AppService, ToasterService } from 'src/app/_services';
 import { AddFormFieldComponent } from './add-column.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-
+import { UpdateFormFieldComponent } from './update-column.component';
+import { PreviewComponent } from '../preview/preview.component';
 @Component({
   selector: 'app-view-form',
   templateUrl: './view-form.component.html',
@@ -16,13 +17,17 @@ export class ViewFormComponent {
   formID: any;
   dataSource: any;
   formData: any = [];
+  pagination: any;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   displayedColumns: string[] = ['sr', 'column_label', 'column_type', 'action'];
   addFormFieldDialog!: MatDialogRef<AddFormFieldComponent>;
+  updateFormFieldDialog!: MatDialogRef<UpdateFormFieldComponent>;
+  previewformdialog!:MatDialogRef<PreviewComponent>
   private formDataSubscription: Subscription = new Subscription();
 
-  constructor( private matDialog: MatDialog,  private adminService: AdminService,  private toaster: ToasterService, private route: ActivatedRoute) {
+  constructor( private matDialog: MatDialog,  private adminService: AdminService, private service: AppService,  private toaster: ToasterService, private route: ActivatedRoute) {
     this.formID = this.route.snapshot.paramMap.get('id');
+    this.pagination = this.service.pagination;
     this.getFormDataById(this.formID);
   }
 
@@ -34,6 +39,7 @@ export class ViewFormComponent {
       this.adminService.getFormByID(id).subscribe((res: any) => {
         if (res.status == 200) {
           this.formData = res.rows;
+          console.table(this.formData);
           this.dataSource = new MatTableDataSource(this.formData);
           this.dataSource.paginator = this.paginator;
           this.toaster.success(res.message);
@@ -46,27 +52,30 @@ export class ViewFormComponent {
     );
   }
 
-  addFieldModel(): void {
-    this.addFormFieldDialog = this.matDialog.open(AddFormFieldComponent, { data: this.formID, disableClose: true });
+  addFieldModel(item:any): void {
+   var data={
+      "formid":this.formID,
+      "form_type":item,
+    }
+    this.addFormFieldDialog = this.matDialog.open(AddFormFieldComponent, { data, disableClose: true });
     this.addFormFieldDialog.afterClosed().subscribe((res: any) => {
       if(res) {
-        this.formData.push(res);
-        let match = { "fmls_id": this.formID, "type": "addcolumn", "columnDetail": [
-          { "column_label": res.column_label, "column_type": res.column_type }
-        ]};
-        this.dataSource = new MatTableDataSource(this.formData);
-        this.adminService.addColumnInForm(match).subscribe((res: any) => {
-          if(res.status == 201) {
-            this.getFormDataById(this.formID);
-            this.toaster.success(res.message);
-          } else {
-            this.toaster.warning(res.message);
-          }
-        }, (error: any) => {
-          this.toaster.error(`${error.status} ${error.statusText}`);
-        });
+        this.getFormDataById(this.formID);
       }
     });
+  }
+
+  updateFieldModel(data: any): void {
+    this.updateFormFieldDialog = this.matDialog.open(UpdateFormFieldComponent, { data: data, disableClose: true });
+    this.updateFormFieldDialog.afterClosed().subscribe((res: any) => {
+      if(res) {
+        this.getFormDataById(this.formID);
+      }
+    });
+  }
+  previewmodel():void
+  {
+  this.previewformdialog=  this.matDialog.open(PreviewComponent)
   }
 
   applyFilter(event: Event) {

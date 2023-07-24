@@ -6,9 +6,13 @@ import { MaterialModule } from '../material.module';
 import { RouterModule, Routes } from '@angular/router';
 import { FormMasterComponent } from './form-master/form-master.component';
 import { TableMasterComponent } from './table-master/table-master.component';
-import { ViewFormComponent } from './form-master/view-form/view-form.component';
 import { AddFormFieldComponent } from './form-master/view-form/add-column.component';
-
+import { UpdateFormFieldComponent } from './form-master/view-form/update-column.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatButtonModule} from '@angular/material/button';
+import { PreviewComponent } from './form-master/preview/preview.component';
+import { ViewFormComponent } from './form-master/view-form/view-form.component';
 const routes: Routes = [
   { path: 'admin', component: AdminComponent, children: [
     { path: 'form-master', component: FormMasterComponent, canActivate: [adminGuard] },
@@ -20,14 +24,20 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     AdminComponent,
+    ViewFormComponent,
     FormMasterComponent,
-    AddFormFieldComponent,
     TableMasterComponent,
-    ViewFormComponent
+    AddFormFieldComponent,
+    UpdateFormFieldComponent,
+    PreviewComponent,
   ],
   imports: [
     CommonModule,
     MaterialModule,
+    ReactiveFormsModule,
+    MatMenuModule,
+    FormsModule,
+    MatButtonModule,
     RouterModule.forChild(routes)
   ]
 })

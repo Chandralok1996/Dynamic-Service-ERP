@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
-import { AdminService, ToasterService } from 'src/app/_services';
+import { AdminService, AppService, ToasterService } from 'src/app/_services';
 
 @Component({
   selector: 'app-form-master',
@@ -13,12 +13,14 @@ import { AdminService, ToasterService } from 'src/app/_services';
 export class FormMasterComponent {
   formData: any;
   dataSource: any;
+  pagination: any;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   displayedColumns: string[] = ['sr', 'form_name', 'description', 'active_status', 'created_at', 'action'];
 
   private formListSubscription: Subscription = new Subscription();
 
-  constructor(private adminService: AdminService, private toaster: ToasterService) {
+  constructor(private adminService: AdminService, private toaster: ToasterService, private service: AppService) {
+    this.pagination = this.service.pagination;
     this.getFormData();
   }
 
