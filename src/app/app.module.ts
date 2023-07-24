@@ -7,6 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AdminModule } from './_admin-dev/admin.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 import { FooterComponent } from './_shared/footer/footer.component';
 import { HeaderComponent } from './_shared/header/header.component';
 import { AuthInterceptorService } from './_services';
@@ -30,7 +31,8 @@ import { SidenavListComponent } from './_shared/sidenav-list/sidenav-list.compon
     RouterModule,
     BrowserModule,
     MaterialModule,
-
+    BrowserModule,
+    CommonModule,
     ToastrModule.forRoot({
       timeOut: 2500,
       positionClass: 'toast-bottom-right',

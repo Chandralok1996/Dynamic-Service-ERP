@@ -1,24 +1,18 @@
 <section>
     <div class="container-fluid">
         <mat-progress-bar mode="indeterminate" *ngIf="isCompleted"></mat-progress-bar>
-        <div class="row">
-            <div class="col-md-3">
+        <div class="row px-2">
+            <div class="col-md-3 col-6">
                 <button mat-flat-button class="me-2" color="primary" onclick="history.back()"><mat-icon>keyboard_backspace</mat-icon></button>
                 <button mat-flat-button color="primary"><mat-icon>loop</mat-icon></button>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-5 col-12">
               <div class="searchBar d-flex justify-content-center align-items-center">
                 <span class="material-symbols-sharp">search</span><input class="form-control" type="search" #input placeholder="Enter search query..." (keyup)="applyFilter($event)">
               </div>
             </div>
-            <div class="col-md-4 text-end">
-                <button mat-raised-button color="primary" class="me-2">Create Event</button>
-                <!-- <button mat-flat-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu" color="primary">
-                    <mat-icon>more_vert</mat-icon>
-                </button> -->
-                <!-- <mat-menu #menu="matMenu">
-                    <mat-checkbox (change)="selectlabel($event,task)"  #menuItems *ngFor="let task of tempvar, let i = index;" color="primary">{{task.keyName}}</mat-checkbox>
-                </mat-menu> -->
+            <div class="col-md-4 col-12 text-end">
+                <button mat-raised-button color="primary">Create Event</button>
             </div>
         </div>
         <div class="row my-2">
