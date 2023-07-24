@@ -1,1 +1,41 @@
-<p>event-management works!</p>
+<section>
+    <div class="container-fluid">
+        <mat-progress-bar mode="indeterminate" *ngIf="isCompleted"></mat-progress-bar>
+        <div class="row px-2">
+            <div class="col-md-3 col-6">
+                <button mat-flat-button class="me-2" color="primary" onclick="history.back()"><mat-icon>keyboard_backspace</mat-icon></button>
+                <button mat-flat-button color="primary"><mat-icon>loop</mat-icon></button>
+            </div>
+            <div class="col-md-5 col-12">
+              <div class="searchBar d-flex justify-content-center align-items-center">
+                <span class="material-symbols-sharp">search</span><input class="form-control" type="search" #input placeholder="Enter search query..." (keyup)="applyFilter($event)">
+              </div>
+            </div>
+            <div class="col-md-4 col-12 text-end">
+                <button mat-raised-button color="primary">Create Event</button>
+            </div>
+        </div>
+        <div class="row my-2">
+            <div class="col-12">
+                <div class="card shadow">
+                    <div class="table-hight">
+                        <!-- <table mat-table [dataSource]="dataSource" tabindex="0">
+                            <ng-container [matColumnDef]="column" *ngFor="let column of copyDisplayColumn">
+                              <th mat-header-cell *matHeaderCellDef> {{column | titlecase}} </th>
+                              <td mat-cell *matCellDef="let element"> <span *ngIf="column !='Action'">{{element[column]}}</span> <span *ngIf="column =='Action'"> 
+                                <button mat-mini-fab color="primary"  (click)="userupdate(element.user_id)"
+                                ><mat-icon>edit</mat-icon></button> </span> </td>
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="copyDisplayColumn; sticky: true"></tr>
+                            <tr mat-row *matRowDef="let row; columns: copyDisplayColumn;"></tr>
+                            <tr class="mat-row" *matNoDataRow>
+                                <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                            </tr>
+                        </table> -->
+                    </div>
+                    <mat-paginator  [pageSize]="6" [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons aria-label="Select page of periodic elements"> </mat-paginator>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
