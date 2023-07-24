@@ -1,0 +1,10 @@
+.mdc-linear-progress{
+    top: -7px;
+}
+
+.mat-mdc-unelevated-button>.mat-icon, .mat-mdc-raised-button>.mat-icon, .mat-mdc-outlined-button>.mat-icon {
+    margin-left: 0;
+    margin-right: 0;
+    margin-left: 0;
+    margin-right: 0;
+}
