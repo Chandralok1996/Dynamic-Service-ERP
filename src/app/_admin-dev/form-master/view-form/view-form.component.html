@@ -7,17 +7,26 @@
             <div class="col-md-5">
                 <div class="searchBar d-flex justify-content-center align-items-center">
                     <mat-icon>search</mat-icon>
-  <input class="form-control form-control-sm ml-3 w-75 rounded-input" type="text" #input placeholder="Search Your Queries..." (keyup)="applyFilter($event)" aria-label="Search"
-    >
+  <input class="form-control form-control-sm ml-3 w-75 rounded-input" type="text" #input placeholder="Search Your Queries..." (keyup)="applyFilter($event)" aria-label="Search">
                     <!-- <span class="material-symbols-sharp">search</span><input class="form-control" type="search" #input placeholder="Enter search query..." (keyup)="applyFilter($event)"> -->
                 </div>
             </div>
             <!-- <div class="col-md-5"></div> -->
             <div class="col-md-6 text-end " style="text-align: right;">
-                <button type="button" class="btn btn-secondary" (click)="previewmodel()"><mat-icon style="float: left;">visibility</mat-icon>&nbsp; Preview</button>&nbsp;&nbsp;
+                <button type="button" class="btn btn-secondary me-2" (click)="previewmodel()"><mat-icon style="float: left;">visibility</mat-icon>&nbsp; Preview</button>
+
+                <button class="btn btn-primary" [matMenuTriggerFor]="menu"><mat-icon style="float: left;">add_circle_outline</mat-icon>&nbsp;&nbsp;Create New</button>
+                <mat-menu #menu="matMenu">
+                    <button class="btn" color="" (click)="addFieldModel('form')"><mat-icon style="float: left;">add</mat-icon>&nbsp;Add new Field</button><br>
+                    <button  class="btn" (click)="addFieldModel('sub')"> <mat-icon style="float: left;">queue</mat-icon>&nbsp;Add sub form</button><br>
+                    
+                </mat-menu>
+
+
+                <!-- <button type="button" class="btn btn-secondary" (click)="previewmodel()"><mat-icon style="float: left;">visibility</mat-icon>&nbsp; Preview</button>&nbsp;&nbsp;
                 <button  class="btn btn-success" (click)="addFieldModel('sub')"> <mat-icon style="float: left;">queue</mat-icon>&nbsp;Add sub form</button>&nbsp;&nbsp;
   
-                <button mat-raised-button color="primary" (click)="addFieldModel('form')"><mat-icon style="float: left;">add</mat-icon>&nbsp;Add new Field</button>
+                <button mat-raised-button color="primary" (click)="addFieldModel('form')"><mat-icon style="float: left;">add</mat-icon>&nbsp;Add new Field</button> -->
             </div>
         </div>
         <div class="row my-2 px-2">

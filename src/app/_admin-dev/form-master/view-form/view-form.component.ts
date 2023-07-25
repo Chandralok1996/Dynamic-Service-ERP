@@ -8,6 +8,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { UpdateFormFieldComponent } from './update-column.component';
 import { PreviewComponent } from '../preview/preview.component';
+
 @Component({
   selector: 'app-view-form',
   templateUrl: './view-form.component.html',
