@@ -9,6 +9,7 @@
                 <span class="material-symbols-sharp">search</span><input class="form-control" type="search" #input placeholder="Enter search query..." (keyup)="applyFilter($event)">
               </div>
             </div>
+            
             <div class="col-md-7 text-end">
                 <button mat-raised-button [routerLink]="['/user-master/create']" color="primary"><mat-icon style="float: left;">add</mat-icon> Create User</button>
                 <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
