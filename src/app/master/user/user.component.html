@@ -17,35 +17,32 @@
                   </button>
                   <mat-menu #menu="matMenu">
                     <!-- <mat-checkbox #menuItems>All</mat-checkbox> -->
-                    <mat-checkbox [checked]="task.check" (change)="selectlabel($event,task)"  #menuItems *ngFor="let task of tempvar, let i = index;" color="primary"
-                    
-                   >
+                    <mat-checkbox [checked]="task.check" (change)="selectlabel($event,task)"  #menuItems *ngFor="let task of tempvar, let i = index;" color="primary">
                     {{task.keyName}}
                   </mat-checkbox>
                   </mat-menu>
             </div>
-
-            
-              
         </div>
         <div class="row my-2">
-            <div class="card p-2 shadow">
-                <div class="table-hight">
-                    <table mat-table [dataSource]="dataSource" tabindex="0">
-                        <ng-container [matColumnDef]="column" *ngFor="let column of copyDisplayColumn">
-                          <th mat-header-cell *matHeaderCellDef> {{column | titlecase}} </th>
-                          <td mat-cell *matCellDef="let element"> <span *ngIf="column !='Action'">{{element[column]}}</span> <span *ngIf="column =='Action'"> 
-                            <button mat-mini-fab color="primary"  (click)="userupdate(element.user_id)"
-                            ><mat-icon>edit</mat-icon></button> </span> </td>
-                        </ng-container>
-                        <tr mat-header-row *matHeaderRowDef="copyDisplayColumn; sticky: true"></tr>
-                        <tr mat-row *matRowDef="let row; columns: copyDisplayColumn;"></tr>
-                        <tr class="mat-row" *matNoDataRow>
-                            <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
-                        </tr>
-                    </table>
+            <div class="col-12">
+                <div class="card shadow">
+                    <div class="table-hight">
+                        <table mat-table [dataSource]="dataSource" tabindex="0">
+                            <ng-container [matColumnDef]="column" *ngFor="let column of copyDisplayColumn">
+                              <th mat-header-cell *matHeaderCellDef> {{column | titlecase}} </th>
+                              <td mat-cell *matCellDef="let element"> <span *ngIf="column !='Action'">{{element[column]}}</span> <span *ngIf="column =='Action'"> 
+                                <button mat-mini-fab color="primary"  (click)="userupdate(element.user_id)"
+                                ><mat-icon>edit</mat-icon></button> </span> </td>
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="copyDisplayColumn; sticky: true"></tr>
+                            <tr mat-row *matRowDef="let row; columns: copyDisplayColumn;"></tr>
+                            <tr class="mat-row" *matNoDataRow>
+                                <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <mat-paginator  [pageSize]="6" [pageSizeOptions]=pagination showFirstLastButtons aria-label="Select page of periodic elements"> </mat-paginator>
                 </div>
-                <mat-paginator  [pageSize]="6" [pageSizeOptions]=pagination showFirstLastButtons aria-label="Select page of periodic elements"> </mat-paginator>
             </div>
         </div>
     </div>
