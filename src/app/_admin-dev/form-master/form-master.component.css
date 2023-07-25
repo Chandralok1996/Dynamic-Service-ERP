@@ -1,0 +1,11 @@
+.mdc-linear-progress{
+    top: -7px;
+}
+
+.mat-mdc-header-row {
+    background: #3f51b5;
+}
+
+th {
+    color: white !important;
+}

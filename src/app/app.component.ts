@@ -12,10 +12,8 @@ export class AppComponent implements OnInit {
   name = 'Angular';
   login: any;
   constructor(public router: Router, private service: AppService) {}
-  ngOnInit()
-  {
+  ngOnInit(){
       this.login=localStorage.getItem('user')
       console.log(this.login);
-      
   }
 }

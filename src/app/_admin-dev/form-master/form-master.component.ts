@@ -16,6 +16,7 @@ export class FormMasterComponent {
   pagination: any;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   displayedColumns: string[] = ['sr', 'form_name', 'description', 'active_status', 'created_at', 'action'];
+  isCompleted: boolean = false;
 
   private formListSubscription: Subscription = new Subscription();
 
@@ -24,13 +25,18 @@ export class FormMasterComponent {
     this.getFormData();
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.isCompleted = true;
+   }
 
   getFormData(): void {
     this.formListSubscription.add(
       this.adminService.getFormList().subscribe((res: any) => {
         if (res.status == 200) {
           this.formData = res.rows;
+          if(this.formData.length > 0){
+            this.isCompleted = false;
+          }
           this.dataSource = new MatTableDataSource(this.formData);
           this.dataSource.paginator = this.paginator;
           this.toaster.success(res.message);
