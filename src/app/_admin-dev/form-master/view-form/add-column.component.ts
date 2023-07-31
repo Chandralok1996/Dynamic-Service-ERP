@@ -32,7 +32,6 @@ import { AdminService, ToasterService } from "src/app/_services";
                       <mat-option value="number">Number</mat-option>
                       <mat-option value="select" *ngIf="form_type=='form'">Select</mat-option>
                       <mat-option value="assigndropdown" *ngIf="form_type=='form'">assign Dropdown</mat-option>
-
                     </mat-select>
                   </mat-form-field>
                 </p>

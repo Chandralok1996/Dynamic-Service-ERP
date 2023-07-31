@@ -1,5 +1,6 @@
 <section>
     <div class="container-fluid">
+        <mat-progress-bar mode="indeterminate" *ngIf="isCompleted"></mat-progress-bar>
         <div class="row">
             <div class="col-md-1">
                 <button type="button" class="btn btn-danger" onclick="history.back()"><mat-icon style="float: left;">keyboard_return</mat-icon> Back</button>
@@ -7,60 +8,48 @@
             <div class="col-md-5">
                 <div class="searchBar d-flex justify-content-center align-items-center">
                     <mat-icon>search</mat-icon>
-  <input class="form-control form-control-sm ml-3 w-75 rounded-input" type="text" #input placeholder="Search Your Queries..." (keyup)="applyFilter($event)" aria-label="Search">
-                    <!-- <span class="material-symbols-sharp">search</span><input class="form-control" type="search" #input placeholder="Enter search query..." (keyup)="applyFilter($event)"> -->
+                        <input class="form-control form-control-sm ml-3 w-75 rounded-input" type="text" #input placeholder="Search Your Queries..." (keyup)="applyFilter($event)" aria-label="Search">
                 </div>
             </div>
-            <!-- <div class="col-md-5"></div> -->
             <div class="col-md-6 text-end " style="text-align: right;">
                 <button type="button" class="btn btn-secondary me-2" (click)="previewmodel()"><mat-icon style="float: left;">visibility</mat-icon>&nbsp; Preview</button>
-
                 <button class="btn btn-primary" [matMenuTriggerFor]="menu"><mat-icon style="float: left;">add_circle_outline</mat-icon>&nbsp;&nbsp;Create New</button>
                 <mat-menu #menu="matMenu">
                     <button class="btn" color="" (click)="addFieldModel('form')"><mat-icon style="float: left;">add</mat-icon>&nbsp;Add new Field</button><br>
                     <button  class="btn" (click)="addFieldModel('sub')"> <mat-icon style="float: left;">queue</mat-icon>&nbsp;Add sub form</button><br>
-                    
                 </mat-menu>
-
-
-                <!-- <button type="button" class="btn btn-secondary" (click)="previewmodel()"><mat-icon style="float: left;">visibility</mat-icon>&nbsp; Preview</button>&nbsp;&nbsp;
-                <button  class="btn btn-success" (click)="addFieldModel('sub')"> <mat-icon style="float: left;">queue</mat-icon>&nbsp;Add sub form</button>&nbsp;&nbsp;
-  
-                <button mat-raised-button color="primary" (click)="addFieldModel('form')"><mat-icon style="float: left;">add</mat-icon>&nbsp;Add new Field</button> -->
             </div>
         </div>
         <div class="row my-2 px-2">
-            <div class="card p-2 shadow">
-                <div class="table-hight">
-                    <table mat-table [dataSource]="dataSource" tabindex="0">
-                        <ng-container matColumnDef="sr">
-                          <th mat-header-cell *matHeaderCellDef> No. </th>
-                          <td mat-cell *matCellDef="let element"> {{element.fmmd_id}} </td>
-                        </ng-container>
-                        <ng-container matColumnDef="column_label">
-                          <th mat-header-cell *matHeaderCellDef> column_label </th>
-                          <td mat-cell *matCellDef="let element"> <span matBadge="*" *ngIf="element.mandatory" matBadgeOverlap="false" matBadgeColor="warn">{{element.column_label}}</span> <span *ngIf="!element.mandatory">{{element.column_label}}</span> </td>
-                        </ng-container>
-                        <ng-container matColumnDef="column_type">
-                          <th mat-header-cell *matHeaderCellDef> column_type </th>
-                          <td mat-cell *matCellDef="let element"> {{element.column_type}} </td>
-                        </ng-container>
-                        <!-- <ng-container matColumnDef="position">
-                          <th mat-header-cell *matHeaderCellDef> position </th>
-                          <td mat-cell *matCellDef="let element"> {{element.position}} </td>
-                        </ng-container> -->
-                        <ng-container matColumnDef="action">
-                          <th mat-header-cell *matHeaderCellDef> action </th>
-                          <td mat-cell *matCellDef="let element"><button mat-mini-fab color="primary" (click)="updateFieldModel(element)"><mat-icon>edit</mat-icon></button></td>
-                        </ng-container>
-                        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                        <tr class="mat-row" *matNoDataRow>
-                            <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
-                        </tr>
-                    </table>
+            <div class="col-12">
+                <div class="card shadow">
+                    <div class="table-hight">
+                        <table mat-table [dataSource]="dataSource" tabindex="0">
+                            <ng-container matColumnDef="sr">
+                              <th mat-header-cell *matHeaderCellDef> No. </th>
+                              <td mat-cell *matCellDef="let element"> {{element.fmmd_id}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="column_label">
+                              <th mat-header-cell *matHeaderCellDef> column_label </th>
+                              <td mat-cell *matCellDef="let element"> <span matBadge="*" *ngIf="element.mandatory" matBadgeOverlap="false" matBadgeColor="warn">{{element.column_label}}</span> <span *ngIf="!element.mandatory">{{element.column_label}}</span> </td>
+                            </ng-container>
+                            <ng-container matColumnDef="column_type">
+                              <th mat-header-cell *matHeaderCellDef> column_type </th>
+                              <td mat-cell *matCellDef="let element"> {{element.column_type}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="action">
+                              <th mat-header-cell *matHeaderCellDef> action </th>
+                              <td mat-cell *matCellDef="let element"><button mat-mini-fab color="primary" (click)="updateFieldModel(element)"><mat-icon>edit</mat-icon></button></td>
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                            <tr class="mat-row" *matNoDataRow>
+                                <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <mat-paginator [pageSizeOptions]=pagination showFirstLastButtons aria-label="Select page of periodic elements"> </mat-paginator>
                 </div>
-                <mat-paginator [pageSizeOptions]=pagination showFirstLastButtons aria-label="Select page of periodic elements"> </mat-paginator>
             </div>
         </div>
     </div>

@@ -15,6 +15,7 @@ import { PreviewComponent } from '../preview/preview.component';
   styleUrls: ['./view-form.component.css']
 })
 export class ViewFormComponent {
+  isCompleted: boolean = false;
   formID: any;
   dataSource: any;
   formData: any = [];
@@ -33,6 +34,7 @@ export class ViewFormComponent {
   }
 
   ngOnInit(): void {
+    this.isCompleted = true;
   }
 
   getFormDataById(id: number): void {
@@ -40,6 +42,9 @@ export class ViewFormComponent {
       this.adminService.getFormByID(id).subscribe((res: any) => {
         if (res.status == 200) {
           this.formData = res.rows;
+          if(this.formData.length > 0){
+            this.isCompleted = false;
+          }
           console.table(this.formData);
           this.dataSource = new MatTableDataSource(this.formData);
           this.dataSource.paginator = this.paginator;

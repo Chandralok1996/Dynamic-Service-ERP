@@ -1,5 +1,12 @@
 <div class="container-fluid mt-3 ">
-
+    <!-- <div class="row" *ngIf="rolename == 'developer'">
+        <div class="col-6"></div>
+        <div class="col-6 text-end">
+            <p class="d-grid gap-2 my-2">
+                <mat-slide-toggle [checked]="isDeveloper" (change)="roleSelection()">{{isDeveloper ? "Developer" : "Administrator"}}</mat-slide-toggle>
+            </p>
+        </div>
+    </div> -->
     <div class="row ">
         <div class="col-md-1"></div>
         <div class="col-md-3 card p-3 me-3" >
@@ -7,27 +14,26 @@
                 <mat-icon style="font-size: 26px;">account_circle</mat-icon>
             </p>
             User Management
-        <hr>
+            <hr>
             <div class="row mt-3" >
                <div class="col-md-4 card1" (click)="routeuser()">
-                <p class="center">
-                    <mat-icon>face</mat-icon>
-                </p>
-                User
+                    <p class="center">
+                        <mat-icon>face</mat-icon>
+                    </p>
+                    User
                </div>
                <div class="col-md-4 card1">
-                <p class="center">
-                    <mat-icon> contacts</mat-icon>
-                </p>
-                Role
+                    <p class="center">
+                        <mat-icon> contacts</mat-icon>
+                    </p>
+                    Role
                </div>
                <div class="col-md-4 card1">
-                <p class="center">
-                    <mat-icon>group_work</mat-icon>
-                </p>
-                Group
+                    <p class="center">
+                        <mat-icon>group_work</mat-icon>
+                    </p>
+                    Group
                </div>
-              
             </div>
             <div class="row mt-3">
                <div class="col-md-4 card1">
@@ -52,26 +58,24 @@
             <hr>
             <div class="row mt-3" [routerLink]="['/item-master']">
                <div class="col-md-4 card1">
-                <p class="center">
-                    <mat-icon>subject</mat-icon>
-                </p>
-                Item
+                    <p class="center">
+                        <mat-icon>subject</mat-icon>
+                    </p>
+                    Item
                </div>
                <div class="col-md-4 card1">
-                <p class="center">
-                    <mat-icon> business</mat-icon>
-                </p>
-                Bulkload
+                    <p class="center">
+                        <mat-icon> business</mat-icon>
+                    </p>
+                    Bulkload
                </div>
                <div class="col-md-4 card1">
-                <p class="center">
-                    <mat-icon>wallpaper</mat-icon>
-                </p>
-                Attachment
+                    <p class="center">
+                        <mat-icon>wallpaper</mat-icon>
+                    </p>
+                    Attachment
                </div>
-              
             </div>
-           
         </div>
         <div class="col-md-3 card p-3" >
             <p class="center">
@@ -81,35 +85,33 @@
             <hr>
             <div class="row mt-3" [routerLink]="['/customer']">
                <div class="col-md-4 card1">
-                <p class="center">
-                    <mat-icon>people_outline</mat-icon>
-                </p>
-                Customer
+                    <p class="center">
+                        <mat-icon>people_outline</mat-icon>
+                    </p>
+                    Customer
                </div>
                <div class="col-md-4 card1">
-                <p class="center">
-                    <mat-icon> business</mat-icon>
-                </p>
-                Bulkload
+                    <p class="center">
+                        <mat-icon> business</mat-icon>
+                    </p>
+                    Bulkload
                </div>
                <div class="col-md-4 card1">
-                <p class="center">
-                    <mat-icon>settings_phone</mat-icon>
-                </p>
-                Contact
+                    <p class="center">
+                        <mat-icon>settings_phone</mat-icon>
+                    </p>
+                    Contact
                </div>
-              
             </div>
             <div class="row mt-3">
                <div class="col-md-4 card1">
-                <p class="center">
-                    <mat-icon>pool</mat-icon>
-                </p>
-                Address
+                    <p class="center">
+                        <mat-icon>pool</mat-icon>
+                    </p>
+                    Address
                </div>
             </div>
         </div>
-      
     </div>
     <div class="row mt-3">
          <div class="col-md-1"></div>
@@ -121,43 +123,42 @@
             <hr>
             <div class="row mt-3" >
                <div class="col-md-4 card1" [routerLink]="['/it-sm/laptop']">
-                <p class="center">
-                    <mat-icon>laptop_chromebook</mat-icon>
-                </p>
-                Laptop
+                    <p class="center">
+                        <mat-icon>laptop_chromebook</mat-icon>
+                    </p>
+                    Laptop
                </div>
                <div class="col-md-4 card1" [routerLink]="['it-sm/desktop']">
-                <p class="center">
-                    <mat-icon>tv</mat-icon>
-                </p>
-                Desktop
+                    <p class="center">
+                        <mat-icon>tv</mat-icon>
+                    </p>
+                    Desktop
                </div>
                <div class="col-md-4 card1" [routerLink]="['/it-sm/server']">
-                <p class="center">
-                    <mat-icon>speaker</mat-icon>
-                </p>
-                Server
+                    <p class="center">
+                        <mat-icon>speaker</mat-icon>
+                    </p>
+                    Server
                </div>
-              
             </div>
             <div class="row mt-3">
                <div class="col-md-4 card1" [routerLink]="['/it-sm/monitor']">
-                <p class="center">
-                    <mat-icon>important_devices</mat-icon>
-                </p>
-                Monitor
+                    <p class="center">
+                        <mat-icon>important_devices</mat-icon>
+                    </p>
+                    Monitor
                </div>
                <div class="col-md-4 card1" [routerLink]="['/it-sm/accessories']">
-                <p class="center">
-                    <mat-icon>memory</mat-icon>
-                </p>
-                Accessories
+                    <p class="center">
+                        <mat-icon>memory</mat-icon>
+                    </p>
+                    Accessories
                </div>
                <div class="col-md-4 card1" [routerLink]="['it-sm/history']">
-                <p class="center">
-                    <mat-icon>brightness_7</mat-icon>
-                </p>
-                History
+                    <p class="center">
+                        <mat-icon>brightness_7</mat-icon>
+                    </p>
+                    History
                </div>
             </div>
         </div>
@@ -175,16 +176,16 @@
                  Event
                 </div>
                 <div class="col-md-4 card1" [routerLink]="['/it-sm/accessories']">
-                 <p class="center">
-                    <mat-icon>meeting_room</mat-icon>
-                 </p>
-                 Accessories
+                    <p class="center">
+                        <mat-icon>meeting_room</mat-icon>
+                    </p>
+                    Accessories
                 </div>
                 <div class="col-md-4 card1" [routerLink]="['it-sm/history']">
-                 <p class="center">
-                     <mat-icon>brightness_7</mat-icon>
-                 </p>
-                 History
+                    <p class="center">
+                        <mat-icon>brightness_7</mat-icon>
+                    </p>
+                     History
                 </div>
              </div>
         </div>
@@ -196,81 +197,76 @@
             <hr>
             <div class="row mt-3">
                 <div class="col-md-4 card1" [routerLink]="['/proj-management']">
-                 <p class="center">
-                    <mat-icon> layers</mat-icon>
-                 </p>
-                 Project
+                    <p class="center">
+                        <mat-icon> layers</mat-icon>
+                    </p>
+                    Project
                 </div>
                 <div class="col-md-4 card1" [routerLink]="['/proj-management/team']">
-                 <p class="center">
-                    <mat-icon>wc</mat-icon>
-                 </p>
-                 Team
+                    <p class="center">
+                        <mat-icon>wc</mat-icon>
+                    </p>
+                    Team
                 </div>
                 <div class="col-md-4 card1" [routerLink]="['proj-management/task']">
-                 <p class="center">
-                    <mat-icon>subject</mat-icon>
-                 </p>
-                 Task
+                    <p class="center">
+                        <mat-icon>subject</mat-icon>
+                    </p>
+                    Task
                 </div>
              </div>
             <div class="row mt-3">
                 <div class="col-md-4 card1" [routerLink]="['/proj-management/proj-report']">
-                 <p class="center">
-                    <mat-icon>receipt</mat-icon>
-                 </p>
-                 Report
+                    <p class="center">
+                        <mat-icon>receipt</mat-icon>
+                    </p>
+                    Report
                 </div>
-            
              </div>
         </div>
-      
     </div>
     <div class="row mt-3">
         <div class="col-md-1"></div>
         <div class="col-md-3 card p-3 me-3" >
             <p class="center">
-                <!-- <img src="../../assets/idea.gif" style="width:20px; height:20px"> -->
                 <mat-icon style="font-size: 26px;">view_list</mat-icon>
             </p>
             Incident Management
             <hr>
             <div class="row mt-3">
                 <div class="col-md-4 card1" [routerLink]="['/incident']">
-                 <p class="center">
-                    <mat-icon>confirmation_number</mat-icon>
-                 </p>
-                 Incident
+                    <p class="center">
+                        <mat-icon>confirmation_number</mat-icon>
+                    </p>
+                    Incident
                 </div>
                 <div class="col-md-4 card1" [routerLink]="['/incident/case']">
-                 <p class="center">
-                    <mat-icon>hourglass_full</mat-icon>
-                 </p>
-                 Cases
+                    <p class="center">
+                        <mat-icon>hourglass_full</mat-icon>
+                    </p>
+                    Cases
                 </div>
                 <div class="col-md-4 card1" [routerLink]="['incident/task']">
-                 <p class="center">
-                    <mat-icon>line_style</mat-icon>
-                 </p>
-                 Tasks
+                    <p class="center">
+                        <mat-icon>line_style</mat-icon>
+                    </p>
+                    Tasks
                 </div>
              </div>
             <div class="row mt-3">
                 <div class="col-md-4 card1" [routerLink]="['/incident/eng']">
-                 <p class="center">
-                    <mat-icon>supervised_user_circle</mat-icon>
-                 </p>
-                 Engineer
+                    <p class="center">
+                        <mat-icon>supervised_user_circle</mat-icon>
+                    </p>
+                    Engineer
                 </div>
                 <div class="col-md-4 card1" >
-                 <p class="center">
-                    <mat-icon>poll</mat-icon>
-                 </p>
-                 Report
+                    <p class="center">
+                        <mat-icon>poll</mat-icon>
+                    </p>
+                    Report
                 </div>
-              
              </div>
-          
         </div>
         <!-- <div class="col-md-3 card p-3 me-3" [routerLink]="['/admin/form-master']">
             <p class="center">
@@ -291,28 +287,27 @@
         <div class="col-md-3 card p-3">
             <p class="center">
                 <mat-icon style="font-size: 26px;">shutter_speed</mat-icon>
-               
             </p>
             Others
             <hr>
             <div class="row mt-3">
                 <div class="col-md-4 card1" [routerLink]="['/incident']">
-                 <p class="center">
-                    <mat-icon >supervisor_account</mat-icon>
-                 </p>
-                 Employee
+                    <p class="center">
+                        <mat-icon >supervisor_account</mat-icon>
+                    </p>
+                    Employee
                 </div>
                 <div class="col-md-4 card1" [routerLink]="['/incident/case']">
-                 <p class="center">
-                    <mat-icon >error_outline</mat-icon>
-                 </p>
-                 Problem
+                    <p class="center">
+                        <mat-icon >error_outline</mat-icon>
+                    </p>
+                    Problem
                 </div>
                 <div class="col-md-4 card1" [routerLink]="['incident/task']">
-                 <p class="center">
-                    <mat-icon>star_border</mat-icon>
-                 </p>
-                 Knowledge
+                    <p class="center">
+                        <mat-icon>star_border</mat-icon>
+                    </p>
+                    Knowledge
                 </div>
              </div>
             <div class="row mt-3">
@@ -323,16 +318,16 @@
                  Change
                 </div> -->
                 <div class="col-md-4 card1" [routerLink]="['/history']">
-                 <p class="center">
-                    <mat-icon>receipt</mat-icon>
-                 </p>
-                 History
+                    <p class="center">
+                        <mat-icon>receipt</mat-icon>
+                    </p>
+                    History
                 </div>
                 <div class="col-md-4 card1"[routerLink]="['/history']" >
-                 <p class="center">
-                    <mat-icon>ac_unit</mat-icon>
-                 </p>
-                 Licence
+                    <p class="center">
+                        <mat-icon>ac_unit</mat-icon>
+                    </p>
+                    Licence
                 </div>
                 <div class="col-md-4 card1" [routerLink]="['/help-support']">
                     <p class="center">
@@ -340,12 +335,8 @@
                     </p>
                     HelpSupport
                    </div>
-              
              </div>
-           
         </div>
-      
     </div>
     <br>
- 
 </div>
