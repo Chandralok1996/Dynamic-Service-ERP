@@ -1,0 +1,30 @@
+
+<section>
+    <div class="container">
+        <div class="row card p-3">
+            <h2 >Update Item</h2>
+            <hr>
+            <form [formGroup]="dynamicForm">
+                <div class="row">
+                    <div class="col-md-6 px-2 py-1" *ngFor="let field of formFields;">
+                        <mat-form-field class="d-grid gap-2" appearance="outline">
+                            <mat-label>{{field?.column_label}}</mat-label>
+                            <input *ngIf="field.type != 'dropdown'" matInput formControlName="{{field.column_label}}" type="{{ field?.type }}">
+                            <mat-select formControlName="{{field.column_label}}" *ngIf="field.type == 'dropdown'">
+                                <mat-option>Select Column name</mat-option>
+                                <mat-option [value]=options.id *ngFor="let options of field.column_value">{{options.value | titlecase}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button class="me-2" mat-raised-button type="submit"  color="secondary" onclick="history.back()">Cancel</button>
+                    <button mat-raised-button type="submit" [disabled]="!dynamicForm.valid" color="primary" (click)="submitForm()">Update Item</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+
+<router-outlet></router-outlet>

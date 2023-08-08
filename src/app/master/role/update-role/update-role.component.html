@@ -1,0 +1,114 @@
+<section>
+    <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-1">
+            <button type="button" class="btn btn-danger" onclick="history.back()"><mat-icon style="float: left;">keyboard_return</mat-icon> </button>
+        </div>
+            <div class="col-md-5">
+              <div class="searchBar d-flex justify-content-center align-items-center">
+                <span class="material-symbols-sharp">search</span><input class="form-control" type="search" #input placeholder="Enter search query..." (keyup)="applyFilter($event)">
+              </div>
+            </div>
+            <div class="col-md-6 text-end">
+            </div>
+        </div>
+        <div class="row my-2">
+            <div class="card p-2 shadow">
+                <div class="table-hight">
+                    <table mat-table [dataSource]="dataSource" tabindex="0">
+                        <ng-container matColumnDef="Sr">
+                          <th mat-header-cell *matHeaderCellDef> Sr. No. </th>
+                          <td mat-cell *matCellDef="let element"> {{element.fmls_id}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="Module">
+                          <th mat-header-cell *matHeaderCellDef> Module Name </th>
+                          <td mat-cell *matCellDef="let element"> {{element.Module}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="Link">   
+                          <th mat-header-cell *matHeaderCellDef> Link </th>
+                          <td mat-cell *matCellDef="let element" type="checkbox"> {{element.Link}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="Create">
+                          <th mat-header-cell *matHeaderCellDef> Create </th>
+                          <td mat-cell *matCellDef="let element" type="checkbox"> {{element.Create}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="Update">
+                          <th mat-header-cell *matHeaderCellDef type="checkbox"> Update </th>
+                          <td mat-cell *matCellDef="let element"> {{element.Update }} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="Delete">
+                          <th mat-header-cell *matHeaderCellDef type="checkbox"> Delete </th>
+                          <td mat-cell *matCellDef="let element"> {{element.Delete }} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="action">
+                          <th mat-header-cell *matHeaderCellDef> Action </th>
+                          <td mat-cell *matCellDef="let element">
+                            <button title="Update Role" mat-mini-fab color="primary" [routerLink]="['']"><mat-icon>sync_problem</mat-icon></button>
+                        </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        <tr class="mat-row" *matNoDataRow>
+                            <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                        </tr>
+                    </table>
+                </div>
+                <mat-paginator [pageSizeOptions]=pagination showFirstLastButtons aria-label="Select page of periodic elements"> </mat-paginator>
+            </div>
+        </div>
+    </div>
+</section>
+<router-outlet></router-outlet>
+  
+
+<!-- <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-1">
+            <button class="btn btn-dark" onclick="goBack()">Back</button>
+          </div>
+          <div class="col-md-9">
+            <p class="path">Dashboard | Master / Role / EditRole</p>
+          </div>
+          <div class="col-md-2"></div>
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="table-responsive">
+          <table class="table table-striped table-hover align-middle">
+            <thead class="text-white sticky-top theadbg">
+              <tr style="color: #000;">
+                <th>#</th>
+                <th>Priority</th>
+                <th>Page Name</th>
+                <th>Link</th>
+                <th>Add</th>
+                <th>Edit</th>
+                <th>Delete</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let role of roleData; let i=index">
+                <td data-title="Sr. No.">{{i+1}}</td>
+                <td data-title="Priority"> <span *ngIf="role?.menulevel === 0">Main</span><span
+                    *ngIf="role?.menulevel === 1">Sub</span><span *ngIf="role?.menulevel === 2">Sub_sub</span></td>
+                <td data-title="Page Name"> <a routerLink="/{{role?.menupath}}">{{role?.menuname}}</a></td>
+                <td data-title="Link"><input type="checkbox" name="{{role?.name}}.menuview" [(ngModel)]="role.menuview">
+                </td>
+                <td data-title="Add"><input type="checkbox" name="{{role?.name}}.menuadd" [(ngModel)]="role.menuadd"></td>
+                <td data-title="Edit"><input type="checkbox" name="{{role?.name}}.menuedit" [(ngModel)]="role.menuedit">
+                </td>
+                <td data-title="Delete"><input type="checkbox" name="{{role?.name}}.menudelete"
+                    [(ngModel)]="role.menudelete"></td>
+                <td data-title="Update"><button class="btn btn-primary" (click)="updateList(role)">Update</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+   -->
+<router-outlet></router-outlet>

@@ -1,0 +1,55 @@
+<section class="bg-img shadow">
+    <div class="container-fluid">
+        <div class="row py-3">
+          
+            <div class="col-md-6">
+                <div class="row p-3">
+                    <div class="card p-3 shadow float-right">
+                        <div class="text-center">
+                            <img src="../../assets/as.png" alt="logo" style="width: 100px; height: 100px;" >
+                            <h1 class="mt-2" style="font-weight: 600; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">Login Here!</h1>
+                        </div><br>
+                        <div class="row py-3">
+                            <form [formGroup]="form" (ngSubmit)="createForm()">
+                                <p class="d-grid gap-2 px-2 my-2">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>User Name</mat-label>
+                                        <input matInput placeholder="Enter your Username" formControlName="name" type="text">
+                                       
+                                    </mat-form-field>
+                                </p> 
+                                <p class="d-grid gap-2 px-2 my-2">
+                                    <mat-form-field appearance="outline">
+                                        <mat-label>Password</mat-label>
+                                        <input matInput placeholder="Enter your Credentials" formControlName="password" [type]="showPass ? 'password' : 'text'">
+                                        <mat-icon matSuffix (click)="showPass = !showPass"><span class="material-symbols-outlined"> {{showPass ? 'visibility' : 'visibility_off'}} </span></mat-icon>
+                                        <mat-error *ngIf="formCtrl.password.errors?.required">User password is must.</mat-error>
+                                    </mat-form-field>
+                                </p>
+                                <div class="d-grid gap-2 mt-3 px-2 my-1">
+                                    <button type="submit" mat-raised-button color="primary">Sign in</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="row px-2">
+                            <div class="col-6"></div>
+                            <div class="col-6 text-end">
+                                <a [routerLink]="['/reset-password']" routerLinkActive="router-link-active">Forget Password</a>
+                            </div>
+                        </div>
+                  <br>
+                            <div class=" text-center mt-5">
+                                <span style="color: brown;">Powered by :</span>  <a href="https://augtrans.com/" > Augmented Transformations</a>
+                            </div>
+                    
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <img src="../../assets/ass.avif">
+            </div>
+           
+        </div>
+    </div>
+  </section>
+  

@@ -1,0 +1,61 @@
+<section>
+    <div class="container">
+        <form [formGroup]="dynamicForm">
+        <div class="row card p-3">
+            <h2 >Create User</h2>
+            <hr>
+        
+             <div class="row">
+                    <div class="col-md-6 px-2 py-1" *ngFor="let field of nosubform;">
+                        <mat-form-field class="d-grid gap-2" appearance="outline">
+                            <mat-label>{{field?.column_label}}</mat-label>
+                            <input  *ngIf="(field.type != 'dropdown')?(field.type!='assigndropdown'):false" matInput formControlName="{{field.column_label}}" type="{{ field?.type }}"
+                              
+                            >
+                            <mat-select formControlName="{{field.column_label}}" *ngIf="(field.type == 'dropdown')">
+                                <mat-option>Select Column name</mat-option>
+                                <mat-option [value]=options.id *ngFor="let options of field.column_value">{{options.value | titlecase}}</mat-option>
+                            </mat-select>
+                            <!-- <mat-select formControlName="{{field.column_label}}" *ngIf="(field.type == 'dropdown')?true:(field.type == 'assigndropdown')?true:false">
+                                <mat-option>Select Column name</mat-option>
+                                <mat-option [value]=options.id *ngFor="let options of field.column_value">{{options.value | titlecase}}</mat-option>
+                            </mat-select> -->
+                            <mat-select   [multiple]="true" formControlName="{{field.column_label}}" *ngIf="(field.type == 'assigndropdown')">
+                                <mat-option [value]=options.id *ngFor="let options of field.column_value"> {{options.value}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+             
+        </div>
+
+        <div class="row card p-3 mt-2" *ngIf="subformdata.length!=0">   
+                <h2 class="">{{subformdata[0].module_title}}</h2>
+            <hr>
+                <div class="row">
+                    <div class="col-md-6 px-2 py-1" *ngFor="let field of subformdata;">
+                        <mat-form-field class="d-grid gap-2" appearance="outline">
+                            <mat-label>{{field?.column_label}}</mat-label>
+                            <input pattern="[0-9]" (keypress)="OnlyNumbersAllowed($event,field.column_label)" maxlength="{{field.isactive}}" minlength="{{field.isactive}}" pattern="{{field.pattern}}" *ngIf="(field.type != 'dropdown')?(field.type!='assigndropdown'):false" matInput formControlName="{{field.column_label}}" type="{{ field?.type }}">
+                            <mat-select formControlName="{{field.column_label}}" *ngIf="(field.type == 'dropdown')?true:(field.type == 'assigndropdown')?true:false">
+                                <mat-option>Select Column name</mat-option>
+                                <mat-option [value]=options.id *ngFor="let options of field.column_value">{{options.value | titlecase}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+           
+            
+        </div>
+        <div class="footer row mt-2 bg-light">
+            <div class="text-center">
+
+                <button class="me-2" mat-raised-button type="submit"  color="secondary" onclick="history.back()">Cancel</button>
+                <button mat-raised-button type="submit" [disabled]="!dynamicForm.valid" color="primary" (click)="submitForm()">Create User</button>
+            </div>
+        </div>
+        <br>
+    </form>
+
+    </div>
+</section>

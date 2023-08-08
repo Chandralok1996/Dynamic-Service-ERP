@@ -1,0 +1,54 @@
+
+<div class="subform">
+    <div class="heading">
+            <h2>Add Sub Form</h2>
+    </div>
+    <form [formGroup]="form" >
+    <div class="form mt-4">
+        <div  style="width: 90%;">
+       <select [(ngModel)]="typeform" *ngIf="!showinput" (change)="typeform($event)"  style="float: left;" class="form-control f-10">
+        <option selected hidden>Select sub form</option>
+        <option *ngFor="let data of module_title" value="{{data.title}}">{{data.title}}</option>
+       </select>
+       <input  [(ngModel)]="name" formControlName="name" placeholder="Enter Sub form Title" style="float: left; width:95%;"   *ngIf="showinput" type="text" class="form-control f-10">
+    </div>
+    <div class="add" >
+        <i class="fa fa-plus" (click)="openinput()" *ngIf="!showinput"  style="font-size:25px;cursor: pointer;color: blueviolet;"></i>
+           </div>
+           &nbsp;
+
+           <button  (click)="savedata(name)" type="submit" mat-flat-button *ngIf="showinput" color="primary">Add</button>&nbsp;
+           <div style="clear: both;">
+
+           </div>
+           <div class="row mt-3">
+            <div class="col-lg-12 ">
+                <mat-form-field appearance="outline" style="width: 90%;">
+                    <mat-label>column_label</mat-label>
+                      <input class="f-10 form-control" matInput placeholder="label" formControlName="column_label">
+                    </mat-form-field>
+            </div>
+           </div>
+           <div class="row mt-3">
+            <div class="col-lg-12 ">
+                <mat-form-field appearance="outline" style="width: 90%;">
+                    <mat-label>column_type</mat-label>
+                    <mat-select formControlName="column_type" [(ngModel)]="field_type" (selectionChange)="typeSelection($event)">
+                      <mat-option value="text">Text</mat-option>
+                      <mat-option value="number">Number</mat-option>
+                      
+
+                    </mat-select>
+                  </mat-form-field>
+            </div>
+           </div>
+           <div class="row mt-3" style="width: 95%;">
+            <div class="col-lg-12 ">
+                <button type="submit" (click)="onsubmit()" style="float: right;margin-right: -20px;" mat-flat-button color="primary">Submit</button>&nbsp;
+
+            </div>
+           </div>
+      
+    </div>
+    </form>
+</div> 
