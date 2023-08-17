@@ -259,25 +259,17 @@ match.user_id=this.userid
     this.adminService.updateuser(match).subscribe((res:any)=>{
       console.log(res);
       
-      if(res.message=="User Updated successfully")
+      if(res.status==200)
       {
         this.toaster.success(res.message);
         this.router.navigate(['/user-master']);
       }
       else
       {
-        this.toaster.success("Something went wrong");
+        this.toaster.error("Something went wrong");
         this.updatebtn=false;
       }
-    },
-    (error:any)=>{
-      console.log();
-      
-      this.toaster.success(error.error.message);
-      
-    }
-    
-    )
+    },)
     localStorage.setItem('user-created', JSON.stringify(this.userCreated));
     // var data = { fmls_id: this.id, value: match };
     // this.service.insertRecord(data).subscribe((res: any) => {

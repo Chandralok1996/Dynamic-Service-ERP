@@ -10,7 +10,7 @@ import { ToasterService, AdminService } from 'src/app/_services';
   styleUrls: ['./item-create.component.css']
 })
 export class ItemCreateComponent {
-  formID: number = 50001;
+  formID: number = 50002;
   formFields: any;
   dynamicForm!: FormGroup;
   userCreated: any = localStorage.getItem('user-created');
@@ -30,9 +30,7 @@ export class ItemCreateComponent {
   }
 
   ngOnInit(): void {
-    
   }
-
   getFormDataById(id: number): void {
     this.formDataSubscription.add(
       this.adminService.getFormByID(id).subscribe((res: any) => {
@@ -81,44 +79,21 @@ export class ItemCreateComponent {
       this.toaster.warning(`${error} is required!`);
       return;
     }
-   
     this.userCreated.push(match);
-
-console.log(match);
-    this.adminService.installationcreate(match).subscribe((res:any)=>{
-      if(res.message=="User created successfully")
+    console.log(match);
+    this.adminService.itemCreate(match).subscribe((res:any)=>{
+      if(res.status==201)
       {
         this.toaster.success(res.message);
-        this.router.navigate(['/user-master']);
-
+        this.router.navigate(["/item-master"]);
       }
       else
       {
-        this.toaster.success("Something went wrong");
-
+        this.toaster.error("Something went wrong");
       }
-    },
-    (error:any)=>{
-      console.log();
-      
-      this.toaster.success(error.error.message);
-      
-    }
-    
-    )
-    localStorage.setItem('user-created', JSON.stringify(this.userCreated));
-    // var data = { fmls_id: this.id, value: match };
-    // this.service.insertRecord(data).subscribe((res: any) => {
-    //   if(res.status) {
-    //     this.ngOnInit();
-    //   } else {
-    //     this.toaster.warning(res.message);
-    //   }
-    // }, (error: any) => {
-    //    this.toaster.error(`${error.status} ${error.statusText}`);
-    // });
+    },)
+    // localStorage.setItem('user-created', JSON.stringify(this.userCreated));
   }
-
   ngOnDestroy(): void {
     this.formDataSubscription.unsubscribe();
   }

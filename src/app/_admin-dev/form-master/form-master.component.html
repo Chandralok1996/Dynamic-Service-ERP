@@ -1,9 +1,8 @@
 <section>
     <div class="container-fluid">
-      <mat-progress-bar mode="indeterminate" *ngIf="isCompleted"></mat-progress-bar>
         <div class="row">
           <div class="col-md-1">
-            <button type="button" class="btn btn-danger" onclick="history.back()"><mat-icon style="float: left;">keyboard_return</mat-icon> Back</button>
+            <button type="button" class="btn btn-danger" onclick="history.back()"><mat-icon style="float: left;">keyboard_return</mat-icon> </button>
         </div>
             <div class="col-md-5">
               <div class="searchBar d-flex justify-content-center align-items-center">
@@ -13,8 +12,7 @@
             <div class="col-md-6 text-end"></div>
         </div>
         <div class="row my-2">
-          <div class="col-12">
-            <div class="card shadow">
+            <div class="card p-2 shadow">
                 <div class="table-hight">
                     <table mat-table [dataSource]="dataSource" tabindex="0">
                         <ng-container matColumnDef="sr">
@@ -55,7 +53,6 @@
                 </div>
                 <mat-paginator [pageSizeOptions]=pagination showFirstLastButtons aria-label="Select page of periodic elements"> </mat-paginator>
             </div>
-          </div>
         </div>
     </div>
 </section>

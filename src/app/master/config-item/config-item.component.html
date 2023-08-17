@@ -1,0 +1,48 @@
+<section>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-1">
+                <button type="button" class="btn btn-danger" onclick="history.back()"><mat-icon style="float: left;">keyboard_return</mat-icon> </button>
+            </div>
+            <div class="col-md-4">
+              <div class="searchBar d-flex justify-content-center align-items-center">
+                <mat-icon>search</mat-icon>
+                <input class="form-control form-control-sm ml-3 w-75 rounded-input p-2" type="text" #input placeholder="Search Your Queries..." (keyup)="applyFilter($event)" aria-label="Search">
+              </div>
+            </div>
+            
+            <div class="col-md-7 text-end">
+                <button style="margin-top: -16px;" mat-raised-button [routerLink]="['/item-master/create']" color="primary"><mat-icon style="float: left;">add</mat-icon> Create CI</button>
+                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                    <mat-icon >more_vert</mat-icon>
+                  </button>
+                  <mat-menu #menu="matMenu">
+                    <!-- <mat-checkbox #menuItems>All</mat-checkbox> -->
+                    <mat-checkbox [checked]="task.check" (change)="selectlabel($event,task)"  #menuItems *ngFor="let task of tempvar, let i = index;" color="primary">
+                    {{task.keyName}}
+                  </mat-checkbox>
+                  </mat-menu>
+            </div>
+        </div>
+        <div class="row my-2">
+            <div class="card p-2 shadow">
+                <div class="table-hight">
+                    <table mat-table [dataSource]="dataSource" tabindex="0">
+                        <ng-container [matColumnDef]="column" *ngFor="let column of copyDisplayColumn">
+                          <th mat-header-cell *matHeaderCellDef> {{column | titlecase}} </th>
+                          <td mat-cell *matCellDef="let element"> <span *ngIf="column !='Action'">{{element[column]}}</span> <span *ngIf="column =='Action'"> 
+                            <button mat-mini-fab color="primary"  (click)="itemupdate(element.astd_id)"
+                            ><mat-icon>edit</mat-icon></button> </span> </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="copyDisplayColumn; sticky: true"></tr>
+                        <tr mat-row *matRowDef="let row; columns: copyDisplayColumn;"></tr>
+                        <tr class="mat-row" *matNoDataRow>
+                            <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                        </tr>
+                    </table>
+                </div>
+                <mat-paginator  [pageSize]="6" [pageSizeOptions]=pagination showFirstLastButtons aria-label="Select page of periodic elements"> </mat-paginator>
+            </div>
+        </div>
+    </div>
+</section>

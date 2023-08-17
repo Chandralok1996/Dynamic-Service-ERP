@@ -27,8 +27,8 @@ export class ItemComponent {
   tempvar:any;
   copyDisplayColumn: any;
   temparray:any=[]
-  userlistdata: any;
-  formID: any = 50001;
+  itemlistdata: any;
+  formID: any = 50002;
   formlabel: any
   formfield:any=[]
   getkeys: any;
@@ -47,7 +47,7 @@ export class ItemComponent {
   isMenuOpened: boolean = false;
 
   ngOnInit(): void {
-   this.userlist()
+   this.itemlist()
    this.getformfield()
   }
  
@@ -72,7 +72,7 @@ export class ItemComponent {
 })
   console.log(this.tempvar);
   this.tempvar=this.tempvar.map((res:any)=>{
-  if(res.keyName=="First Name" ||res.keyName=="Email ID" || res.keyName=="Department" || res.keyName=="Login Name" || res.keyName=="Last Name" || res.keyName=="Mobile Number")
+  if(res.keyName=="astd_id" ||res.keyName=="Asset Name" || res.keyName=="Asset Type" || res.keyName=="Category" || res.keyName=="Vendor Name" || res.keyName=="Status" )
   {
     return {
       "keyName":res.keyName,
@@ -83,7 +83,6 @@ export class ItemComponent {
   {
     return {
       "keyName":res.keyName,
-
       "check":false
     }
   }
@@ -95,7 +94,7 @@ this.getkeys=this.tempvar.filter((res:any)=>{
   return res.check==true
 })
 console.log(this.getkeys);
- this.x
+this.x;
 for(var i=0;i<this.getkeys.length;i++)
 {
       this.x.push(this.getkeys[i].keyName)
@@ -103,23 +102,18 @@ for(var i=0;i<this.getkeys.length;i++)
 
 console.log(this.x);
 this.x.push('Action')
-this.copyDisplayColumn=this.x
+this.copyDisplayColumn=this.x;
 })
-
-
-
   }
-  userlist()
+  itemlist()
   {
-   var a= this.adminService.userlist().subscribe(
+   var a= this.adminService.itemList().subscribe(
     (res:any)=>{
       console.log(res.status);
-      this.userlistdata=res.result
+      this.itemlistdata=res.result
       console.log(a);
-      
       var keyarr:any=[]
-   
-      this.dataSource = new MatTableDataSource(this.userlistdata);
+      this.dataSource = new MatTableDataSource(this.itemlistdata);
       this.dataSource.paginator = this.paginator;
 
     },
@@ -132,8 +126,6 @@ this.copyDisplayColumn=this.x
       }
     }
     )
-    
-    
   }
   selectlabel(event:any,data:any)
   {

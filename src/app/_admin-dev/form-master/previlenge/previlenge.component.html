@@ -2,15 +2,17 @@
     <div class="container-fluid">
         <div class="row">
           <div class="col-md-1">
-            <button type="button" class="btn btn-danger" onclick="history.back()"><mat-icon style="float: left;">keyboard_return</mat-icon> </button>
+            <button type="button" class="btn btn-danger" onclick="history.back()"><mat-icon style="float: left;">keyboard_return</mat-icon> Back</button>
         </div>
             <div class="col-md-5">
               <div class="searchBar d-flex justify-content-center align-items-center">
                 <span class="material-symbols-sharp">search</span><input class="form-control" type="search" #input placeholder="Enter search query...">
               </div>
             </div>
-            <div class="col-md-6" >
-             
+            <div class="col-md-6" style="padding-top: 10px;font-weight: bold;">
+                <span>C:Create</span>&nbsp;
+                <span>U:Update</span>&nbsp;
+                <span>R:Read Only</span>&nbsp;
 
             </div>
         </div>
@@ -25,44 +27,41 @@
                           {{element[column]}}
                       </span>
                       <span *ngIf="(column!='column_label')?(column!='Action'):false">
-                        <!-- <div *ngFor="let data of element['permission']">
-                          {{data.fmmd_id}}
-                        </div> -->
                         <div *ngFor="let data of element['permission']">
                           <span *ngIf="data.name==column">
                             <div class="form-check form-check-inline" >
-                              <input class="form-check-input" (click)="getevent('c',data.usrl_id,element)" checked="data.insert_column" type="checkbox" id="createCheckbox" value="option1">
-                              <label class="form-check-label"  for="createCheckbox">C</label>
+                              <input class="form-check-input" checked="data.insert_column" (click)="getevent('C',data.name,element,$event)" type="checkbox" id="inlineCheckbox1" value="option1">
+                              <label class="form-check-label"   for="inlineCheckbox1">C</label>
                             </div>
                             <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" id="updateCheckbox" value="option2">
-                              <label class="form-check-label" for="updateCheckbox">U</label>
+                              <input class="form-check-input" [checked]="data.update_column" (click)="getevent('U',data.name,element,$event)" type="checkbox" id="inlineCheckbox2" value="option2">
+                              <label class="form-check-label" for="inlineCheckbox2">U</label>
                             </div>
                             <div class="form-check form-check-inline">
-                              <input class="form-check-input" type="checkbox" id="readonlyCheckbox" value="option3" >
-                              <label class="form-check-label" for="readonlyCheckbox">R</label>
+                              <input class="form-check-input" [checked]="data.read_only" (click)="getevent('R',data.name,element,$event)" type="checkbox" id="inlineCheckbox3" value="option3" >
+                              <label class="form-check-label" for="inlineCheckbox3">R</label>
                             </div>
                           </span>
                         </div>
+                        <div *ngIf="element['permission'].length==0">
+                          <div class="form-check form-check-inline" >
+                            <input class="form-check-input"  (click)="getevent('C',column,element,$event)" type="checkbox" id="inlineCheckbox1" value="option1">
+                            <label class="form-check-label"   for="inlineCheckbox1">C</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" (click)="getevent('U',column,element,$event)" type="checkbox" id="inlineCheckbox2" value="option2">
+                            <label class="form-check-label" for="inlineCheckbox2">U</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" [disabled]="disablecheck" (click)="getevent('R',column,element,$event)"  type="checkbox" id="inlineCheckbox3" value="option3" >
+                            <label class="form-check-label" for="inlineCheckbox3">R</label>
+                          </div>
+                        </div>
                       </span>
-                    <!-- <span *ngIf="(column!='column_label')?(column!='Action'):false">
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                        <label class="form-check-label" for="inlineCheckbox1">C</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-                        <label class="form-check-label" for="inlineCheckbox2">U</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3" >
-                        <label class="form-check-label" for="inlineCheckbox3">R</label>
-                      </div>
-                    </span> -->
                     <span *ngIf="column=='Action'">
-                      <button mat-raised-button color="primary" (click)="savedata(element[column])">Apply</button>
+                      <button mat-raised-button color="primary" (click)="savedata(element.fmmd_id)">Apply</button>
                     </span>
-                   </td>
+              </td>
                   
               </ng-container>
                 
@@ -73,13 +72,9 @@
                 </tr> -->
             </table>
         </div>
-       <div class="" style="margin-top: 20px;font-weight: bold; font-family: 'Times New Roman', Times, serif;">
-        <span>C : Create</span>&nbsp;
-        <span>U : Update</span>&nbsp;
-        <span>R : Read Only</span>&nbsp;
-       </div>
+        
         <mat-paginator [pageSizeOptions]=pagination showFirstLastButtons aria-label="Select page of periodic elements">
-       
+            
              </mat-paginator>
     </div>
 </div>

@@ -173,7 +173,7 @@ export class UserCreateComponent {
 
 console.log(match);
     this.adminService.installationcreate(match).subscribe((res:any)=>{
-      if(res.message=="User created successfully")
+      if(res.status==201)
       {
         this.toaster.success(res.message);
         this.router.navigate(['/user-master']);
@@ -181,18 +181,10 @@ console.log(match);
       }
       else
       {
-        this.toaster.success("Something went wrong");
+        this.toaster.error("Something went wrong");
 
       }
-    },
-    (error:any)=>{
-      console.log();
-      
-      this.toaster.success(error.error.message);
-      
-    }
-    
-    )
+    },)
     localStorage.setItem('user-created', JSON.stringify(this.userCreated));
     // var data = { fmls_id: this.id, value: match };
     // this.service.insertRecord(data).subscribe((res: any) => {

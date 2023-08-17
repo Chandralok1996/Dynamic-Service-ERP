@@ -7,17 +7,18 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthInterceptorService implements HttpInterceptor {
-  private tokenData: string | null = null;
 
-  constructor(private _cookie: CookieService) { 
-    this.tokenData = this._cookie.get('token');
-   }
+  constructor(private _cookie: CookieService) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    let tokenizedRequest = req.clone();
-    if(this.tokenData) {
-      tokenizedRequest = tokenizedRequest.clone({ headers: req.headers.set('Authorization', `Bearer ${this.tokenData}`) });
+    const tokenData = this._cookie.get('token');
+    if(tokenData) {
+      const token = req.clone({ headers: req.headers.set('Authorization', `Bearer ${tokenData}`) });
+      return next.handle(token);
+    } else{
+      const token = req.clone();
+      return next.handle(token);
     }
-    return next.handle(tokenizedRequest);
+
   }
 }

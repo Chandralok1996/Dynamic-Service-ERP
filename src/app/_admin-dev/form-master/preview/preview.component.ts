@@ -1,15 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ToasterService, AdminService } from 'src/app/_services';
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+import { AddFormFieldComponent } from '../view-form/add-column.component';
+
 @Component({
   selector: 'app-preview',
   templateUrl: './preview.component.html',
   styleUrls: ['./preview.component.css']
 })
 export class PreviewComponent{
-  formID: number = 50001;
+  formID: any = 50001;
   formFields: any;
   dynamicForm!: FormGroup;
   userCreated: any = localStorage.getItem('user-created');
@@ -17,8 +20,12 @@ export class PreviewComponent{
   incr: any=0;
   subformdata:any=[];
   nosubform: any=[];
+  showModal = false;
+  @Output() close = new EventEmitter<void>();
 
-  constructor(private toaster: ToasterService, private adminService: AdminService, private router: Router, private formBuilder: FormBuilder) {
+
+
+  constructor(private _mdr: MatDialogRef<AddFormFieldComponent>, private toaster: ToasterService, private adminService: AdminService, private router: Router, private formBuilder: FormBuilder) {
     this.getFormDataById(this.formID);
     this.dynamicForm = this.formBuilder.group({});
     if(!this.userCreated) {
@@ -32,6 +39,12 @@ export class PreviewComponent{
     
   }
 
+  // Method to change the ID dynamically
+changeDynamicId() {
+  this.formID = this.formFields;
+}
+
+
   getFormDataById(id: number): void {
     this.formDataSubscription.add(
       this.adminService.getFormByID(id).subscribe((res: any) => {
@@ -42,12 +55,12 @@ export class PreviewComponent{
             return item.type!="subform"
           })
           console.log(this.formFields);
+         
+          
           this.subformdata=res.rows
           this.subformdata=this.subformdata.filter((item:any)=>{
             return item.type=="subform"
           })
-          console.log(this.subformdata);
-          
           this.formFields = this.formFields.sort((a: any, b: any) => {
             return a.position - b.position;
           });
@@ -115,4 +128,8 @@ console.log(match);
   ngOnDestroy(): void {
     this.formDataSubscription.unsubscribe();
   }
+  closeDialog(status: boolean) {
+    this._mdr.close(status);
+  }
+ 
 }

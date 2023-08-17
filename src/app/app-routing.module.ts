@@ -19,6 +19,7 @@ const routes: Routes = [
   { path: 'user-master', loadChildren:()=>import('./master/user/user.module').then(m => m.UserModule), canActivate: [appGuard]},
   { path: 'role-master', loadChildren:()=>import('./master/role/role.module').then(m => m.RoleModule), canActivate: [appGuard]},
   { path: 'item-master', loadChildren:()=>import('./master/item/item.module').then(m => m.ItemModule), canActivate: [appGuard]},
+  { path: 'ci-master', loadChildren:()=>import('./master/config-item/config-item.module').then(m =>m.ConfigItemModule), canActivate: [appGuard]},
   { path: '**', redirectTo: 'sign-in', pathMatch: 'full' }
 ];
 

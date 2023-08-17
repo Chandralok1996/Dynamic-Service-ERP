@@ -52,13 +52,14 @@
             </p>
             Asset Management
             <hr>
-            <div class="row mt-3" [routerLink]="['/item-master']">
+            <div class="row mt-3">
                <div class="col-md-4 card1" (click)="routeItem()">
                 <p class="center">
                     <mat-icon>subject</mat-icon>
                 </p>
                 Item
                </div>
+            
                <div class="col-md-4 card1">
                 <p class="center">
                     <mat-icon> business</mat-icon>
@@ -75,42 +76,57 @@
             </div>
            
         </div>
-        <div class="col-md-3 card p-3" >
+        <div class="col-md-3 card p-3 me-3" >
             <p class="center">
-                <mat-icon style="font-size: 26px;">supervisor_account</mat-icon>
+                <mat-icon style="font-size: 26px;">settings</mat-icon>
             </p>
-            Customer Management
+           CI Management
             <hr>
-            <div class="row mt-3" [routerLink]="['/customer']">
-               <div class="col-md-4 card1">
-                <p class="center">
-                    <mat-icon>people_outline</mat-icon>
-                </p>
-                Customer
-               </div>
-               <div class="col-md-4 card1">
-                <p class="center">
-                    <mat-icon> business</mat-icon>
-                </p>
-                Bulkload
-               </div>
-               <div class="col-md-4 card1">
-                <p class="center">
-                    <mat-icon>settings_phone</mat-icon>
-                </p>
-                Contact
-               </div>
+            <div class="row mt-3">
               
+               <div class="col-md-4 card1" [routerLink]="['/ci-master']">
+                <p class="center">
+                    <mat-icon>settings_applications</mat-icon>
+                </p>
+                Config-Item
+               </div>
+               <div class="col-md-4 card1">
+                <p class="center">
+                    <mat-icon>developer_board</mat-icon>
+                </p>
+                Software Installation
+               </div>
+               <div class="col-md-4 card1">
+                <p class="center">
+                    <mat-icon>laptop_mac</mat-icon>
+                </p>
+                Laptops
+               </div>
             </div>
             <div class="row mt-3">
                <div class="col-md-4 card1">
                 <p class="center">
-                    <mat-icon>pool</mat-icon>
+                    <mat-icon>storage</mat-icon>
                 </p>
-                Address
+                Storage
                </div>
+               <div class="col-md-4 card1">
+                <p class="center">
+                    <mat-icon>device_hub</mat-icon>
+                </p>
+                Switches
+               </div>
+               <div class="col-md-4 card1">
+                <p class="center">
+                    <mat-icon>router</mat-icon>
+                </p>
+                Routers
+               </div>
+              
             </div>
+           
         </div>
+      
       
     </div>
     <div class="row mt-3" >
@@ -190,7 +206,51 @@
                 </div>
              </div>
         </div>
-        <div class="col-md-3 card p-3">
+
+        <div class="col-md-3 card p-3" >
+            <p class="center">
+                <mat-icon style="font-size: 26px;">supervisor_account</mat-icon>
+            </p>
+            Customer Management
+            <hr>
+            <div class="row mt-3" [routerLink]="['/customer']">
+               <div class="col-md-4 card1">
+                <p class="center">
+                    <mat-icon>people_outline</mat-icon>
+                </p>
+                Customer
+               </div>
+               <div class="col-md-4 card1">
+                <p class="center">
+                    <mat-icon> business</mat-icon>
+                </p>
+                Bulkload
+               </div>
+               <div class="col-md-4 card1">
+                <p class="center">
+                    <mat-icon>settings_phone</mat-icon>
+                </p>
+                Contact
+               </div>
+              
+            </div>
+            <div class="row mt-3">
+               <div class="col-md-4 card1">
+                <p class="center">
+                    <mat-icon>pool</mat-icon>
+                </p>
+                Address
+               </div>
+            </div>
+        </div>
+
+     
+      
+    </div>
+    <div class="row mt-3" >
+        <div class="col-md-1"></div>
+
+        <div class="col-md-3 card p-3 me-3">
             <p class="center">
                 <mat-icon style="font-size: 26px;">gamepad</mat-icon>
             </p>
@@ -226,10 +286,7 @@
             
              </div>
         </div>
-      
-    </div>
-    <div class="row mt-3" >
-        <div class="col-md-1"></div>
+
         <div class="col-md-3 card p-3 me-3" >
             <p class="center">
                 <mat-icon style="font-size: 26px;">view_list</mat-icon>
