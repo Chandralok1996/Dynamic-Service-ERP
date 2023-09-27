@@ -1,4 +1,4 @@
-<section>
+<section >
     <div class="container">
         <div class="row card p-3">
             <h2 >Update User</h2>
@@ -8,10 +8,10 @@
                     <div class="col-md-6 px-2 py-1" *ngFor="let field of nosubform;">
                         <mat-form-field class="d-grid gap-2" appearance="outline">
                             <mat-label>{{field?.column_label}}</mat-label>
-                            <input *ngIf="(field.type != 'dropdown')?(field.type!='assigndropdown'):false" matInput formControlName="{{field.column_label}}" type="{{ field?.type }}">
+                            <input [readonly]="(field.read_only)?true:(field.update_column)?false:true"  *ngIf="(field.type != 'dropdown')?(field.type!='assigndropdown'):false" matInput formControlName="{{field.column_label}}" type="{{ field?.type }}">
                             <mat-select formControlName="{{field.column_label}}" *ngIf="(field.type == 'dropdown')">
                                 <mat-option>Select Column name</mat-option>
-                                <mat-option [value]=options.id *ngFor="let options of field.column_value">{{options.value | titlecase}}</mat-option>
+                                <mat-option [disabled]="(field.read_only)?true:(field.update_column)?false:true" [value]=options.id *ngFor="let options of field.column_value">{{options.value | titlecase}}</mat-option>
                             </mat-select>
 
                             <mat-select   [multiple]="true" formControlName="{{field.column_label}}" *ngIf="(field.type == 'assigndropdown')">

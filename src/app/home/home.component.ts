@@ -55,11 +55,20 @@ getFormData(): void {
  
 }
 
+addFieldModel(): void {
+  this.router.navigate(['/link-form/create']); 
+}
+addLinkID(){
+  
+  this.router.navigate(['/link-form']); 
+  
+}
+
 routeuser()
 {
     if(this.rolename=="developer")
     {
-      this.router.navigate(['/admin/form-master']);
+      this.router.navigate(['/admin/form-master','User_Management']);
     }
     else
     {
@@ -70,11 +79,33 @@ routeItem()
 {
     if(this.rolename=="developer")
     {
-      this.router.navigate(['/admin/form-master']);
+      this.router.navigate(['/admin/form-master','Assets_Management']);
     }
     else
     {
       this.router.navigate(['/item-master'])
     }
+}
+routeconfig()
+{
+  if(this.rolename=="developer")
+  {
+    this.router.navigate(['/admin/form-master','Configuration_Item']);
+  }
+  else
+  {
+    this.router.navigate(['/ci-master'])
+  }
+}
+routeIncident()
+{
+  if(this.rolename=="developer")
+  {
+    this.router.navigate(['/admin/form-master','Incident']);
+  }
+  else
+  {
+    this.router.navigate(['/it-sm'])
+  }
 }
 }

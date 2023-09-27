@@ -18,10 +18,14 @@ export class CreateConfigComponent {
   incr: any=0;
   subformdata:any=[];
   nosubform: any=[];
+  enviorment: any;
+  sla_res: any;
+  cls: any;
+  showform: boolean=false;
+  itemlistdata: any;
 
   constructor(private toaster: ToasterService, private adminService: AdminService, private router: Router, private formBuilder: FormBuilder) {
     this.getFormDataById(this.formID);
-    this.dynamicForm = this.formBuilder.group({});
     if(!this.userCreated) {
       this.userCreated = [];
     } else {
@@ -30,32 +34,40 @@ export class CreateConfigComponent {
   }
 
   ngOnInit(): void {
+    this.dynamicForm = this.formBuilder.group({
+      astd_id:this.formBuilder.control(null,Validators.required)
+    });
+this.showform=true;
+this.itemlist()
   }
   getFormDataById(id: number): void {
     this.formDataSubscription.add(
       this.adminService.getFormByID(id).subscribe((res: any) => {
         if (res.status == 200) {
           this.formFields = res.rows;
-          this.nosubform=res.rows
-          this.nosubform=this.nosubform.filter((item:any)=>{
-            return item.type!="subform"
+          console.log(this.formFields);
+          this.formFields=this.formFields.filter((item:any)=>{
+            return item.column_name=="environment" || item.column_name=="class"  || item.column_name=="sla_response"
+            || item.column_name=="ciname"
           })
           console.log(this.formFields);
-          this.subformdata=res.rows
-          this.subformdata=this.subformdata.filter((item:any)=>{
-            return item.type=="subform"
+          
+          this.enviorment=this.formFields.filter((item:any)=>{
+            return item.column_name=="environment"
           })
-          this.formFields = this.formFields.sort((a: any, b: any) => {
-            return a.position - b.position;
-          });
-          this.formFields.forEach((value: any) => {
-            if(value.mandatory) {
-              this.dynamicForm.addControl(`${value.column_label}`, this.formBuilder.control(null, Validators.required));
-            } else {
-              this.dynamicForm.addControl(`${value.column_label}`, this.formBuilder.control(null));
-            }
-          });
-          this.toaster.success(res.message);
+          console.log(this.enviorment);
+          
+          this.cls=this.formFields.filter((item:any)=>{
+            return item.column_name=="class"
+          })
+          console.log(this.cls);
+
+          this.sla_res=this.formFields.filter((item:any)=>{
+            return item.column_name=="sla_response"
+          })
+          console.log(this.sla_res);
+          this.createform()
+
         } else {
           this.toaster.error(res.message);
         }
@@ -64,34 +76,66 @@ export class CreateConfigComponent {
       })
     );
   }
+  itemlist()
+  {
+    this.adminService.itemList().subscribe((res:any)=>
+    {
+      console.log(res);
+      this.itemlistdata=res.result
+      
+    })
+  }
+createform()
+{
+  this.formFields.forEach((element:any) => {
+    console.log(element.column_label);
+    if(element.mandatory)
+    {
+      this.dynamicForm.addControl(`${element.column_label}`,this.formBuilder.control(null,Validators.required))
+    }
+    else
+    {
+      this.dynamicForm.addControl(`${element.column_label}`,this.formBuilder.control(null))
 
+    }
+    
+  });
+}
   submitForm() {
     var match: any = this.dynamicForm.value, error: any = [];
-    this.formFields.forEach((element: any) => {
-      if(element.mandatory) {
-        if(!match[element.column_label]) {
-          error.push(`${element.column_label}`);
-        }
-      }
-    });
-    console.log(error)
-    if(error.length > 0) {
-      this.toaster.warning(`${error} is required!`);
-      return;
-    }
-    this.userCreated.push(match);
     console.log(match);
-    this.adminService.itemCreate(match).subscribe((res:any)=>{
+    
+    // this.formFields.forEach((element: any) => {
+    //   if(element.mandatory) {
+    //     if(!match[element.column_label]) {
+    //       error.push(`${element.column_label}`);
+    //     }
+    //   }
+    // });
+    // console.log(error)
+    // if(error.length > 0) {
+    //   this.toaster.warning(`${error} is required!`);
+    //   return;
+    // }
+    // this.userCreated.push(match);
+    // console.log(match);
+    this.adminService.configCreate(match).subscribe((res:any)=>{
+      console.log(res);
+      
       if(res.status==201)
       {
         this.toaster.success(res.message);
-        this.router.navigate(["/item-master"]);
+        // this.router.navigate(["/item-master"]);
       }
       else
       {
         this.toaster.error("Something went wrong");
       }
-    },)
+    },
+    (error:any)=>{
+      this.toaster.error(error.error.message)
+    }
+    )
     // localStorage.setItem('user-created', JSON.stringify(this.userCreated));
   }
   ngOnDestroy(): void {

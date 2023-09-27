@@ -115,6 +115,56 @@ export class AdminService {
     );
   }
 
+  //module-Link
+  createLink(data: any): Observable<any[]> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'auth-token': JSON.parse(localStorage.getItem('user') || '').token,
+      }),
+    };
+    return this._http.post<any[]>(
+      `${environment._url}/formTemplate/createFormLink`,
+      data,
+      httpOptions
+    );
+  }
+ linkList(fmls_id:any):Observable<any>
+  {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'auth-token': JSON.parse(localStorage.getItem('user') || '').token,
+      }),
+    };
+    return this._http.get<any>( `${environment._url}/formTemplate/getLinkedFormList/${fmls_id}`,
+    httpOptions
+     );
+  }
+//incident list
+incidentList():Observable<any>
+{
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'auth-token': JSON.parse(localStorage.getItem('user') || '').token,
+    }),
+  };
+  return this._http.get<any>( `${environment._url}/incident/getIncidentList`,
+  httpOptions
+   );
+}
+
+incidentCreate(data: any): Observable<any[]> {
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'auth-token': JSON.parse(localStorage.getItem('user') || '').token,
+    }),
+  };
+  return this._http.post<any[]>(
+    `${environment._url}/incident/createIncident`,
+    data,   
+    httpOptions
+  );
+}
+
   //role-create
   createRole(data: any): Observable<any[]> {
     const httpOptions = {
@@ -131,5 +181,33 @@ export class AdminService {
   applyprevilenge(data: any): Observable<any> {
     return this._http.post<any>( `${environment._url}/formTemplate/createFormFieldAccess`, data );
   }
+getcilist():Observable<any>
+  {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'auth-token': JSON.parse(localStorage.getItem('user') || '').token,
+      }),
+    };
+    return this._http.get<any>( `${environment._url}/ci/getConfigItemList`,
+    httpOptions
+     );
+  }
+  getconfigdetails(astd_id: number): Observable<any> {
+    return this._http.get<any>( `${environment._url}/ci/getConfigItemDetails/${astd_id}`);
+  }
+//create config
+configCreate(data: any): Observable<any[]> {
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'auth-token': JSON.parse(localStorage.getItem('user') || '').token,
+    }),
+  };
+  return this._http.post<any[]>(
+    `${environment._url}/ci/createConfigItem`,
+    data,
+    httpOptions
+  );
+}
+
 
 }

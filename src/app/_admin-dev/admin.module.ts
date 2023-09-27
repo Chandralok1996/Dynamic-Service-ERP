@@ -15,9 +15,11 @@ import { PreviewComponent } from './form-master/preview/preview.component';
 import { ViewFormComponent } from './form-master/view-form/view-form.component';
 import { AddSubformComponent } from './form-master/view-form/add-subform/add-subform.component';
 import { PrevilengeComponent } from './form-master/previlenge/previlenge.component';
+import { ModalalertComponent } from './form-master/modalalert/modalalert.component';
+
 const routes: Routes = [
   { path: 'admin', component: AdminComponent, children: [
-    { path: 'form-master', component: FormMasterComponent, canActivate: [adminGuard] },
+    { path: 'form-master/:id', component: FormMasterComponent, canActivate: [adminGuard] },
     { path: 'view-form/:id', component: ViewFormComponent, canActivate: [adminGuard] },
     { path: 'table-master', component: TableMasterComponent, canActivate: [adminGuard] },
     { path: 'previlenge/:id', component: PrevilengeComponent, canActivate: [adminGuard] }
@@ -36,6 +38,8 @@ const routes: Routes = [
     PreviewComponent,
     AddSubformComponent,
     PrevilengeComponent,
+    ModalalertComponent,
+
   ],
   imports: [
     CommonModule,

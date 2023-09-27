@@ -23,6 +23,7 @@ export class UserUpdateComponent {
   selectedData:any
   assign: any;
   dataform:any
+  formshow:boolean=false;
   updatebtn:boolean=false;
   constructor(private toaster: ToasterService, 
     private adminService: AdminService, 
@@ -40,9 +41,9 @@ export class UserUpdateComponent {
 
   ngOnInit(): void {
     var paramData = this.route.snapshot.params;
-console.log(paramData);
+// console.log(paramData);
 this.userid=paramData['id']
-console.log(this.userid);
+// console.log(this.userid);
 
     this.getFormDataById(this.formID);
 
@@ -50,16 +51,15 @@ console.log(this.userid);
 
   getFormDataById(id: number): void {
     this.promisedata=new Promise<any>((resolve,reject)=>{
-      console.log("starting...");
-      
+      console.log("geting form column");
       this.formDataSubscription.add(
         this.adminService.getFormByID(id).subscribe((res: any) => {
        
           if (res.status == 200) {
             this.formFields = res.rows;
-            console.log(this.formFields);
+            // console.log(this.formFields);
             this.nosubform=res.rows
-            console.log(this.nosubform);
+            // console.log(this.nosubform);
             
           this.nosubform=this.nosubform.filter((item:any)=>{
             return item.type!="subform"
@@ -70,10 +70,10 @@ console.log(this.userid);
           var assign=this.nosubform.filter((item:any)=>{
             return item.type=="assigndropdown"
           })
-          console.log(assign);
+          // console.log(assign);
           this.assign=assign
           
-          console.log(this.formFields);
+          // console.log(this.formFields);
           this.subformdata=res.rows
           this.subformdata=this.subformdata.filter((item:any)=>{
             return item.type=="subform"
@@ -83,7 +83,7 @@ console.log(this.userid);
             });
             
             this.formFields.forEach((value: any) => {
-              console.log(value);
+              // console.log(value);
               
               if(value.mandatory) {
                 if(value.type!="password")
@@ -112,7 +112,7 @@ console.log(this.userid);
     
 
         this.promisedata.then((res: any)=>{
-          console.log(res);
+          console.log("column successfully ");
           this.userlist()
         })
 
@@ -124,7 +124,7 @@ console.log(this.userid);
  
   onItemDeSelect(data:any)
   {
-console.log(data);
+// console.log(data);
 
   }
 
@@ -136,13 +136,13 @@ console.log(data);
           this.userlistdata=res.result
        
           
-        console.log(this.userlistdata);
+        // console.log(this.userlistdata);
             this.userlistdata.map((res:any)=>{
-              console.log(res);
+              // console.log(res);
               
             })
             
-          console.log("starting patch promise");
+          console.log("user details data");
           resolve("patching")
 
         })
@@ -151,86 +151,38 @@ console.log(data);
        
     
       patchpromise.then((res:any)=>{
-        console.log("checking");
-              this.pachformdata()  
+
+        console.log("user details came");
+          this.pachformdata()
       })
 
   }
   pachformdata()
   {
-    console.log(this.userlistdata);
-// var data=    [
-//       {
-//           "user_id": "100001",
-//           "First Name": "Administrator",
-//           "Middle Name": null,
-//           "Last Name": null,
-//           "Description": "Admin User",
-//           "createdtime": "2021-05-02T14:55:09.426Z",
-//           "Nick name": null,
-//           "Title": null,
-//           "table4_id": null,
-//           "Secondary Mobile Number": null,
-//           "usrl_id": "301",
-//           "Login Name": "Administrator",
-//           "description": "Administrator",
-//           "usdg_id": null,
-//           "Designation": "4001",
-//           "table2_id": null,
-//           "Support Group": [],
-//           "table1_id": null,
-//           "User Status": null,
-//           "table5_id": null,
-//           "Address line 1": null,
-//           "table6_id": null,
-//           "User Teams": null,
-//           "uscn_id": "3001",
-//           "Email Id": "admin@admin",
-//           "landline": "9999988888",
-//           "Mobile Number": "8888899999",
-//           "web_url": "admin.com",
-//           "res_phone": "8888899999",
-//           "login_id": "200001",
-//           "status": "ACTIVE",
-//           "userst": null,
-//           "joindt": null,
-//           "usercg": null,
-//           "Contact info": [],
-//           "User Role": [
-//           "301","304"   
-//           ],
-//           "Contact Info": [
-//               {
-//                   "uscn_id": "3001",
-//                   "emailid": "admin@admin",
-//                   "landline": "9999988888",
-//                   "mobile": "8888899999",
-//                   "web_url": "admin.com",
-//                   "res_phone": "8888899999",
-//                   "user_id": "100001"
-//               }
-//           ]
-//       }
-//   ]
-
-    console.log(this.userlistdata[0].UserRole);
-
-    for(var i=0;i<this.userlistdata.length;i++)
+    this.formshow=true
+    if(this.formshow==true)
     {
-      this.dynamicForm.patchValue(this.userlistdata[i])
+      setTimeout(() => {
+        for(var i=0;i<this.userlistdata.length;i++)
+        {
+          this.dynamicForm.patchValue(this.userlistdata[i])
+        }
+        // this.dynamicForm.patchValue(this.userlistdata[0])
+        // this.dynamicForm.patchValue(this.userlistdata[1])
+        // this.dynamicForm.patchValue(this.userlistdata[2])
+        // this.dynamicForm.patchValue(this.userlistdata[3])
+
+      },2000);
 
     }
-
- 
-     
-     
-
-     
-     
+    console.log(this.userlistdata[0])
+    // this.dynamicForm.patchValue(this.userlistdata[1])
+    // this.dynamicForm.patchValue(this.userlistdata[2])
+    // this.dynamicForm.patchValue(this.userlistdata[3])
   }
   onItemSelect(data:any,event:any)
   {
-      console.log(event.value);
+      // console.log(event.value);
 
       
           
@@ -254,22 +206,30 @@ console.log(data);
    
     this.userCreated.push(match);
 
-console.log(match);
+// console.log(match);
 match.user_id=this.userid
     this.adminService.updateuser(match).subscribe((res:any)=>{
-      console.log(res);
+      // console.log(res);
       
-      if(res.status==200)
+      if(res.message=="User Updated successfully")
       {
         this.toaster.success(res.message);
         this.router.navigate(['/user-master']);
       }
       else
       {
-        this.toaster.error("Something went wrong");
+        this.toaster.success("Something went wrong");
         this.updatebtn=false;
       }
-    },)
+    },
+    (error:any)=>{
+      // console.log();
+      
+      this.toaster.success(error.error.message);
+      
+    }
+    
+    )
     localStorage.setItem('user-created', JSON.stringify(this.userCreated));
     // var data = { fmls_id: this.id, value: match };
     // this.service.insertRecord(data).subscribe((res: any) => {

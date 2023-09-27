@@ -1,1 +1,188 @@
-<p>itsm works!</p>
+
+
+
+
+<div class="container">
+<nav mat-tab-nav-bar [backgroundColor]="background" style="font-weight: 600;">
+   <a mat-tab-link *ngFor="let link of links" (click)="activeLink = link" [active]="activeLink == link"> {{ link }} </a>
+   <mat-icon (click)="toggleBackground()">swap_horiz</mat-icon>
+</nav>
+
+<div class="row mt-3">
+   <div class="col-md-3">
+      <div class="search-box">
+         <input class="search-input" type="text" placeholder="Search something.." #input [(ngModel)]="searchText" (input)="applyFilter()">
+       </div>
+   </div>
+   <div class="col-md-3">
+      <mat-form-field class="col-12">
+       
+         <mat-select placeholder="Filter Data" #singleSelect>
+           <mat-option value="24hours"> 24 Hours</mat-option>
+           <mat-option value="7days"> 7 Days</mat-option>
+           <mat-option value="30days"> 30 Days</mat-option>
+           <mat-option value="60days"> 60 Days</mat-option>
+           <mat-option  (click)="show = !show"> Select Date</mat-option>
+         
+         </mat-select>
+       </mat-form-field>
+   </div>
+  
+   <div class="col-md-3">
+         <mat-form-field class="col-12">
+            <mat-select placeholder="Status Based Filter" #singleSelect>
+              <mat-option value="New"> New</mat-option>
+              <mat-option value="Assigned"> Assigned</mat-option>
+              <mat-option value="inProgress"> In Progress</mat-option>
+              <mat-option value="resolved"> Resolved</mat-option>
+              <mat-option value="closed"> Closed</mat-option>
+            </mat-select>
+          </mat-form-field>
+   </div>
+   <div class="col-md-3">
+      <button class="btn btn-primary float-right" style="align-items: end;" [routerLink]="['create-tickets']"><mat-icon style="float:left">add</mat-icon> &nbsp;  Create New</button>
+   </div>
+</div>
+
+<div class="row" *ngIf="show">
+   <mat-form-field class="col-5">
+      <mat-label>Start Date</mat-label>
+      <input matInput [matDatepicker]="picker">
+      <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker startView="year" [startAt]="startDate"></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field class="col-5">
+      <mat-label>End Date</mat-label>
+      <input matInput [matDatepicker]="picker1">
+      <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
+      <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+      <mat-datepicker #picker1 startView="year" [startAt]="endDate"></mat-datepicker>
+    </mat-form-field>
+    <div class="col-2">
+      <button class="btn btn-primary p-3" mat-flat-button color="accent">Send Request <mat-icon>send</mat-icon></button>
+    </div>
+</div>
+   <div class="scroll p-2">
+      <div class="row " *ngFor="let data of incidentlistdata">
+         <div class="col-md-12 ">
+               <div class="card1 mt-2" *ngIf="data.Priority === 'High'" (click)="gotoincdetails(data.inid_id)">
+                  <div class="row" >
+                     <div class="col-md-3" >
+                     <p class="subFields">{{data['Issue Description']}}</p> 
+                     <p class="subFields">{{data['inid_id']}}</p> 
+                     <p class="subFields">From : Nikhil Chavan</p> 
+                     </div>
+                     <div class="col-md-3">
+                        <p class="subFields"> {{data['Priority']}}</p> 
+                        <p class="subFields">{{data['Call Type']}} </p> 
+                        <p class="subFields">{{data['Call Category']}} </p>
+                     
+                     </div>
+                     <div class="col-md-1 d-flex" style="height: 90px;">
+                        <div class="vr"></div>
+                     </div>
+                     <div class="col-md-3">
+                        <p id="assignedto">Last Updated :</p>
+                        <p id="status">Assigned To :</p>
+                        <p id="priority">Status :</p>
+                     </div>
+                     <div class="col-md-2">
+                        <p id="assignedto">03-09-2023 11:33:34</p>
+                        <p id="status">Chandralok Pandey</p>
+                        <p id="priority">Assigned</p>
+                     </div>
+                  </div>
+               </div>
+               <div class="card2 mt-2" *ngIf="data.Priority === 'Medium' " (click)="gotoincdetails(data.inid_id)">
+                  <div class="row" >
+                     <div class="col-md-3" >
+                     <p class="subFields">{{data['Issue Description']}}</p> 
+                     <p class="subFields">{{data['inid_id']}}</p> 
+                     <p class="subFields">From : Nikhil Chavan</p> 
+                     </div>
+                     <div class="col-md-3">
+                        <p class="subFields"> {{data['Priority']}}</p> 
+                        <p class="subFields">{{data['Call Type']}} </p> 
+                        <p class="subFields">{{data['Call Category']}} </p>
+                     
+                     </div>
+                     <div class="col-md-1 d-flex" style="height: 90px;">
+                        <div class="vr"></div>
+                     </div>
+                     <div class="col-md-3">
+                        <p id="assignedto">Last Updated :</p>
+                        <p id="status">Assigned To :</p>
+                        <p id="priority">Status :</p>
+                     </div>
+                     <div class="col-md-2">
+                        <p id="assignedto">03-09-2023 11:33:34</p>
+                        <p id="status">Chandralok Pandey</p>
+                        <p id="priority">Assigned</p>
+                     </div>
+                  </div>
+               </div>
+               <div class="card3 mt-2" *ngIf="data.Priority === 'Critical' " (click)="gotoincdetails(data.inid_id)">
+                  <div class="row" >
+                     <div class="col-md-3" >
+                     <p class="subFields">{{data['Issue Description']}}</p> 
+                     <p class="subFields">{{data['inid_id']}}</p> 
+                     <p class="subFields">From : Nikhil Chavan</p> 
+                     </div>
+                     <div class="col-md-3">
+                        <p class="subFields"> {{data['Priority']}}</p> 
+                        <p class="subFields">{{data['Call Type']}} </p> 
+                        <p class="subFields">{{data['Call Category']}} </p>
+                     
+                     </div>
+                     <div class="col-md-1 d-flex" style="height: 90px;">
+                        <div class="vr"></div>
+                     </div>
+                     <div class="col-md-3">
+                        <p id="assignedto">Last Updated :</p>
+                        <p id="status">Assigned To :</p>
+                        <p id="priority">Status :</p>
+                     </div>
+                     <div class="col-md-2">
+                        <p id="assignedto">03-09-2023 11:33:34</p>
+                        <p id="status">Chandralok Pandey</p>
+                        <p id="priority">Assigned</p>
+                     </div>
+                  </div>
+               </div>
+               <div class="card mt-2" *ngIf="data.Priority === 'Low' " (click)="gotoincdetails(data.inid_id)">
+                  <div class="row" >
+                     <div class="col-md-3" >
+                     <p class="subFields">{{data['Issue Description']}}</p> 
+                     <p class="subFields">{{data['inid_id']}}</p> 
+                     <p class="subFields">From : Nikhil Chavan</p> 
+                     </div>
+                     <div class="col-md-3">
+                        <p class="subFields"> {{data['Priority']}}</p> 
+                        <p class="subFields">{{data['Call Type']}} </p> 
+                        <p class="subFields">{{data['Call Category']}} </p>
+                     
+                     </div>
+                     <div class="col-md-1 d-flex" style="height: 90px;">
+                        <div class="vr"></div>
+                     </div>
+                     <div class="col-md-3">
+                        <p id="assignedto">Last Updated :</p>
+                        <p id="status">Assigned To :</p>
+                        <p id="priority">Status :</p>
+                     </div>
+                     <div class="col-md-2">
+                        <p id="assignedto">03-09-2023 11:33:34</p>
+                        <p id="status">Chandralok Pandey</p>
+                        <p id="priority">Assigned</p>
+                     </div>
+                  </div>
+               </div>
+            
+            
+         </div>
+      </div>
+   </div>
+</div>
+
+ 

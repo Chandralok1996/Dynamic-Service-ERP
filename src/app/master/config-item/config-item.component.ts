@@ -34,6 +34,7 @@ export class ConfigItemComponent {
   getkeys: any;
   x: any=[];
   orgkeys: any;
+  columnfiled: any=[];
 
   constructor(private adminService: AdminService, 
     private toaster: ToasterService, 
@@ -48,71 +49,45 @@ export class ConfigItemComponent {
 
   ngOnInit(): void {
    this.itemlist()
-   this.getformfield()
+  //  this.getformfield()
   }
  
-  getformfield()
-  {
-  console.log(this.formID);
-  this.adminService.getFormByID(this.formID).subscribe((res:any)=>{
-  console.log(res);
-  this.formlabel=res.rows
-  this.formlabel.forEach((element:any) => {
-  this.formfield.push(element.column_label)
-});
-  console.log(this.formfield);
-  console.log(this.formfield);
-  this.tempvar=this.formfield.map((item:any)=>{
+//   getformfield()
+//   {
+//   console.log(this.formID);
+//   this.adminService.getFormByID(this.formID).subscribe((res:any)=>{
+//   console.log(res);
+//   this.formlabel=res.rows
+//   this.formlabel.forEach((element:any) => {
+//   this.formfield.push(element.column_label)
+// });
+//   console.log(this.formfield);
+//   console.log(this.formfield);
 
-  return {
-    "keyName":item,
-    "check":true
-  }
-    
-})
-  console.log(this.tempvar);
-  this.tempvar=this.tempvar.map((res:any)=>{
-  if(res.keyName=="astd_id" ||res.keyName=="Asset Name" || res.keyName=="Asset Type" || res.keyName=="Category" || res.keyName=="Vendor Name" || res.keyName=="Status")
-  {
-    return {
-      "keyName":res.keyName,
-      "check":true
-    }
-  }
-  else
-  {
-    return {
-      "keyName":res.keyName,
-      "check":false
-    }
-  }
- 
-})
-// this.copyDisplayColumn=this.tempvar
-this.orgkeys=this.tempvar
-this.getkeys=this.tempvar.filter((res:any)=>{
-  return res.check==true
-})
-console.log(this.getkeys);
-this.x;
-for(var i=0;i<this.getkeys.length;i++)
-{
-      this.x.push(this.getkeys[i].keyName)
-}
 
-console.log(this.x);
-this.x.push('Action')
-this.copyDisplayColumn=this.x;
-})
-  }
+// // this.copyDisplayColumn=this.tempvar
+
+// this.x.push('Action')
+// this.copyDisplayColumn=this.x;
+// })
+//   }
   itemlist()
   {
-   var a= this.adminService.itemList().subscribe(
+   var a= this.adminService.getcilist().subscribe(
     (res:any)=>{
+      console.log(res);
+      
       console.log(res.status);
+      this.columnfiled=res.result[0]
+      console.log(this.columnfiled);
+  
+      var emparr:any=[]
+      emparr=Object.keys(this.columnfiled)
+      console.log(emparr);
+      
+      emparr.push('Action')
+      this.copyDisplayColumn=emparr
       this.itemlistdata=res.result
-      console.log(a);
-      var keyarr:any=[]
       this.dataSource = new MatTableDataSource(this.itemlistdata);
       this.dataSource.paginator = this.paginator;
 
@@ -127,44 +102,12 @@ this.copyDisplayColumn=this.x;
     }
     )
   }
-  selectlabel(event:any,data:any)
-  {
-    console.log(this.orgkeys);
-    var getorg:any=[]
-    for(var i=0;i<this.orgkeys.length;i++)
-    {
-      getorg.push(this.orgkeys[i].keyName)
-    }
-    console.log(getorg);
-    if(event.checked==true){
 
-      let getindex=getorg.indexOf(data.keyName)
-      console.log(getindex);
-      this.x.splice(getindex, 0, data.keyName);
-      this.displayedColumns=this.x
-      console.log(this.displayedColumns);
-      let actionind=this.displayedColumns.indexOf('Action')
-      console.log(actionind);
-      this.displayedColumns.splice(actionind,1)
-      console.log(this.displayedColumns);
-      this.displayedColumns.push('Action');
 
-    }
-    else
-    {
-      //unchecked
-        let getindex=this.x.indexOf(data.keyName)
-        console.log(getindex);
-        this.x.splice(getindex,1)
-        this.displayedColumns=this.x
-    }
-  
-  }
-
-  itemupdate(data:any)
+  configupdate(data:any)
   {
     console.log(data);
-    this.router.navigate(['/item-master/update',data]);
+    this.router.navigate(['/ci-master/update',data]);
     
   }
   toggler(): void {

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output,Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -12,7 +12,7 @@ import { AddFormFieldComponent } from '../view-form/add-column.component';
   styleUrls: ['./preview.component.css']
 })
 export class PreviewComponent{
-  formID: any = 50001;
+  formID: number = 50001;
   formFields: any;
   dynamicForm!: FormGroup;
   userCreated: any = localStorage.getItem('user-created');
@@ -23,10 +23,9 @@ export class PreviewComponent{
   showModal = false;
   @Output() close = new EventEmitter<void>();
 
-
-
-  constructor(private _mdr: MatDialogRef<AddFormFieldComponent>, private toaster: ToasterService, private adminService: AdminService, private router: Router, private formBuilder: FormBuilder) {
-    this.getFormDataById(this.formID);
+  constructor(private _mdr: MatDialogRef<AddFormFieldComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private toaster: ToasterService, private adminService: AdminService, private router: Router, private formBuilder: FormBuilder) {
+    var formid=data.id
+    this.getFormDataById(formid);
     this.dynamicForm = this.formBuilder.group({});
     if(!this.userCreated) {
       this.userCreated = [];
@@ -36,13 +35,7 @@ export class PreviewComponent{
   }
 
   ngOnInit(): void {
-    
   }
-
-  // Method to change the ID dynamically
-changeDynamicId() {
-  this.formID = this.formFields;
-}
 
 
   getFormDataById(id: number): void {
@@ -55,8 +48,6 @@ changeDynamicId() {
             return item.type!="subform"
           })
           console.log(this.formFields);
-         
-          
           this.subformdata=res.rows
           this.subformdata=this.subformdata.filter((item:any)=>{
             return item.type=="subform"

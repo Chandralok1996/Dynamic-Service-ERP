@@ -1,5 +1,5 @@
 <mat-nav-list class="sidenav-list">
-  <div class="row" style="background-color: #3f51b5; box-shadow: #696969 0px 2px 6px 0px">
+  <div class="row" style="background-color: #3f51b5; margin-top: -10px; box-shadow: #696969 0px 2px 6px 0px">
           <div class="col-md-9">
            <h1 class="head"> Services ERP</h1>
           </div>
@@ -8,8 +8,8 @@
           </div>
     </div>
 
-<div *ngIf="userRole === 'Administrator'">
-  <a class="" mat-list-item routerLink="/home" (click)="onToggleClose()">
+<div *ngIf="userRole === 'Administrator' || userRole === 'enduser'">
+  <a class="" mat-list-item [routerLink]="['/it-sm/dashboard-card']" (click)="onToggleClose()">
     <mat-icon>dashboard</mat-icon>
     <span>Dashboard</span>
   </a>
@@ -180,7 +180,7 @@
     <span>Help & Support</span>
   </a>
 </div>
-<div *ngIf="userRole === 'enduser'">
+<!-- <div *ngIf="userRole === 'enduser'">
   <a class="" mat-list-item routerLink="/home" (click)="onToggleClose()">
     <mat-icon>dashboard</mat-icon>
     <span>Dashboard</span>
@@ -286,7 +286,7 @@
     <mat-icon>headset_mic</mat-icon>
     <span>Help & Support</span>
   </a>
-</div>
+</div> -->
 
 <div *ngIf="userRole === 'developer'">
   <a mat-list-item routerLink="admin/form-master" (click)="onToggleClose()">

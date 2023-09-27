@@ -11,6 +11,7 @@ import { ToasterService, AdminService } from 'src/app/_services';
 })
 export class UpdateConfigComponent {
   formID: number = 50002;
+
   formFields: any;
   dynamicForm!: FormGroup;
   userCreated: any = localStorage.getItem('user-created');
@@ -19,94 +20,112 @@ export class UpdateConfigComponent {
   promisedata:any;
   formfieldname: any;
   itemlistdata: any;
-  astdid: any;
+  cicd_id: any;
   updatebtn:boolean=false;
+  enviorment: any;
+  cls: any;
+  sla_res: any;
+  configformfiled: any;
+  itemdata: any;
   constructor(private toaster: ToasterService, private adminService: AdminService, private router: Router, private route: ActivatedRoute, private formBuilder: FormBuilder) 
   {
-    this.dynamicForm = this.formBuilder.group({});
     if(!this.userCreated) {
       this.userCreated = [];
     } else { this.userCreated = JSON.parse(this.userCreated);}
+        this.getFormDataById(this.formID);
+
   }
   ngOnInit(): void {
     var paramData = this.route.snapshot.params;
-    this.astdid=paramData['id']
-    this.getFormDataById(this.formID);
+    this.cicd_id=paramData['id']
+    this.dynamicForm = this.formBuilder.group({
+      astd_id:this.formBuilder.control(null,Validators.required)
+    });
+    this.itemlist()
   }
-
-  getFormDataById(id: number): void {
-    this.promisedata=new Promise<any>((resolve,reject)=>{
-      this.formDataSubscription.add(
-        this.adminService.getFormByID(id).subscribe((res: any) => {
-          if (res.status == 200) {
-            this.formFields = res.rows;
-              this.formfieldname=this.formFields
-            this.formFields = this.formFields.sort((a: any, b: any) => {
-              return a.position - b.position;
-            });
-            this.formFields.forEach((value: any) => {
-              if(value.mandatory) {
-                this.dynamicForm.addControl(`${value.column_label}`, this.formBuilder.control(null, Validators.required));
-              } else {
-                this.dynamicForm.addControl(`${value.column_label}`, this.formBuilder.control(null));
-              }
-            });
-          } else {
-          }
-        }, (error: any) => {
-          this.toaster.error(`${error.status} ${error.statusText}`);
-        })
-      );
-      resolve("done")
-    })
-        this.promisedata.then((res: any)=>{
-          this.itemlist()
-        })
-  }
-  //Item details or Item list
   itemlist()
   {
-      var patchpromise=new Promise<any>((resolve,reject)=>{
-        this.adminService.getItemdetails(this.astdid).subscribe((res:any)=>{
+    this.adminService.itemList().subscribe((res:any)=>
+    {
+      console.log(res);
+      this.itemdata=res.result
+      
+    })
+  }
+  getFormDataById(id: number): void {
+    this.formDataSubscription.add(
+      this.adminService.getFormByID(id).subscribe((res: any) => {
+        if (res.status == 200) {
+          this.formFields = res.rows;
+          console.log(this.formFields);
+          this.configformfiled=this.formFields.filter((item:any)=>{
+            return item.column_name=="environment" || item.column_name=="class"  || item.column_name=="sla_response"
+            || item.column_name=="ciname"
+          })
+          console.log(this.formFields);
+          
+          this.enviorment=this.formFields.filter((item:any)=>{
+            return item.column_name=="environment"
+          })
+          console.log(this.enviorment);
+          
+          this.cls=this.formFields.filter((item:any)=>{
+            return item.column_name=="class"
+          })
+          console.log(this.cls);
+
+          this.sla_res=this.formFields.filter((item:any)=>{
+            return item.column_name=="sla_response"
+          })
+          console.log(this.sla_res);
+          this.createform()
+        } else {
+          this.toaster.error(res.message);
+        }
+      }, (error: any) => {
+        this.toaster.error(`${error.status} ${error.statusText}`);
+      })
+    );
+  }  
+  createform()
+{
+
+  this.configformfiled.forEach((element:any) => {
+    console.log(element.column_label);
+    if(element.mandatory)
+    {
+      this.dynamicForm.addControl(`${element.column_label}`,this.formBuilder.control(null,Validators.required))
+    }
+    else
+    {
+      this.dynamicForm.addControl(`${element.column_label}`,this.formBuilder.control(null))
+
+    }
+    
+  });
+  this.configdetails()
+}
+  configdetails()
+  {
+
+        this.adminService.getconfigdetails(this.cicd_id).subscribe((res:any)=>{
           this.itemlistdata=res.result
         console.log(this.itemlistdata);
-          console.log("starting patch promise");
-          resolve("patching")
 
+          this.pachformdata()
         })
 
-      })
-      patchpromise.then((res:any)=>{this.pachformdata()})
+      
   }
 
   pachformdata()
   {
-    console.log(this.itemlistdata);
-    for(var i=0;i<this.itemlistdata.length;i++)
-    {
-      this.dynamicForm.patchValue(this.itemlistdata[i])
-    }
+    
+   this.dynamicForm.patchValue(this.itemlistdata[0])
   }
 
   submitForm() {
-    this.updatebtn=true
-    var match: any = this.dynamicForm.value, error: any = [];
-    this.userCreated.push(match);
-    console.log(match);
-    match.astd_id=this.astdid;
-    this.adminService.updateItem(match).subscribe((res:any)=>{
-      console.log(res);
-      if(res.status==200)
-      {
-        this.toaster.success(res.message);
-        this.router.navigate(['/item-master']);
-      }
-      else
-      {
-        this.toaster.error("Something went wrong");
-        this.updatebtn=false;
-      }
-    },)
+  
     // localStorage.setItem('user-created', JSON.stringify(this.userCreated));
   }
   ngOnDestroy(): void {

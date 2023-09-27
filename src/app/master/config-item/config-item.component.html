@@ -12,16 +12,15 @@
             </div>
             
             <div class="col-md-7 text-end">
-                <button style="margin-top: -16px;" mat-raised-button [routerLink]="['/item-master/create']" color="primary"><mat-icon style="float: left;">add</mat-icon> Create CI</button>
-                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                <button  mat-raised-button [routerLink]="['/ci-master/create']" color="primary"><mat-icon style="float: left;">add</mat-icon> Create CI</button>
+                <!-- <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
                     <mat-icon >more_vert</mat-icon>
-                  </button>
-                  <mat-menu #menu="matMenu">
-                    <!-- <mat-checkbox #menuItems>All</mat-checkbox> -->
+                  </button> -->
+                  <!-- <mat-menu #menu="matMenu">
                     <mat-checkbox [checked]="task.check" (change)="selectlabel($event,task)"  #menuItems *ngFor="let task of tempvar, let i = index;" color="primary">
                     {{task.keyName}}
                   </mat-checkbox>
-                  </mat-menu>
+                  </mat-menu> -->
             </div>
         </div>
         <div class="row my-2">
@@ -31,7 +30,7 @@
                         <ng-container [matColumnDef]="column" *ngFor="let column of copyDisplayColumn">
                           <th mat-header-cell *matHeaderCellDef> {{column | titlecase}} </th>
                           <td mat-cell *matCellDef="let element"> <span *ngIf="column !='Action'">{{element[column]}}</span> <span *ngIf="column =='Action'"> 
-                            <button mat-mini-fab color="primary"  (click)="itemupdate(element.astd_id)"
+                            <button mat-mini-fab color="primary"  (click)="configupdate(element.cicd_id)"
                             ><mat-icon>edit</mat-icon></button> </span> </td>
                         </ng-container>
                         <tr mat-header-row *matHeaderRowDef="copyDisplayColumn; sticky: true"></tr>

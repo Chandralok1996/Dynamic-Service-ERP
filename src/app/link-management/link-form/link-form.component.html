@@ -1,0 +1,77 @@
+<div mat-dialog-content>
+    <div class="container mt-3">
+      <div class="row">
+        <div class="card p-3 col-md-12" style=" border-bottom: 3px solid rgb(66, 66, 201);">
+            <h1 class="">Association Module</h1><hr>
+          <div class="card-body">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+              <div class="form-group ">
+                <p class="d-grid gap-1 my-1" >
+                    <mat-form-field appearance="outline">
+                      <mat-label>Label Name</mat-label>
+                      <input matInput placeholder="Enter Label Name" formControlName="title"/>
+                    </mat-form-field>
+                  </p>
+              </div>
+
+              <div class="form-group d-grid gap-1">
+                <mat-form-field appearance="outline" class="col-md-12">
+                    <mat-label>Select From Form</mat-label>
+                    <mat-select formControlName="module_id" (selectionChange)="formtoform($event.value)">
+                        <mat-option>Select Column name</mat-option>
+                        <mat-option *ngFor="let data of formListData" [value]="data.fmls_id">{{data.form_name}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+              </div>
+              <div class="form-group d-grid gap-1">
+                <mat-form-field appearance="outline" class="col-md-12">
+                    <mat-label>Select To Form</mat-label>
+                    <mat-select (selectionChange)="formdetails($event.value)" formControlName="link_id">
+                        <mat-option>Select Column name</mat-option>
+                        <mat-option *ngFor="let data of toformlist" [value]="data.fmls_id">{{data.form_name}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+              </div>
+
+              <div *ngIf="form.hasError('sameValue') && form.get('link_id')?.dirty">
+                <p style="color: red;">From and To values cannot be the same.</p>
+              </div>
+
+              <div class="row form-group">
+                <mat-form-field appearance="outline" class="col-md-9">
+                    <mat-label>Select Form Details</mat-label>
+                    <mat-select formControlName="list_data" [(ngModel)]="dData" (ngModelChange)="manualData = !manualData" (selectionChange)="getValue($event)">
+                        <mat-option>Select Fields Name</mat-option>
+                        <mat-option *ngFor="let data of filData" [value]="data.column_name">{{data.column_label}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                <mat-form-field appearance="outline" class="col-md-3">
+                    <mat-label>Select Special character</mat-label>
+                    <mat-select formControlName="spechar" (selectionChange)="getchar($event)" >
+                        <mat-option>Select Symbols</mat-option>
+                        <mat-option value="/">/</mat-option>
+                        <mat-option value=" "> </mat-option>
+                        <mat-option value="_">_</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+              </div>
+              <div class="form-group d-grid gap-1 ">
+                <mat-form-field class=" col-md-12">
+                  <mat-label>Form Value Looks like</mat-label>
+                  <textarea  matInput readonly [(ngModel)]="list_data">{{msg}}{{paramData}}
+                  </textarea>
+                </mat-form-field>
+              </div>
+              <br>
+              <div mat-dialog-actions class="float-end">
+                <button class="btn btn-secondary me-2" onclick="history.back()">No Thanks</button>
+                <button type="submit" [disabled]="!form.valid" class="btn btn-primary">Create</button>
+              </div>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- <router-outlet></router-outlet> -->

@@ -6,6 +6,7 @@ const routes: Routes = [
   { path: '', redirectTo: 'sign-in', pathMatch: 'full' },
   { path: 'sign-in', loadChildren:()=>import('./login/login.module').then(m => m.LoginModule) },
   { path: 'home', loadChildren:()=>import('./home/home.module').then(m => m.HomeModule) , canActivate: [appGuard] },
+  { path: 'link-form', loadChildren:()=>import('./link-management/link-management.module').then(m => m.LinkManagementModule), canActivate: [appGuard]},
   { path: 'customer', loadChildren:()=>import('./customer/customer.module').then(m => m.CustomerModule) , canActivate: [appGuard] },
   { path: 'it-sm', loadChildren:()=>import('./itsm/itsm.module').then(m => m.ItsmModule) , canActivate: [appGuard] },
   { path: 'proj-management', loadChildren:()=>import('./project-management/project-management.module').then(m => m.ProjectManagementModule) , canActivate: [appGuard] },

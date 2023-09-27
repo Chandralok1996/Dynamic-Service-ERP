@@ -83,7 +83,10 @@ export class ViewFormComponent {
   }
   previewmodel():void
   {
-  this.previewformdialog=  this.matDialog.open(PreviewComponent)
+    var data={
+      "id":this.formID
+    }
+  this.previewformdialog=  this.matDialog.open(PreviewComponent,{data})
   }
 
   applyFilter(event: Event) {

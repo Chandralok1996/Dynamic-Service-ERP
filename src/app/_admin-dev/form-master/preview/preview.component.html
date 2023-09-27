@@ -1,6 +1,6 @@
 <section>
     <div class="container"  style="width:800px;height: 600px;">
-        <form [formGroup]="dynamicForm" [id]="formID">
+        <form [formGroup]="dynamicForm">
             
             <!-- <mat-icon>close</mat-icon> -->
             <div class="row card p-3">
@@ -9,7 +9,7 @@
 
                         <button  mat-icon-button class="close-button" (click)="closeDialog(false)" aria-label="Close" ><mat-icon class="float-right">close</mat-icon></button>
                     </div>
-                    <h2 >User</h2>
+                    <h2 ></h2>
 
                 </div>
             <hr>
@@ -49,7 +49,7 @@
         <div class="footer row mt-2">
             <div class="text-center">
                 <button class="me-2" mat-raised-button type="submit" [disabled]="!dynamicForm.valid"  color="secondary">Cancel</button>
-                <button mat-raised-button type="submit" [disabled]="!dynamicForm.valid" color="primary">Create User</button>            </div>
+                <button mat-raised-button type="submit" [disabled]="!dynamicForm.valid" color="primary">Create</button>            </div>
         </div>
     </form>
 

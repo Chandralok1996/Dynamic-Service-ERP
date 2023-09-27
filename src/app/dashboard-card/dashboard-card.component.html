@@ -1,0 +1,372 @@
+<div class="col-md-1">
+  <button type="button" class="btn btn-danger" onclick="history.back()"><mat-icon style="float: left;">keyboard_return</mat-icon> </button>
+</div>
+<div class="container-fluid">
+ <div class="row mt-2" style="padding: 15px;">
+    <div class="col-md-12 card cb">
+      <div class="row mt-1">
+        <div class="col-md-6">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="rgb(136, 59, 209)" class="bi bi-telephone-forward"
+            viewBox="0 0 16 16">
+            <path
+              d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122l-2.19.547a1.745 1.745 0 0 1-1.657-.459L5.482 8.062a1.745 1.745 0 0 1-.46-1.657l.548-2.19a.678.678 0 0 0-.122-.58L3.654 1.328zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511zm10.762.135a.5.5 0 0 1 .708 0l2.5 2.5a.5.5 0 0 1 0 .708l-2.5 2.5a.5.5 0 0 1-.708-.708L14.293 4H9.5a.5.5 0 0 1 0-1h4.793l-1.647-1.646a.5.5 0 0 1 0-.708z" />
+          </svg> &nbsp;&nbsp;
+          <span class="cst"> Call Status</span>
+        </div>
+        <div class="col-md-6">
+          <select style="float:right; background-color: transparent;border: none;" (change)="statucount()">
+            <option value="Current day">Current day</option>
+            <option value="last 7 days">last 7 days</option>
+            <option value="last 30 days" selected>last 30 days</option>
+            <option value="Select date">Select date</option>
+          </select>
+        </div>
+      </div>
+      <form [formGroup]="form6">
+        <div class="row" *ngIf="showdate6">
+          <div class="col-md-4">
+            <label for="">Start Date</label>
+            <input type="date" class="f-10 form-control" formControlName="sDate">
+            <span class="text-danger f-10">{{error}}</span>
+          </div>
+          <div class="col-md-4">
+            <label for="">End Date</label>
+            <input type="date" class="f-10 form-control" formControlName="eDate">
+          </div>
+          <div class="col-md-4">
+            <label for=""></label>
+            <button [disabled]="form6.invalid" class="btn btn-primary" (click)="statucountwithdate()">Submit</button>
+          </div>
+        </div>
+      </form>
+  
+      <div class="row mt-1">
+        <div *ngFor="let pending of pensingStatus" class="col-md-2 pendst" (click)="statusDetails(pending.status)">
+          <p class="hd"><b>{{pending.count}}<mat-icon *ngIf="pending.status === 'Assigned'" style="color:rgb(3, 4, 94);margin-left:2px;">assignment_ind</mat-icon>
+            <mat-icon *ngIf="pending.status === 'New'" style="color: rgb(3, 4, 94);margin-left:2px;">new_releases</mat-icon> 
+            <mat-icon *ngIf="pending.status === 'Resolved'" style="color: rgb(3, 4, 94);margin-left:2px;">done_all</mat-icon></b></p>
+          <p class="hd">
+           <b>{{pending.status}}</b></p>
+        </div>
+        <p class="nodatamsg" *ngIf="res == 'No data'">No data available for the selected period of time</p>
+  
+      </div>
+    </div>
+  </div>
+  
+  <form [formGroup]="form">
+    <div class="mt-1">
+      <div class="row">
+        <div class="col-md-6 pr-0">
+          <div class="card cb">
+            <div class="card-body">
+              <div class="card-title">
+                <div class="row">
+                  <div class="col-md-6">
+                    <span class="cst">Mode of location calls</span>
+                  </div>
+                  <div class="col-md-6">
+                    <select style="float:right; " (change)="bar()">   
+                      <option value="Current day">Current day</option>
+                      <option value="last 7 days">last 7 days</option>
+                      <option value="last 30 days" selected>last 30 days</option>
+                      <option value="Select date">Select date</option>
+                    </select>
+                  </div>
+                </div>
+                <!-- <form [formGroup]="form2">
+                  <div class="row" *ngIf="showdate2">
+                    <div class="col-md-4">
+                      <label for="">Start Date</label>
+                      <input type="date" class="f-10 form-control" formControlName="sDate">
+                      <span class="text-danger f-10">{{error}}</span>
+                    </div>
+                    <div class="col-md-4">
+                      <label for="">End Date</label>
+                      <input type="date" class="f-10 form-control" formControlName="eDate">
+                    </div>
+                    <div class="col-md-4">
+                      <label for=""></label>
+                      <button [disabled]="form2.invalid" class="btn btn-primary" (click)="barwithdate()">Submit</button>
+                    </div>
+                  </div>
+                </form> -->             
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="chart-container">
+                    <canvas #modeOfLocationChart1 style="cursor:pointer;"></canvas>
+                  </div>
+                  <p class="nodatamsg" *ngIf="moderes == 'No data'">No data available for the selected period of time</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <div class="col-md-6">
+          <div class="card cb">
+            <div class="card-body">
+              <div class="card-title">
+                <div class="row ">
+                  <div class="col-md-6">
+                    <span class="cst">Call Types</span>
+                  </div>
+              
+                  <div class="col-md-6" style="padding: 0px;">
+                    <select style="float:right;" (change)="bar1()">
+                    
+                      <option value="Current day">Current day</option>
+                      <option value="Last 7 days">Last 7 days</option>
+                      <option value="last 30 days" selected>Last 30 days</option>
+                      <option value="Select date">Select date</option>
+                     
+                    </select>
+                  </div>
+                </div>
+                <!-- <form [formGroup]="form3">
+                  <div class="row" *ngIf="showdate3">
+                    <div class="col-md-4">
+                      <label for="">Start Date</label>
+                      <input type="date" class="f-10 form-control" formControlName="sDate">
+                      <span class="text-danger f-10">{{error}}</span>
+                    </div>
+                    <div class="col-md-4">
+                      <label for="">End Date</label>
+                      <input type="date" class="f-10 form-control" formControlName="eDate">
+                    </div>
+                    <div class="col-md-4">
+                      <label for=""></label>
+                      <button [disabled]="form3.invalid" class="btn btn-primary" (click)="bar1withdate()">Submit</button>
+                    </div>
+                  </div>
+                </form> -->
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="chart-container">
+                    <canvas #callTypeChart1 style="cursor:pointer;"></canvas>
+                  </div>
+                  <p class="nodatamsg" *ngIf="calltyperes == 'No data'">No data available for the selected period of time
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-md-12">
+          <div class="card cb">
+  
+            <div class="card-body">
+              <div class="card-title">
+                <div class="row">
+                  <div class="col-md-6">
+                    <span>
+                      <span class="cst">Request Support Model</span>
+                    </span>
+  
+                  </div>
+                  <div class="col-md-6">
+                    <select style="float:right;" (change)="bar3()">
+                    
+                      <option value="Current day">Current day</option>
+                      <option value="Last 7 days">Last 7 days</option>
+                      <option value="last 30 days" selected>Last 30 days</option>
+                      <option value="Select date">Select date</option>
+                    </select>
+                  </div>
+                </div>
+                <!-- <form [formGroup]="form4">
+                  <div class="row" *ngIf="showdate4">
+                    <div class="col-md-4">
+                      <label for="">Start Date</label>
+                      <input type="date" class="f-10 form-control" formControlName="sDate">
+                      <span class="text-danger f-10">{{error}}</span>
+                    </div>
+                    <div class="col-md-4">
+                      <label for="">End Date</label>
+                      <input type="date" class="f-10 form-control" formControlName="eDate">
+                    </div>
+                    <div class="col-md-4">
+                      <label for=""></label>
+                      <button [disabled]="form4.invalid" class="btn btn-primary" (click)="bar3withdate()">Submit</button>
+                    </div>
+                  </div>
+                </form> -->
+  
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="chart-container">
+                    <canvas #requestSupportModelChart1 style="cursor:pointer;"></canvas>
+                  </div>
+                  <p class="nodatamsg" *ngIf="reqmoderes == 'No data'">No data available for the selected period of time
+                  </p>
+                </div>
+  
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+       <div class="row mt-3">
+        <div class="col-md-6 pr-0">
+          <div class="card cb">
+            <div class="card-body">
+              <div class="card-title">
+                <div class="row">
+                  <div class="col-md-4">
+                    <span class="cst">Orbit SLA</span>
+                  </div>
+                  <div class="col-md-4"></div>
+                  <div class="col-md-4">
+                    <select style="float:right;" (change)="orbitSLA()">
+                    
+                      <option value="Current day">Current day</option>
+                      <option value="Last 7 days">Last 7 days</option>
+                      <option value="last 30 days" selected>Last 30 days</option>
+                      <option value="Select date">Select date</option>
+                    </select>
+                  </div>
+                </div>
+                <!-- <form [formGroup]="form5">
+                  <div class="row" *ngIf="showdate5">
+                    <div class="col-md-4">
+                      <label for="">Start Date</label>
+                      <input type="date" class="f-10 form-control" formControlName="sDate">
+                      <span class="text-danger f-10">{{error}}</span>
+                    </div>
+                    <div class="col-md-4">
+                      <label for="">End Date</label>
+                      <input type="date" class="f-10 form-control" formControlName="eDate">
+                    </div>
+                    <div class="col-md-4">
+                      <label for=""></label>
+                      <button [disabled]="form5.invalid" class="btn btn-primary"
+                        (click)="orbitSLAwithdate()">Submit</button>
+                    </div>
+                  </div>
+                </form> -->
+              </div>
+              <div class="card-subtitle">
+                <span><b>Showing data for all locations</b></span>
+                <div class="chart-container-pie">
+                  <canvas #orbitSLAChart1 style="cursor:pointer;"></canvas>
+                </div>
+              </div>
+  
+          
+            </div>
+          </div>
+        </div>
+  
+        <div class="col-md-6">
+          <div class="card cb">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-6">
+                <span class="cst">Top 5 Hardware Incidents</span>
+                </div>
+                <div class="col-md-5">
+                  <select style="float:right;" (change)="getunassignedTicket()">
+                   
+                    <option value="Current day">Current day</option>
+                    <option value="Last 7 days">Last 7 days</option>
+                    <option value="last 30 days" selected>Last 30 days</option>
+                    <option value="Select date">Select date</option>
+                  </select>
+                </div>
+              </div>
+          
+              <!-- <form [formGroup]="form1">
+                <div class="row" *ngIf="showdate">
+                  <div class="col-md-4">
+                    <label for="">Start Date</label>
+                    <input type="date" class="f-10 form-control" formControlName="sDate">
+                    <span class="text-danger f-10">{{error}}</span>
+                  </div>
+                  <div class="col-md-4">
+                    <label for="">End Date</label>
+                    <input type="date" class="f-10 form-control" formControlName="eDate">
+                  </div>
+                  <div class="col-md-4">
+                    <label for=""></label>
+                    <button [disabled]="form1.invalid" class="btn btn-primary" (click)="hardware()">Submit</button>
+                  </div>
+                </div>
+              </form>
+            -->
+              <br> <br>
+              <div class="chart-container-pie">
+                <canvas #top5hardwareIncident1 style="cursor:pointer;"></canvas>
+              </div>
+           
+            </div>
+          </div>
+        </div>
+  
+     
+      </div> 
+       <div class="row mt-3">
+        <div class="col-md-6 pr-0">
+          <div class="card cb">
+            <div class="card-body">
+              <div class="row mt-1">
+                <div class="col-md-6">
+                  <span class="cst">Assets Location</span>
+                </div>
+                <div class="col-md-6">
+                
+                </div>
+              </div>
+              
+              <div class="chart-container">
+                <canvas #mychart style="cursor:pointer;"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card cb">
+            <div class="card-body">
+              <div class="card-title">
+                <div class="row">
+                  <div class="col-md-8">
+                    <span class="cst">Assigned & Unassigned Assets</span>
+                  </div>
+                  <div class="col-md-4"></div>
+                </div>
+                <div class="chart-container-pie">
+                  <canvas #assetAssignedUnassigned1 style="cursor:pointer;"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> 
+       <div class="row my-3">
+        <div class="col-md-12 pr-0">
+          <div class="card cb">
+            <div class="card-body">
+              <div class="card-title">
+                <div class="row">
+                  <div class="col-md-6">
+                    <span class="cst">Asset Types</span>
+                  </div>
+                  <div class="col-md-6"></div>
+                </div>
+                <div class="chart-container">
+                  <canvas #assetTypeChart1 style="cursor:pointer;"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+       
+      </div>  
+    </div>
+  </form>
+  </div>

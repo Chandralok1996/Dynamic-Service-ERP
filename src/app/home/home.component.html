@@ -8,7 +8,7 @@
             <p class="center">
                 <mat-icon style="font-size: 26px;">account_circle</mat-icon>
             </p>
-         User Management
+         User Managements
         <hr>
             <div class="row mt-3" >
                <div class="col-md-4 card1" (click)="routeuser()" >
@@ -68,7 +68,7 @@
                </div>
                <div class="col-md-4 card1">
                 <p class="center">
-                    <mat-icon>wallpaper</mat-icon>
+                    <mat-icon> attach_file</mat-icon>
                 </p>
                 Attachment
                </div>
@@ -80,11 +80,11 @@
             <p class="center">
                 <mat-icon style="font-size: 26px;">settings</mat-icon>
             </p>
-           CI Management
+            Configuration Management
             <hr>
             <div class="row mt-3">
               
-               <div class="col-md-4 card1" [routerLink]="['/ci-master']">
+               <div class="col-md-4 card1" (click)="routeconfig()">
                 <p class="center">
                     <mat-icon>settings_applications</mat-icon>
                 </p>
@@ -138,6 +138,12 @@
             IT Software Management
             <hr>
             <div class="row mt-3" >
+                <div class="col-md-4 card1" (click)="routeIncident()">
+                    <p class="center">
+                        <mat-icon>filter_none</mat-icon>
+                    </p>
+                    Tickets
+                   </div>
                <div class="col-md-4 card1" [routerLink]="['/it-sm/laptop']">
                 <p class="center">
                     <mat-icon>laptop_chromebook</mat-icon>
@@ -150,15 +156,16 @@
                 </p>
                 Desktop
                </div>
-               <div class="col-md-4 card1" [routerLink]="['/it-sm/server']">
-                <p class="center">
-                    <mat-icon>speaker</mat-icon>
-                </p>
-                Server
-               </div>
+             
               
             </div>
             <div class="row mt-3">
+                <div class="col-md-4 card1" [routerLink]="['/it-sm/server']">
+                    <p class="center">
+                        <mat-icon>speaker</mat-icon>
+                    </p>
+                    Server
+                   </div>
                <div class="col-md-4 card1" [routerLink]="['/it-sm/monitor']">
                 <p class="center">
                     <mat-icon>important_devices</mat-icon>
@@ -171,13 +178,16 @@
                 </p>
                 Accessories
                </div>
-               <div class="col-md-4 card1" [routerLink]="['it-sm/history']">
-                <p class="center">
-                    <mat-icon>brightness_7</mat-icon>
-                </p>
-                History
-               </div>
+             
             </div>
+            <!-- <div class="row mt-3">
+                <div class="col-md-4 card1" [routerLink]="['it-sm/history']">
+                    <p class="center">
+                        <mat-icon>brightness_7</mat-icon>
+                    </p>
+                    History
+                   </div>
+            </div> -->
         </div>
         <div class="col-md-3 card p-3 me-3"  >
             <p class="center">
@@ -188,15 +198,15 @@
             <div class="row mt-3">
                 <div class="col-md-4 card1" [routerLink]="['/event']">
                  <p class="center">
-                     <mat-icon>important_devices</mat-icon>
+                    <mat-icon>event</mat-icon>
                  </p>
                  Event
                 </div>
                 <div class="col-md-4 card1" [routerLink]="['/it-sm/accessories']">
                  <p class="center">
-                    <mat-icon>meeting_room</mat-icon>
+                    <mat-icon>perm_data_setting</mat-icon>
                  </p>
-                 Accessories
+                Function
                 </div>
                 <div class="col-md-4 card1" [routerLink]="['it-sm/history']">
                  <p class="center">
@@ -291,7 +301,7 @@
             <p class="center">
                 <mat-icon style="font-size: 26px;">view_list</mat-icon>
             </p>
-            Incident Management
+            Customer Service Management
             <hr>
             <div class="row mt-3">
                 <div class="col-md-4 card1" [routerLink]="['/incident']">
@@ -318,7 +328,7 @@
                  <p class="center">
                     <mat-icon>supervised_user_circle</mat-icon>
                  </p>
-                 Engineer
+                 Engineers
                 </div>
                 <div class="col-md-4 card1" >
                  <p class="center">
@@ -330,65 +340,126 @@
              </div>
           
         </div>
-
-        <div class="col-md-3 card p-3">
-            <p class="center">
-                <mat-icon style="font-size: 26px;">shutter_speed</mat-icon>
-               
+        <div class="col-md-3 card p-3 me-3" >
+            <p class="center"> 
+                <mat-icon style="font-size: 26px;">dashboard</mat-icon>
             </p>
-            Others
+           Dashboard Management
             <hr>
             <div class="row mt-3">
-                <div class="col-md-4 card1" [routerLink]="['/incident']">
+                <div class="col-md-4 card1" [routerLink]="['/it-sm/dashboard-card']">
                  <p class="center">
-                    <mat-icon >supervisor_account</mat-icon>
+                    <mat-icon >phonelink</mat-icon>
                  </p>
-                 Employee
+                ITSM Report
                 </div>
-                <div class="col-md-4 card1" [routerLink]="['/incident/case']">
+                <div class="col-md-4 card1">
                  <p class="center">
-                    <mat-icon >error_outline</mat-icon>
+                    <mat-icon>people_outline</mat-icon>
                  </p>
-                 Problem
+                CSM Report
                 </div>
-                <div class="col-md-4 card1" [routerLink]="['incident/task']">
-                 <p class="center">
-                    <mat-icon>star_border</mat-icon>
-                 </p>
-                 Knowledge
-                </div>
-             </div>
-            <div class="row mt-3">
-             <div class="col-md-4 card1" [routerLink]="['/incident/eng']">
-                 <p class="center">
-                    <mat-icon>whatshot</mat-icon>
-                 </p>
-                 Change
-                </div> 
-                <div class="col-md-4 card1" [routerLink]="['/history']">
-                 <p class="center">
-                    <mat-icon>receipt</mat-icon>
-                 </p>
-                 History
-                </div>
-                <div class="col-md-4 card1"[routerLink]="['/history']" >
-                 <p class="center">
-                    <mat-icon>ac_unit</mat-icon>
-                 </p>
-                 Licence
-                </div>
-                <div class="col-md-4 card1" [routerLink]="['/help-support']">
+                <div class="col-md-4 card1" [routerLink]="['/link-form']">
                     <p class="center">
-                       <mat-icon>headset_mic</mat-icon>
+                       <mat-icon>layers</mat-icon>
                     </p>
-                    HelpSupport
+                 PM Report
                    </div>
               
              </div>
-           
+          
+          
         </div>
+
       
     </div>
+
+<div class="row mt-3">
+    <div class="col-md-1"></div>
+    <div class="col-md-3 card p-3 me-3" >
+        <p class="center">
+           
+            <mat-icon style="font-size: 26px;">link_off</mat-icon>
+        </p>
+        Form Linking Management
+        <hr>
+        <div class="row mt-3">
+            <div class="col-md-4 card1" (click)="addFieldModel()">
+             <p class="center">
+                <mat-icon >link</mat-icon>
+             </p>
+             Link Form
+            </div>
+            <div class="col-md-4 card1" (click)="addLinkID()">
+             <p class="center">
+                <mat-icon>waves</mat-icon>
+             </p>
+             Form List
+            </div>
+          
+         </div>
+      
+      
+    </div>
+    <div class="col-md-3 card p-3">
+        <p class="center">
+            <mat-icon style="font-size: 26px;">shutter_speed</mat-icon>
+           
+        </p>
+        Others
+        <hr>
+        <div class="row mt-3">
+            <div class="col-md-4 card1" [routerLink]="['/incident']">
+             <p class="center">
+                <mat-icon >supervisor_account</mat-icon>
+             </p>
+             Employee
+            </div>
+            <div class="col-md-4 card1" [routerLink]="['/incident/case']">
+             <p class="center">
+                <mat-icon >error_outline</mat-icon>
+             </p>
+             Problem
+            </div>
+            <div class="col-md-4 card1" [routerLink]="['incident/task']">
+             <p class="center">
+                <mat-icon>star_border</mat-icon>
+             </p>
+             Knowledge
+            </div>
+         </div>
+        <div class="row mt-3">
+         <div class="col-md-4 card1" [routerLink]="['/incident/eng']">
+             <p class="center">
+                <mat-icon>whatshot</mat-icon>
+             </p>
+             Change
+            </div> 
+            <div class="col-md-4 card1" [routerLink]="['/history']">
+             <p class="center">
+                <mat-icon>receipt</mat-icon>
+             </p>
+             History
+            </div>
+            <div class="col-md-4 card1"[routerLink]="['/history']" >
+             <p class="center">
+                <mat-icon>ac_unit</mat-icon>
+             </p>
+             Licence
+            </div>
+            <div class="col-md-4 card1" [routerLink]="['/help-support']">
+                <p class="center">
+                   <mat-icon>headset_mic</mat-icon>
+                </p>
+                HelpSupport
+               </div>
+          
+         </div>
+       
+    </div>
+  
+</div>
+
     <br>
 </div>
  
