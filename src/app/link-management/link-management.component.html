@@ -17,7 +17,6 @@
                     <mat-icon >more_vert</mat-icon>
                   </button>
                   <mat-menu #menu="matMenu">
-                    <!-- <mat-checkbox #menuItems>All</mat-checkbox> -->
                     <mat-checkbox [checked]="task.check" (change)="selectlabel($event,task)"  #menuItems *ngFor="let task of tempvar, let i = index;" color="primary">
                     {{task.keyName}}
                   </mat-checkbox>

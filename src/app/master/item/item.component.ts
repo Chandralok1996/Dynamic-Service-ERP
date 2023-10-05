@@ -34,6 +34,7 @@ export class ItemComponent {
   getkeys: any;
   x: any=[];
   orgkeys: any;
+  linkListData: any;
 
   constructor(private adminService: AdminService, 
     private toaster: ToasterService, 
@@ -176,6 +177,11 @@ this.copyDisplayColumn=this.x;
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+  itemCreateForm(){
+    
+    this.router.navigate(['/item-master/create']);
+  
   }
 
   ngOnDestroy(): void {

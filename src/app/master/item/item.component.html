@@ -12,7 +12,7 @@
             </div>
             
             <div class="col-md-7 text-end">
-                <button style="margin-top: -16px;" mat-raised-button [routerLink]="['/item-master/create']" color="primary"><mat-icon style="float: left;">add</mat-icon> Create Item</button>
+                <button style="margin-top: -16px;" mat-raised-button (click)="itemCreateForm()" color="primary"><mat-icon style="float: left;">add</mat-icon> Create Item</button>
                 <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
                     <mat-icon >more_vert</mat-icon>
                   </button>

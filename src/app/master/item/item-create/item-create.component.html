@@ -5,7 +5,18 @@
             <h2 >Create Item</h2>
             <hr>
           
-             <div class="row">
+                <div class="row">
+                    <div class="col-md-12 px-2 py-1" >
+                        <mat-form-field class="d-grid gap-2" appearance="outline">
+                            <mat-label>Assigned To</mat-label>
+                            <mat-select formControlName="user_id">
+                                <mat-option>Select User Name</mat-option>
+                                <mat-option [value]=data.user_id *ngFor="let data of linkListData['User Name']">{{data['User Name']}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-md-6 px-2 py-1" *ngFor="let field of nosubform;">
                         <mat-form-field class="d-grid gap-2" appearance="outline">
                             <mat-label>{{field?.column_label}}</mat-label>
@@ -17,7 +28,6 @@
                         </mat-form-field>
                     </div>
                 </div>
-             
         </div>
         <div class="row card p-3 mt-2" *ngIf="subformdata.length!=0">
             <h2 class="">{{subformdata[0].module_title}}</h2>

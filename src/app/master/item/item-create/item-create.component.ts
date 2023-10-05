@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ToasterService, AdminService } from 'src/app/_services';
@@ -18,10 +18,15 @@ export class ItemCreateComponent {
   incr: any=0;
   subformdata:any=[];
   nosubform: any=[];
+  linkListData: any;
 
   constructor(private toaster: ToasterService, private adminService: AdminService, private router: Router, private formBuilder: FormBuilder) {
     this.getFormDataById(this.formID);
-    this.dynamicForm = this.formBuilder.group({});
+    console.log(this.formID);
+    
+    this.dynamicForm = this.formBuilder.group({
+      user_id: new FormControl('',[(Validators.required)]),
+    });
     if(!this.userCreated) {
       this.userCreated = [];
     } else {
@@ -30,6 +35,7 @@ export class ItemCreateComponent {
   }
 
   ngOnInit(): void {
+    this.getUserNameList();
   }
   getFormDataById(id: number): void {
     this.formDataSubscription.add(
@@ -94,6 +100,15 @@ export class ItemCreateComponent {
     },)
     // localStorage.setItem('user-created', JSON.stringify(this.userCreated));
   }
+
+  getUserNameList(){
+      this.adminService.linkList(this.formID).subscribe((res:any)=>{
+      console.log(res);
+      this.linkListData=res.rows;
+    
+    })
+  }
+
   ngOnDestroy(): void {
     this.formDataSubscription.unsubscribe();
   }
