@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ToasterService, AdminService } from 'src/app/_services';
+import { AddFieldComponent } from '../../add-field/add-field.component';
 
 @Component({
   selector: 'app-item-update',
@@ -12,7 +14,7 @@ import { ToasterService, AdminService } from 'src/app/_services';
 export class ItemUpdateComponent {
   formID: number = 50002;
   formFields: any;
-  dynamicForm!: FormGroup;
+  dynamicForm:any;
   userCreated: any = localStorage.getItem('user-created');
   private formDataSubscription: Subscription = new Subscription();
   incr: any=0;
@@ -21,9 +23,16 @@ export class ItemUpdateComponent {
   itemlistdata: any;
   astdid: any;
   updatebtn:boolean=false;
-  constructor(private toaster: ToasterService, private adminService: AdminService, private router: Router, private route: ActivatedRoute, private formBuilder: FormBuilder) 
+  itemDetails:any=[];
+  constructor(private toaster: ToasterService, public dialog: MatDialog,private adminService: AdminService, private router: Router, private route: ActivatedRoute, private formBuilder: FormBuilder) 
   {
-    this.dynamicForm = this.formBuilder.group({});
+    this.dynamicForm = this.formBuilder.group({
+   //   column_label : ['']
+    });
+
+    // this.dynamicForm = new FormGroup({
+    //   column_value: new FormControl("", [Validators.required]),
+    // });
     if(!this.userCreated) {
       this.userCreated = [];
     } else { this.userCreated = JSON.parse(this.userCreated);}
@@ -35,6 +44,7 @@ export class ItemUpdateComponent {
   }
 
   getFormDataById(id: number): void {
+    
     this.promisedata=new Promise<any>((resolve,reject)=>{
       this.formDataSubscription.add(
         this.adminService.getFormByID(id).subscribe((res: any) => {
@@ -66,26 +76,68 @@ export class ItemUpdateComponent {
   //Item details or Item list
   itemlist()
   {
+    
       var patchpromise=new Promise<any>((resolve,reject)=>{
         this.adminService.getItemdetails(this.astdid).subscribe((res:any)=>{
-          this.itemlistdata=res.result
-        console.log(this.itemlistdata);
+          this.itemlistdata=res.result;
+          console.log(this.itemlistdata);
           console.log("starting patch promise");
-          resolve("patching")
-
+          resolve("patching");
+         
+          // this.itemlistdata.forEach((element:any) => {
+          //   if(this.dynamicForm.get('column_label') == element.key)
+          //   {
+          //     this.itemDetails.push(element);
+          //   }
+          // });
         })
-
+      
       })
-      patchpromise.then((res:any)=>{this.pachformdata()})
+    
+          patchpromise.then((res:any)=>{this.pachformdata()})
+       // }
   }
 
   pachformdata()
   {
-    console.log(this.itemlistdata);
-    for(var i=0;i<this.itemlistdata.length;i++)
-    {
-      this.dynamicForm.patchValue(this.itemlistdata[i])
-    }
+  //   console.log(this.itemlistdata);
+  //  for(var i=0;i<this.itemlistdata.length;i++)
+  //  {
+  //     this.dynamicForm.patchValue(this.itemlistdata[i])
+  //  }
+  //  this.dynamicForm.patchValue(this.itemlistdata)
+
+  if (this.itemlistdata.length > 0) {
+
+    this.itemDetails = [this.itemlistdata[0]]; // Keep only the first item
+
+    this.itemDetails.forEach((item: any) => {
+
+      this.dynamicForm.patchValue(item);
+
+    });
+
+  } else {
+
+    console.log("itemlistdata is empty");
+
+  }
+  }
+  addField(item: any) {
+
+    const dialogRef = this.dialog.open(AddFieldComponent, {
+      width: '50%',
+     // scrollStrategy: new NoopScrollStrategy(),
+      disableClose: true,
+      data: { data: item }
+    });
+
+    dialogRef.afterClosed().subscribe((result:any) => {
+      this.getFormDataById(this.formID);
+    })
+
+
+  
   }
 
   submitForm() {

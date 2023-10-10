@@ -1,0 +1,91 @@
+<!-- <div class="clearFix">
+  <div class="row">
+    <div class="col-md-8">
+      <span class="badge badge-primary"
+        >Note: Please enter the values as per the valid format, Refer the
+        respected dropdown field.</span
+      >&nbsp;
+    </div>
+    <div class="col-md-4">
+      <svg
+        class="closeicon"
+        xmlns="http://www.w3.org/2000/svg"
+        (click)="onNoClick()"
+        height="18"
+        width="18"
+        viewBox="0 0 24 24"
+      >
+        <g>
+          <path fill="none" d="M0 0h24v24H0z" />
+          <path
+            d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm0-9.414l2.828-2.829 1.415 1.415L13.414 12l2.829 2.828-1.415 1.415L12 13.414l-2.828 2.829-1.415-1.415L10.586 12 7.757 9.172l1.415-1.415L12 10.586z"
+          />
+        </g>
+      </svg>
+    </div>
+  </div>
+</div> -->
+<hr style="color: #696969; margin: 0px" />
+<!-- <i class="material-icons close"  style="cursor:pointer;" (click)="onNoClick()">close</i> -->
+
+<div class="clearFix">
+  <form [formGroup]="addFieldForm" (ngSubmit)="onSubmitField()">
+    <div class="row">
+        <div class="col-md-8">
+            </div>
+        <div class="col-md-4">
+            <svg
+              class="closeicon"
+              xmlns="http://www.w3.org/2000/svg"
+              (click)="onNoClick()"
+              height="18"
+              width="18"
+              viewBox="0 0 24 24"
+            >
+              <g>
+                <path fill="none" d="M0 0h24v24H0z" />
+                <path
+                  d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm0-9.414l2.828-2.829 1.415 1.415L13.414 12l2.829 2.828-1.415 1.415L12 13.414l-2.828 2.829-1.415-1.415L10.586 12 7.757 9.172l1.415-1.415L12 10.586z"
+                />
+              </g>
+            </svg>
+          </div>
+        </div>
+    <div class="row">
+      <div class="col-md-12">
+        <label style="font-size:16px;"><strong>{{fieldData.column_label}}</strong></label>
+        <input
+          class="form-control"
+          formControlName="column_value" placeholder="Enter {{fieldData.column_label}}"
+          [ngClass]="{ 'is-invalid': submitted && f.column_value.errors }"
+        />
+        <div *ngIf="submitted && f.column_value.errors" class="invalid-feedback">
+          <div *ngIf="f.column_value.errors.required">
+            {{ fieldData.column_label }} is required
+          </div>
+        </div>
+      </div>
+    </div>
+ 
+    <div class="row mt-3" style="text-align: end">
+      <div class="col-md-12">
+        <button
+          type="button"
+          mat-raised-button
+          class="cancelButton"
+          mat-dialog-close
+          (click)="onNoClick()"
+        >
+          Cancel
+        </button>
+        <button
+          class="btn btn-primary ml-2"
+          mat-raised-button
+          class="keeponButton"
+        >
+          Create
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

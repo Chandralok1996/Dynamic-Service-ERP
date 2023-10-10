@@ -23,22 +23,6 @@ import { AdminService, ToasterService } from "src/app/_services";
                   </mat-form-field>
                 </p>
                 <p class="d-grid gap-2 my-2">
-                  <mat-checkbox formControlName="" (change)="checkrole($event)" color="primary">Read only?</mat-checkbox>
-                </p>
-                <p class="d-grid gap-2 my-2">
-                <mat-form-field appearance="outline" style="width: 100%;" *ngIf="showrole">
-                <mat-label>Role</mat-label>
-                <mat-select [multiple]="true" formControlName="role">
-                  <mat-option value="text">End User</mat-option>
-                  <mat-option value="number">Developer</mat-option>
-                  <mat-option value="number">Helpdesk</mat-option>
-      
-                  <mat-option value="number">Administrator</mat-option>
-
-                </mat-select>
-              </mat-form-field>
-              </p>
-                <p class="d-grid gap-2 my-2">
                   <mat-checkbox formControlName="mandatory" [checked]="mandatory" color="primary">Is this field required?</mat-checkbox>
                 </p>
               </div>

@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ToasterService, AdminService } from 'src/app/_services';
+import { AddFieldComponent } from '../../add-field/add-field.component';
 @Component({
   selector: 'app-user-update',
   templateUrl: './user-update.component.html',
@@ -29,6 +31,7 @@ export class UserUpdateComponent {
     private adminService: AdminService, 
     private router: Router,
     private route: ActivatedRoute,
+    public dialog: MatDialog,
 
      private formBuilder: FormBuilder) {
     this.dynamicForm = this.formBuilder.group({});
@@ -131,6 +134,7 @@ this.userid=paramData['id']
   //user details or user list
   userlist()
   {
+    
       var patchpromise=new Promise<any>((resolve,reject)=>{
         this.adminService.getuserdetails(this.userid).subscribe((res:any)=>{
           this.userlistdata=res.result
@@ -187,8 +191,24 @@ this.userid=paramData['id']
       
           
   }
+  addField(item: any) {
 
+    const dialogRef = this.dialog.open(AddFieldComponent, {
+      width: '50%',
+     // scrollStrategy: new NoopScrollStrategy(),
+      disableClose: true,
+      data: { data: item }
+    });
+
+    dialogRef.afterClosed().subscribe((result:any) => {
+      this.getFormDataById(this.formID);
+    })
+
+
+  
+  }
   submitForm() {
+    
     this.updatebtn=true
     var match: any = this.dynamicForm.value, error: any = [];
     // this.formFields.forEach((element: any) => {

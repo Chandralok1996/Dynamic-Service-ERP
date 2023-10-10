@@ -54,6 +54,7 @@ export class ItemComponent {
  
   getformfield()
   {
+    
   console.log(this.formID);
   this.adminService.getFormByID(this.formID).subscribe((res:any)=>{
   console.log(res);

@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, MinLengthValidator, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ToasterService, AdminService } from 'src/app/_services';
+import { AddFieldComponent } from '../../add-field/add-field.component';
 @Component({
   selector: 'app-user-create',
   templateUrl: './user-create.component.html',
@@ -21,7 +23,7 @@ export class UserCreateComponent {
   moblength:any;
   checking: boolean=true;
 
-  constructor(private toaster: ToasterService, private adminService: AdminService, private router: Router, private formBuilder: FormBuilder) {
+  constructor(private toaster: ToasterService, private adminService: AdminService, public dialog: MatDialog, private router: Router, private formBuilder: FormBuilder) {
     this.getFormDataById(this.formID);
     this.dynamicForm = this.formBuilder.group({});
     if(!this.userCreated) {
@@ -36,6 +38,7 @@ export class UserCreateComponent {
   }
 
   getFormDataById(id: number): void {
+    
     this.formDataSubscription.add(
       this.adminService.getFormByID(id).subscribe((res: any) => {
         if (res.status == 200) {
@@ -46,16 +49,20 @@ export class UserCreateComponent {
           this.nosubform=this.nosubform.filter((item:any)=>{
             return item.type!="subform"
           })
-          console.log(this.formFields);
+          this.nosubform=this.nosubform.filter((item:any)=>{
+            return item.insert_column!=false;
+          })
+          console.log(this.nosubform);
+
           this.subformdata=res.rows
           this.subformdata=this.subformdata.filter((item:any)=>{
             return item.type=="subform"
           })
+          this.subformdata=this.subformdata.filter((item:any)=>{
+            return item.insert_column!="false"
+          })
       
           this.subformdata=this.subformdata.map((res:any)=>
-          
-
-       
           ({
             ...res,isactive:"",pattern:""
           }
@@ -91,7 +98,8 @@ export class UserCreateComponent {
                 this.dynamicForm.addControl(`${value.column_label}`, 
                 this.formBuilder.control(null, 
                   [
-                   Validators.required, Validators.pattern('[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,3}$'),
+                    Validators.required,
+                    Validators.pattern('[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,3}$'),
                   ],
                   
                   ));
@@ -154,7 +162,29 @@ export class UserCreateComponent {
   
     
   }
+
+  addField(item: any) {
+
+    const dialogRef = this.dialog.open(AddFieldComponent, {
+      width: '50%',
+     // scrollStrategy: new NoopScrollStrategy(),
+      disableClose: true,
+      data: { data: item }
+    });
+
+    dialogRef.afterClosed().subscribe((result:any) => {
+      this.getFormDataById(this.formID);
+    })
+
+
+  
+  }
   submitForm() {
+    
+    if(this.dynamicForm.invalid)
+    {
+      return;
+    }
     var match: any = this.dynamicForm.value, error: any = [];
     this.formFields.forEach((element: any) => {
       if(element.mandatory) {

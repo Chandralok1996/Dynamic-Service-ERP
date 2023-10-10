@@ -51,9 +51,8 @@ export class UserComponent {
   }
  
   getformfield()
-  {
+  {    
 console.log(this.formID);
-
 this.adminService.getFormByID(this.formID).subscribe((res:any)=>{
   console.log(res);
   this.formlabel=res.rows

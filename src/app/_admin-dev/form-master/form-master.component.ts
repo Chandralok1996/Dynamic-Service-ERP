@@ -34,6 +34,7 @@ private route:ActivatedRoute
   ngOnInit(): void { }
 
   getFormData(): void {
+    
     this.formListSubscription.add(
       this.adminService.getFormList().subscribe((res: any) => {
         if (res.status == 200) {

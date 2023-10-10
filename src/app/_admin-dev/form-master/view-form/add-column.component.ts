@@ -30,8 +30,10 @@ import { AdminService, ToasterService } from "src/app/_services";
                     <mat-select formControlName="column_type" [(ngModel)]="fieldType" (selectionChange)="typeSelection($event)">
                       <mat-option value="text">Text</mat-option>
                       <mat-option value="number">Number</mat-option>
+                      <mat-option value="radio">Radio Button</mat-option>
+
                       <mat-option value="select" *ngIf="form_type=='form'">Select</mat-option>
-                      <mat-option value="assigndropdown" *ngIf="form_type=='form'">assign Dropdown</mat-option>
+                      <mat-option value="assigndropdown" *ngIf="form_type=='form'">Group Dropdown</mat-option>
 
                     </mat-select>
                   </mat-form-field>

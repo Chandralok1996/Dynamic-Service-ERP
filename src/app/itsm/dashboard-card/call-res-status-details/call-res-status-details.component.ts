@@ -123,7 +123,7 @@ export class CallResStatusDetailsComponent {
   callResponse:any;
   constructor(private route:ActivatedRoute) { }
   ngOnInit(): void {
-    debugger
+    
     this.paramData = this.route.snapshot.params;
     this.callResponse=this.paramData['responseMode'];
     this.getCallResponseDetails(this.callResponse);
@@ -131,7 +131,7 @@ export class CallResStatusDetailsComponent {
   }
 
   getCallResponseDetails(data:any){
-    debugger
+    
     this.tabledata.forEach((element:any )=> {
       if(element.responsemode === data){  
         this.callResponseModeDetails.push(element);

@@ -9,8 +9,8 @@ import { UpdateRoleComponent } from './update-role/update-role.component';
 
 const routes: Routes = [
   {path: '', component: RoleComponent },
-  {path: 'create', component:CreateRoleComponent},
-  {path: 'update', component: UpdateRoleComponent}
+  {path: 'create/:id', component:CreateRoleComponent},
+  {path: 'update/:id', component: UpdateRoleComponent}
 ]
 
 @NgModule({

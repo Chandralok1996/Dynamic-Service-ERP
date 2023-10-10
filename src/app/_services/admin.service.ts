@@ -11,7 +11,7 @@ import { environment } from 'src/environments/environment.prod';
 })
 
 export class AdminService {
-
+public selectedData:any;
   constructor( private _http: HttpClient, private _cookie: CookieService ) {}
 
   getFormList(): Observable<any> {
@@ -85,7 +85,21 @@ export class AdminService {
       httpOptions
     );
   }
+  resetUserPassword(data: any): Observable<any[]> {
+    const httpOptions = { headers: new HttpHeaders({'auth-token': JSON.parse(localStorage.getItem('user') || '').token, 'Content-Type': 'application/json'})};
+    return this._http.put<any[]>(`${environment._url}/user/updatepassword`, data, httpOptions);
+  }
+//To create master data
+  createMasterData(data: any): Observable<any[]> {
+    const httpOptions = { headers: new HttpHeaders({'auth-token': JSON.parse(localStorage.getItem('user') || '').token, 'Content-Type': 'application/json'})};
+    return this._http.post<any[]>(`${environment._url}/formTemplate/createMaster`, data, httpOptions);
+  }
 
+  //To update master data
+  updateMasterData(data: any): Observable<any[]> {
+    const httpOptions = { headers: new HttpHeaders({'auth-token': JSON.parse(localStorage.getItem('user') || '').token, 'Content-Type': 'application/json'})};
+    return this._http.put<any[]>(`${environment._url}/formTemplate/updateMaster`, data, httpOptions);
+  }
   itemList():Observable<any>
   {
     const httpOptions = {
@@ -115,7 +129,7 @@ export class AdminService {
     );
   }
 
-  //module-Link
+   //module-Link
   createLink(data: any): Observable<any[]> {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -164,7 +178,6 @@ incidentCreate(data: any): Observable<any[]> {
     httpOptions
   );
 }
-
   //role-create
   createRole(data: any): Observable<any[]> {
     const httpOptions = {
@@ -208,6 +221,10 @@ configCreate(data: any): Observable<any[]> {
     httpOptions
   );
 }
-
-
+getData(){
+return this.selectedData;
+}
+setData(data:any){
+  this.selectedData = data;
+}
 }

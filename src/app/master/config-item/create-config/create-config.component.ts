@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ToasterService, AdminService } from 'src/app/_services';
+import { AddFieldComponent } from '../../add-field/add-field.component';
 
 @Component({
   selector: 'app-create-config',
@@ -10,7 +12,7 @@ import { ToasterService, AdminService } from 'src/app/_services';
   styleUrls: ['./create-config.component.css']
 })
 export class CreateConfigComponent {
-  formID: number = 50002;
+  formID: number = 50004;
   formFields: any;
   dynamicForm!: FormGroup;
   userCreated: any = localStorage.getItem('user-created');
@@ -24,7 +26,7 @@ export class CreateConfigComponent {
   showform: boolean=false;
   itemlistdata: any;
 
-  constructor(private toaster: ToasterService, private adminService: AdminService, private router: Router, private formBuilder: FormBuilder) {
+  constructor(private toaster: ToasterService,public dialog: MatDialog, private adminService: AdminService, private router: Router, private formBuilder: FormBuilder) {
     this.getFormDataById(this.formID);
     if(!this.userCreated) {
       this.userCreated = [];
@@ -35,39 +37,60 @@ export class CreateConfigComponent {
 
   ngOnInit(): void {
     this.dynamicForm = this.formBuilder.group({
-      astd_id:this.formBuilder.control(null,Validators.required)
+    //  astd_id:this.formBuilder.control(null,Validators.required)
     });
 this.showform=true;
 this.itemlist()
   }
   getFormDataById(id: number): void {
+    
     this.formDataSubscription.add(
       this.adminService.getFormByID(id).subscribe((res: any) => {
         if (res.status == 200) {
+          // this.formFields = res.rows;
+          // console.log(this.formFields);
+          // this.formFields=this.formFields.filter((item:any)=>{
+          //   return item.column_name=="environment" || item.column_name=="class"  || item.column_name=="sla_response"
+          //   || item.column_name=="ciname"
+          // })
+          // console.log(this.formFields);
+          
+          // this.enviorment=this.formFields.filter((item:any)=>{
+          //   return item.column_name=="environment"
+          // })
+          // console.log(this.enviorment);
+          
+          // this.cls=this.formFields.filter((item:any)=>{
+          //   return item.column_name=="class"
+          // })
+          // console.log(this.cls);
+
+          // this.sla_res=this.formFields.filter((item:any)=>{
+          //   return item.column_name=="sla_response"
+          // })
+          // console.log(this.sla_res);
+          // this.createform()
           this.formFields = res.rows;
-          console.log(this.formFields);
-          this.formFields=this.formFields.filter((item:any)=>{
-            return item.column_name=="environment" || item.column_name=="class"  || item.column_name=="sla_response"
-            || item.column_name=="ciname"
+          this.nosubform=res.rows
+          this.nosubform=this.nosubform.filter((item:any)=>{
+            return item.type!="subform"
           })
           console.log(this.formFields);
-          
-          this.enviorment=this.formFields.filter((item:any)=>{
-            return item.column_name=="environment"
+          this.subformdata=res.rows
+          this.subformdata=this.subformdata.filter((item:any)=>{
+            return item.type=="subform"
           })
-          console.log(this.enviorment);
-          
-          this.cls=this.formFields.filter((item:any)=>{
-            return item.column_name=="class"
-          })
-          console.log(this.cls);
-
-          this.sla_res=this.formFields.filter((item:any)=>{
-            return item.column_name=="sla_response"
-          })
-          console.log(this.sla_res);
-          this.createform()
-
+          // this.formFields = this.formFields.sort((a: any, b: any) => {
+          //   return a.position - b.position;
+          // });
+          this.formFields.forEach((value: any) => {
+            if(value.mandatory) {
+              this.dynamicForm.addControl(`${value.column_label}`, this.formBuilder.control(null, Validators.required));
+            } else {
+              this.dynamicForm.addControl(`${value.column_label}`, this.formBuilder.control(null));
+            }
+          });
+          this.toaster.success(res.message);
         } else {
           this.toaster.error(res.message);
         }
@@ -85,23 +108,40 @@ this.itemlist()
       
     })
   }
-createform()
-{
-  this.formFields.forEach((element:any) => {
-    console.log(element.column_label);
-    if(element.mandatory)
-    {
-      this.dynamicForm.addControl(`${element.column_label}`,this.formBuilder.control(null,Validators.required))
-    }
-    else
-    {
-      this.dynamicForm.addControl(`${element.column_label}`,this.formBuilder.control(null))
+// createform()
+// {
+//   this.formFields.forEach((element:any) => {
+//     console.log(element.column_label);
+//     if(element.mandatory)
+//     {
+//       this.dynamicForm.addControl(`${element.column_label}`,this.formBuilder.control(null,Validators.required))
+//     }
+//     else
+//     {
+//       this.dynamicForm.addControl(`${element.column_label}`,this.formBuilder.control(null))
 
-    }
+//     }
     
+//   });
+// }
+addField(item: any) {
+
+  const dialogRef = this.dialog.open(AddFieldComponent, {
+    width: '50%',
+   // scrollStrategy: new NoopScrollStrategy(),
+    disableClose: true,
+    data: { data: item }
   });
+
+  dialogRef.afterClosed().subscribe((result:any) => {
+    this.getFormDataById(this.formID);
+  })
+
+
+
 }
   submitForm() {
+    
     var match: any = this.dynamicForm.value, error: any = [];
     console.log(match);
     
@@ -125,7 +165,7 @@ createform()
       if(res.status==201)
       {
         this.toaster.success(res.message);
-        // this.router.navigate(["/item-master"]);
+        this.router.navigate(["/ci-master"]);
       }
       else
       {
@@ -139,6 +179,6 @@ createform()
     // localStorage.setItem('user-created', JSON.stringify(this.userCreated));
   }
   ngOnDestroy(): void {
-    this.formDataSubscription.unsubscribe();
+  this.formDataSubscription.unsubscribe();
   }
 }

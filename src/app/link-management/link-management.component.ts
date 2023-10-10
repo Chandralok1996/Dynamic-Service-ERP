@@ -65,6 +65,7 @@ export class LinkManagementComponent {
 
   getLinkList()
   {
+    debugger
     console.log(this.fmlsid);
     
    var a= this.adminService.linkList(this.fmlsid).subscribe((res:any)=>{
