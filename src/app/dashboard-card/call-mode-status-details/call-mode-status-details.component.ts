@@ -155,7 +155,7 @@ displayedColumns: string[] = ['problem','ticket_no','emp_name','support_group','
   constructor(private route:ActivatedRoute) { }
 
   ngOnInit(): void {
-    debugger
+    
     this.paramData = this.route.snapshot.params;
     this.callMode=this.paramData['title'];
     this.getCallModeStatusDetails(this.callMode);
@@ -163,7 +163,7 @@ displayedColumns: string[] = ['problem','ticket_no','emp_name','support_group','
   }
 
   getCallModeStatusDetails(data:any){
-    debugger
+    
     this.tabledata.forEach((element:any )=> {
       if(element.callmode === data){  
         this.callModeDetails.push(element);

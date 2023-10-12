@@ -56,11 +56,11 @@ getFormData(): void {
 }
 
 addFieldModel(): void {
-  this.router.navigate(['/link-form/create']); 
+  this.router.navigate(['/link-management/create']); 
 }
 addLinkID(){
   
-  this.router.navigate(['/link-form']); 
+  this.router.navigate(['/link-management']); 
   
 }
 
