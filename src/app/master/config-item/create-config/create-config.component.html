@@ -26,7 +26,9 @@
                             <mat-option [value]=options.id *ngFor="let options of field.column_value">{{options.value | titlecase}}</mat-option>
                         </mat-select>
               <mat-icon matSuffix *ngIf="field.type =='dropdown' || field.type == 'assigndropdown'" (click)="$event.stopPropagation(); addField(field)">add_circle</mat-icon>
-                    </mat-form-field>
+              <mat-error class="mb-4" *ngIf="field.mandatory">{{ field.column_label }} is
+                required.</mat-error>
+            </mat-form-field>
                 </div>
               
                 </div>

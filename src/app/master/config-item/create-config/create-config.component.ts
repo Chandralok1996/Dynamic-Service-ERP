@@ -101,6 +101,7 @@ this.itemlist()
   }
   itemlist()
   {
+    
     this.adminService.itemList().subscribe((res:any)=>
     {
       console.log(res);

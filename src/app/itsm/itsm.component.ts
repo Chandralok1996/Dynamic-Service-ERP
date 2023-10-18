@@ -23,6 +23,8 @@ export class ItsmComponent {
   filteredCards: any;
   detailsdata: any;
   incid: any;
+  searchTerm = '';
+  filteredCardData: any[] = [];
 
   constructor(private adminService: AdminService, private toaster: ToasterService, 
               private service: AppService,private router:Router) {}
@@ -33,34 +35,25 @@ export class ItsmComponent {
    this.adminService.incidentList().subscribe((res:any)=>{
       console.log(res);
       this.incidentlistdata=res.result
-      var keyarr:any=[]
+      var keyarr:any=[];
       this.dataSource = new MatTableDataSource( this.incidentlistdata);
-      // this.dataSource.paginator = this.paginator;
+      // this.dataSource.paginator = this.paginator;  
     })
   }
   applyFilter() {
-    if (this.searchText) {
-      this.filteredCards =  this.incidentlistdata.filter((card:any) =>
-        card.name.toLowerCase().includes(this.searchText.toLowerCase())
-      );
-    } else {
-      this.filteredCards = this.incidentlistdata; // Show all cards if search text is empty
-    }
-
-    
-    // const filterValue = (event.target as HTMLInputElement).value;
-    // this.dataSource.filter = filterValue.trim().toLowerCase();
-    // if (this.dataSource.paginator) {
-    //   this.dataSource.paginator.firstPage();
-    // }
+        //  const filterValue = event.target ? (event.target as HTMLInputElement).value : event;
+           this.filteredCardData = this.incidentlistdata.filter((filteredData:any) =>
+           filteredData.inid_id.includes(this.searchTerm.toUpperCase().trim()) ||
+           filteredData.Priority.includes(this.searchTerm.toUpperCase().trim()) 
+           )
+           console.log(this.filteredCardData);
+           this.incidentlistdata = this.filteredCardData;
   }
+
 
   gotoincdetails(inid:any){
     this.incid = inid.split('-')
     this.detailsdata=  this.incid[1],
-    
-    // console.log(this.incid[1]);
-    
     this.router.navigate(['/it-sm/details-tickets'])
   }
 

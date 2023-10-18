@@ -148,7 +148,6 @@ export class UpdateConfigComponent {
   //   this.configdetails()
   // }
   configdetails() {
-    ;
     this.adminService.getconfigdetails(this.cicd_id).subscribe((res: any) => {
       this.itemlistdata = res.result;
       console.log(this.itemlistdata);
@@ -157,7 +156,12 @@ export class UpdateConfigComponent {
   }
 
   pachformdata() {
-    this.dynamicForm.patchValue(this.itemlistdata[0]);
+    setTimeout(() => {
+      for(var i=0;i<this.itemlistdata.length;i++)
+      {
+         this.dynamicForm.patchValue(this.itemlistdata[i])
+      }
+     }, 2000);
   }
   addField(item: any) {
     const dialogRef = this.dialog.open(AddFieldComponent, {

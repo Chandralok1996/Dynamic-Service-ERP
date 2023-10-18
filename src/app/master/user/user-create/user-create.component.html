@@ -8,9 +8,7 @@
         <div class="row">
           <div class="col-md-6 px-2 py-1" *ngFor="let field of nosubform">
             <mat-form-field class="d-grid gap-2" appearance="outline">
-                
-              <mat-label>{{field?.column_label}}
-            </mat-label>
+              <mat-label>{{ field?.column_label }} </mat-label>
               <input
                 [readonly]="field.read_only"
                 *ngIf="
@@ -49,8 +47,20 @@
                   {{ options.value }}</mat-option
                 >
               </mat-select>
-              <mat-icon matSuffix *ngIf="field.type =='dropdown' || field.type == 'assigndropdown'" (click)="$event.stopPropagation(); addField(field)">add_circle</mat-icon>
-
+              <mat-icon
+                matSuffix
+                *ngIf="
+                  field.type == 'dropdown' || field.type == 'assigndropdown'
+                "
+                (click)="$event.stopPropagation(); addField(field)"
+                >add_circle</mat-icon
+              >
+              <mat-error *ngIf="checkMandatory"
+                >{{ field.column_label }} is required.</mat-error
+              >
+              <mat-error *ngIf="checkValid && !checkMandatory"
+                >{{ field.column_label }} is invalid.</mat-error
+              >
             </mat-form-field>
           </div>
         </div>
@@ -64,7 +74,7 @@
             <mat-form-field class="d-grid gap-2" appearance="outline">
               <mat-label>{{ field?.column_label }}</mat-label>
               <input
-                pattern="[0-9]"
+                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}|[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}"
                 [readonly]="field.read_only"
                 (keypress)="OnlyNumbersAllowed($event, field.column_label)"
                 maxlength="{{ field.isactive }}"
@@ -96,7 +106,18 @@
                   >{{ options.value | titlecase }}</mat-option
                 >
               </mat-select>
-              <mat-icon matSuffix *ngIf="field.type =='dropdown' || field.type == 'assigndropdown'" (click)="$event.stopPropagation(); addField(field)">add_circle</mat-icon>
+              <mat-icon
+                matSuffix
+                *ngIf="
+                  field.type == 'dropdown' || field.type == 'assigndropdown'"
+                (click)="$event.stopPropagation(); addField(field)"
+                >add_circle</mat-icon
+              >
+              <mat-error *ngIf="checkMandatory"
+                >{{ field.column_label }} is required.</mat-error
+              >
+              <mat-error *ngIf="checkValid">{{ field.column_label }} is invalid.</mat-error
+              >
             </mat-form-field>
           </div>
         </div>

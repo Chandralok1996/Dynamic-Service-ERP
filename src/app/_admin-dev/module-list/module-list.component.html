@@ -1,0 +1,64 @@
+<!-- <section class="bg-img shadow"> -->
+    <div class="container-fluid">
+      <div class="row py-3">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+          <div class="row p-3">
+            <div class="card p-3 shadow float-right">
+              <div class="text-center">
+                <img
+                  src="../../assets/selectOption.png"
+                  alt="logo"
+                  style="width: 100px; height: 100px"
+                />
+                <h1
+                  style="
+                    font-weight: 200;
+                    font-family: 'Gill Sans','Gill Sans MT',Calibri,
+                      'Trebuchet MS', sans-serif;">
+                  Select Form Module
+                </h1>
+              </div>
+  
+              <div class="row py-3">
+                <form [formGroup]="form" (ngSubmit)="submit()">
+                  <p class="d-grid gap-2 px-2 my-2">
+                    <mat-form-field>
+                      <mat-label>Select Form Module</mat-label>
+                      <mat-select formControlName="module_name" multiple>
+                        <mat-option
+                          *ngFor="let module of modulelist"
+                          [value]="module.fmls_id"
+                        >
+                          {{module.form_name}}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error
+                      class="mb-4"
+                      *ngIf="formCtrl.module_name.errors?.required"
+                      >Form Module is required</mat-error
+                    >
+                    </mat-form-field>
+                  </p>
+                  <div class="d-grid gap-2 mt-2 px-2 my-1">
+                    <button type="submit" mat-raised-button color="primary">
+                      Submit
+                    </button>
+                  </div>
+                </form>
+              </div>
+              <!-- <br /> -->
+              <div class="text-center mt-1">
+                <span style="color: brown">Powered by :</span>
+                <a href="https://augtrans.com/"> Augmented Transformations</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <!-- <img src="../../assets/ass.avif"> -->
+        </div>
+      </div>
+    </div>
+  <!-- </section> -->
+  

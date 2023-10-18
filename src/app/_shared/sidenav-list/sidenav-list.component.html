@@ -157,6 +157,7 @@
             <mat-icon>brightness_7</mat-icon>
             <span>History Management</span>
           </a>
+        
         </li>
         </ul>
    </div>
@@ -166,7 +167,10 @@
     <mat-icon>grain</mat-icon>
     <span>Event Management</span>
   </a>
- 
+  <a mat-list-item  [routerLink]="['/approvalFlow']" (click)="onToggleClose()">
+    <mat-icon>receipt</mat-icon>
+    <span>Approval Management</span>
+  </a>
   <a mat-list-item  [routerLink]="['/history']" (click)="onToggleClose()">
     <mat-icon>receipt</mat-icon>
     <span>History Management</span>
@@ -180,6 +184,7 @@
     <span>Help & Support</span>
   </a>
 </div>
+
 <!-- <div *ngIf="userRole === 'enduser'">
   <a class="" mat-list-item routerLink="/home" (click)="onToggleClose()">
     <mat-icon>dashboard</mat-icon>
@@ -296,6 +301,10 @@
   <a mat-list-item routerLink="admin/form-master" (click)="onToggleClose()">
     <mat-icon>iso</mat-icon>
     <span>Admin Master</span>
+  </a>
+ <a mat-list-item routerLink="admin/formList" (click)="onToggleClose()">
+    <mat-icon>iso</mat-icon>
+    <span>Form Access</span>
   </a>
 </div>
 

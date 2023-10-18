@@ -18,11 +18,13 @@ export class FormMasterComponent {
 
   pagination: any;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  displayedColumns: string[] = ['sr', 'form_name', 'description', 'active_status', 'created_at', 'action',];
+  displayedColumns: string[] = ['sr', 'form_name', 'description', 'active_status', 'created_at', 'action'];
 
   private formListSubscription: Subscription = new Subscription();
 
-  constructor(private adminService: AdminService, private toaster: ToasterService, private service: AppService,
+  constructor(private adminService: AdminService, 
+    private toaster: ToasterService, private service: AppService,
+    private router:Router,
 private route:ActivatedRoute
 ) {
     this.pagination = this.service.pagination;
@@ -34,7 +36,6 @@ private route:ActivatedRoute
   ngOnInit(): void { }
 
   getFormData(): void {
-    
     this.formListSubscription.add(
       this.adminService.getFormList().subscribe((res: any) => {
         if (res.status == 200) {
@@ -64,10 +65,14 @@ private route:ActivatedRoute
             })
             
           }
+          else{
+            this.router.navigate(['/home'])
+          }
           this.dataSource = new MatTableDataSource(this.formData);
           this.dataSource.paginator = this.paginator;
           this.toaster.success(res.message);
-        } else {
+        } 
+        else {
           this.toaster.error(res.message);
         }
       }, (error: any) => {

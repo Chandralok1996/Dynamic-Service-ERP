@@ -6,7 +6,8 @@
         </div>
             <div class="col-md-5">
               <div class="searchBar d-flex justify-content-center align-items-center">
-                <span class="material-symbols-sharp">search</span><input class="form-control" type="search" #input placeholder="Enter search query..." (keyup)="applyFilter($event)">
+                <span class="material-symbols-sharp">search</span>
+                <input class="form-control" type="search" #input placeholder="Enter search query..." (keyup)="applyFilter($event)">
               </div>
             </div>
             <div class="col-md-6 text-end"></div>
@@ -36,13 +37,17 @@
                           <td mat-cell *matCellDef="let element"> {{element.created_at | date}} </td>
                         </ng-container>
                         <ng-container matColumnDef="action">
-                          <th mat-header-cell *matHeaderCellDef> action/Privilege </th>
+                          <th mat-header-cell *matHeaderCellDef> Action&nbsp;&nbsp;&nbsp;</th>
                           <td mat-cell *matCellDef="let element">
-                            <button mat-mini-fab color="primary" [routerLink]="['/admin/view-form', element.fmls_id]"><mat-icon>edit</mat-icon></button>&nbsp;&nbsp;
-                            <button mat-mini-fab color="primary" [routerLink]="['/admin/previlenge',element.fmls_id]"><mat-icon>settings_backup_restore</mat-icon></button>
+                            <button mat-mini-fab color="primary" [routerLink]="['/admin/view-form', element.fmls_id]"><mat-icon>edit</mat-icon></button>
+                            <!-- &nbsp;&nbsp;&nbsp;
+                            <button mat-mini-fab color="primary" [routerLink]="['/admin/previlenge',element.fmls_id]"><mat-icon>settings_backup_restore</mat-icon></button>&nbsp;&nbsp; -->
+
+                            &nbsp;&nbsp;
 
                         </td>
                         </ng-container>
+           
 
                         <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
                         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

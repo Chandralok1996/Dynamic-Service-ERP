@@ -57,7 +57,7 @@ export class LinkManagementComponent {
   }
 
   getFormList() {
-    debugger
+    
     var a = this.adminService.getFormList().subscribe((res: any) => {
       console.log(res.status);
       this.formListData = res.result;

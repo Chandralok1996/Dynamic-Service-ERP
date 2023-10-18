@@ -22,7 +22,8 @@ export class UserCreateComponent {
   pattern:any;
   moblength:any;
   checking: boolean=true;
-
+  checkMandatory:boolean=false;
+  checkValid:boolean=false;
   constructor(private toaster: ToasterService, private adminService: AdminService, public dialog: MatDialog, private router: Router, private formBuilder: FormBuilder) {
     this.getFormDataById(this.formID);
     this.dynamicForm = this.formBuilder.group({});
@@ -70,19 +71,20 @@ export class UserCreateComponent {
         
           )
           console.log(this.subformdata);
-          this.subformdata.forEach((element:any) => {
-            if(element.column_label=="Mobile Number")
-
+          this.subformdata.forEach((element: any) => {
+            if (element.column_label == "Mobile Number") {
+              element.isactive = 10,
+              element.pattern = `[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$`;
+            }
+            else if(element.column_label=="Email Id")
             {
-              element.isactive=10,
-              element.pattern=`[a-zA-Z0-9\s]+`
+              element.isactive="",
+              element.pattern=`[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}`
 
             }
-            else
-            {
-              element.isactive=""
-              element.pattern=""
-
+            else {
+              element.isactive = "";
+              element.pattern = "";
             }
           });
           console.log(this.subformdata);
@@ -93,35 +95,45 @@ export class UserCreateComponent {
           });
           this.formFields.forEach((value: any) => {
             if(value.mandatory) {
-              if(value.column_label=="Email Id")
-              {
-                this.dynamicForm.addControl(`${value.column_label}`, 
-                this.formBuilder.control(null, 
-                  [
+              this.checkMandatory=true;
+              if (value.column_label == "Email Id") {
+                this.dynamicForm.addControl(
+                  `${value.column_label}`,
+                  this.formBuilder.control(null, [
                     Validators.required,
-                    Validators.pattern('[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,3}$'),
-                  ],
-                  
-                  ));
+                    Validators.pattern(
+                      "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$"
+                    ),
+                  ])
+                );
+                this.pattern = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$";
+                this.checkValid = true;
+                // this.dynamicForm.controls[`${value.column_label}`].setValidators([Validators.required,Validators.pattern('[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,3}$')]);
+              } 
+           else if (value.column_label == "Mobile Number") {
+                // this.dynamicForm.controls[`${value.column_label}`].setValidators([Validators.required,Validators.pattern('[0-9]{10}')]);
+                this.dynamicForm.addControl(
+                  `${value.column_label}`,
+                  this.formBuilder.control(null, [
+                    Validators.required,
+                    Validators.pattern("[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$"),
+                  ])
+                );
+                this.pattern = "[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$";
 
-              }
-               if(value.column_label=="Mobile Number")
-              {
-                this.dynamicForm.addControl(`${value.column_label}`, this.formBuilder.control(null, 
-                  [
-                    Validators.required,
-                    Validators.pattern('[0-9]{10}')
-                ]
-                  ));
-                this.pattern="[a-zA-Z0-9\s]+"
+                this.checkValid = true;
+                //this.checkMandatory = false;
               }
               else
               {
                 this.dynamicForm.addControl(`${value.column_label}`, this.formBuilder.control(null, Validators.required));
 
               }
-            } else {
+            }  
+            else {
               this.dynamicForm.addControl(`${value.column_label}`, this.formBuilder.control(null));
+              this.checkMandatory=false;
+              this.checkValid = false;
             }
           });
 

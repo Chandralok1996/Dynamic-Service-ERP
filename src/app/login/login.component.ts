@@ -15,21 +15,29 @@ export class LoginComponent {
   private subscription: Subscription = new Subscription();
 
   constructor(private toaster: ToasterService, private service: AppService, public router: Router) {
-    this.service.user.subscribe((res: any) => {
+ this.service.user.subscribe((res: any) => {
       const response = JSON.parse(res);
       if(response?.roleName) {
         if(response.roleName == 'developer') {
-          this.router.navigate(['/home']);
-        } else {
+          this.router.navigate(['/admin/organization']);
+        } else if(response.roleName=='enduser') {
           console.log(response)
+          this.router.navigate(['/it-sm']);
+        }
+        else if(response.roleName=='Administrator')
+        {
+          this.router.navigate(['/it-sm/dashboard-card']);
+
+        }
+        else{
           this.router.navigate(['/home']);
+
         }
       }
     }, (error: any) => {
       console.log(error);
     }); 
-  }
-
+}
   ngOnInit(): void {
     this.form = new FormGroup({
       name: new FormControl('', [Validators.required]),

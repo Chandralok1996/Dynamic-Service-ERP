@@ -11,7 +11,7 @@
                         <mat-label>Asset Name</mat-label>
                         <mat-select formControlName="astd_id" >
                             <mat-option>Select Column name</mat-option>
-                            <mat-option [value]="item.astd_id" *ngFor="let item of itemlistdata" >
+                            <mat-option [value]="item.astd_id" *ngFor="let item of itemdata" >
                                 {{item['Asset Name']}}</mat-option>
                         </mat-select>
               <!-- <mat-icon matSuffix *ngIf="field.type =='dropdown' || field.type == 'assigndropdown'" (click)="$event.stopPropagation(); addField(field)">add_circle</mat-icon> -->
@@ -27,7 +27,8 @@
                             <mat-option [value]=options.id *ngFor="let options of field.column_value">{{options.value | titlecase}}</mat-option>
                         </mat-select>
               <mat-icon matSuffix *ngIf="field.type =='dropdown' || field.type == 'assigndropdown'" (click)="$event.stopPropagation(); addField(field)">add_circle</mat-icon>
-
+              <mat-error class="mb-4" *ngIf="field.mandatory">{{ field.column_label }} is
+                required.</mat-error>
                     </mat-form-field>
                 </div>
                 </div>
