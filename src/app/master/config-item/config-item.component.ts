@@ -48,7 +48,8 @@ export class ConfigItemComponent {
   isMenuOpened: boolean = false;
 
   ngOnInit(): void {
-   this.itemlist()
+    this.ciItemlist();
+ //  this.itemlist()
   //  this.getformfield()
   }
  
@@ -71,7 +72,7 @@ export class ConfigItemComponent {
 // this.copyDisplayColumn=this.x;
 // })
 //   }
-  itemlist()
+  ciItemlist()
   {
    var a= this.adminService.getcilist().subscribe(
     (res:any)=>{
@@ -103,7 +104,7 @@ export class ConfigItemComponent {
     )
   }
 
-
+ 
   configupdate(data:any)
   {
     console.log(data);

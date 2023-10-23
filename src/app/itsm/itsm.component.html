@@ -11,7 +11,7 @@
 <div class="row mt-3">
    <div class="col-md-3">
       <div class="search-box">
-         <input class="search-input" type="text" placeholder="Search something.." #input [(ngModel)]="searchText" (input)="applyFilter()">
+         <input class="search-input" type="text" placeholder="Search something.." [(ngModel)]="searchTerm"  (keyup)="applyFilter()">
        </div>
    </div>
    <div class="col-md-3">

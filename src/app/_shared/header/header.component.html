@@ -13,11 +13,35 @@
   <div class="searchBar d-flex justify-content-center align-items-center">
     <input class="form-control" type="search" #input placeholder="search..." (keyup)="applyFilter($event)">
    </div>
+ 
    <span class="spacer"></span>
    <p class="small mt-2">{{ currentDateTime }}</p> &nbsp;
   <button mat-icon-button> <mat-icon>message</mat-icon> </button> &nbsp;
-  <button mat-icon-button> <mat-icon matBadge="12" matBadgeColor="warn">notifications</mat-icon> </button> &nbsp;&nbsp;
+  <button mat-icon-button [matMenuTriggerFor]="notification"> <mat-icon matBadge="12" matBadgeColor="warn">notifications</mat-icon> </button> &nbsp;&nbsp;
+  <mat-menu #notification="matMenu">
+    <div class="row p-2">
+      <div class="col-md-9">
+        <span class="noti">Notification</span>
+        <p>Earlier</p>
 
+      </div>
+      <div class="col-md-3">
+        <button mat-icon-button [matMenuTriggerFor]="menuDot">
+          <mat-icon>more_horiz</mat-icon>
+        </button>
+        <mat-menu #menuDot="matMenu">
+            <button mat-menu-item>Edit</button>
+            <button mat-menu-item>View</button>
+            <button mat-menu-item>Delete</button>
+        </mat-menu>
+       <small style="font-size: 12px"><a href="" >See all</a></small>
+      </div>
+
+    </div>
+    <div class="" mat-menu-item><mat-icon>account_circle</mat-icon><span>User Notification data</span></div>
+    <div class="" mat-menu-item><mat-icon>account_circle</mat-icon><span>User Notification data</span></div>
+    <div class="" mat-menu-item><mat-icon>account_circle</mat-icon><span>User Notification data</span></div>
+  </mat-menu>
 
   <span class="" style="font-size: 16px;margin-top: 10px;">
     {{this.userRole}}

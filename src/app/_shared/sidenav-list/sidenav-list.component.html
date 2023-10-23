@@ -289,9 +289,17 @@
 </div> -->
 
 <div *ngIf="userRole === 'developer'">
+  <a class="" mat-list-item routerLink="/home" (click)="onToggleClose()">
+    <mat-icon>dashboard</mat-icon>
+    <span>Dashboard</span>
+  </a>
   <a mat-list-item routerLink="admin/form-master" (click)="onToggleClose()">
     <mat-icon>iso</mat-icon>
     <span>Admin Master</span>
+  </a>
+ <a mat-list-item routerLink="admin/formList" (click)="onToggleClose()">
+    <mat-icon>iso</mat-icon>
+    <span>Form Access</span>
   </a>
 </div>
 

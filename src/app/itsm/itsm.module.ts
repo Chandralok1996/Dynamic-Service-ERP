@@ -10,6 +10,7 @@ import { HistoryManagementComponent } from './history-management/history-managem
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule,Routes } from '@angular/router';
 import { MaterialModule } from '../material.module';
+
 import { DashboardCardComponent } from './dashboard-card/dashboard-card.component';
 import { AssetLocationDetailsComponent } from './dashboard-card/asset-location-details/asset-location-details.component';
 import { AssetTypeDetailsComponent } from './dashboard-card/asset-type-details/asset-type-details.component';

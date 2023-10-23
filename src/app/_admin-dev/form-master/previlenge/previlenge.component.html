@@ -28,19 +28,19 @@
                     </span>
                     <span *ngIf="(column!='column_label')?(column!='Action'):false">
                       <div *ngFor="let data of element['permission']">
-                        <span *ngIf="data.name==column">
+                        <span *ngIf="data.usrlname==column">
                           <div class="form-check form-check-inline" >
-                            <input class="form-check-input" [checked]="data.insert_column" (click)="getevent('C',data.name,element,$event)" type="checkbox" id="inlineCheckbox1" value="option1">
+                            <input class="form-check-input" [checked]="data.insert_column" (click)="getevent('C',data.usrlname,element,$event)" type="checkbox" id="inlineCheckbox1" value="option1">
 
                             <label class="form-check-label"   >I</label>
                           </div>
                           <div class="form-check form-check-inline">
-                            <input class="form-check-input"  [checked]="data.update_column" (click)="getevent('U',data.name,element,$event)" type="checkbox" id="inlineCheckbox2" value="option2">
+                            <input class="form-check-input"  [checked]="data.update_column" (click)="getevent('U',data.usrlname,element,$event)" type="checkbox" id="inlineCheckbox2" value="option2">
 
                             <label class="form-check-label" >U</label>
                           </div>
                           <div class="form-check form-check-inline">
-                            <input class="form-check-input" [disabled]="(data.disable)?true:false" [checked]="(data.read_only)"  (click)="getevent('R',data.name,element,$event)" type="checkbox" id="inlineCheckbox3" value="option3" >
+                            <input class="form-check-input" [disabled]="(data.disable)?true:false" [checked]="(data.read_only)"  (click)="getevent('R',data.usrlname,element,$event)" type="checkbox" id="inlineCheckbox3" value="option3" >
 
                             <label class="form-check-label" >R-O</label>
                           </div>

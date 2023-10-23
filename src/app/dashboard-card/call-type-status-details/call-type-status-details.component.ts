@@ -143,7 +143,7 @@ export class CallTypeStatusDetailsComponent {
   constructor(private route:ActivatedRoute) { }
 
   ngOnInit(): void {
-    debugger
+    
     this.paramData = this.route.snapshot.params;
     this.calltype=this.paramData['category'];
     this.getCallModeStatusDetails(this.calltype);
@@ -151,7 +151,7 @@ export class CallTypeStatusDetailsComponent {
   }
 
   getCallModeStatusDetails(data:any){
-    debugger
+    
     this.tabledata.forEach((element:any )=> {
       if(element.category === data){  
         this.callTypeDetails.push(element);

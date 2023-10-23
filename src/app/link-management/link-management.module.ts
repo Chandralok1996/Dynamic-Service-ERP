@@ -7,7 +7,7 @@ import { MaterialModule } from '../material.module';
 import { LinkFormComponent } from './link-form/link-form.component';
 import { MatDialogModule } from '@angular/material/dialog';
 const routes: Routes = [
-  { path: ' ', component: LinkManagementComponent },
+  { path:'',pathMatch: 'full', component: LinkManagementComponent },
   {path: 'create', component:LinkFormComponent},
 ]
 

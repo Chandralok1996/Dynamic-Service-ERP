@@ -5,8 +5,9 @@ import { appGuard } from './app.guard';
 const routes: Routes = [
   { path: '', redirectTo: 'sign-in', pathMatch: 'full' },
   { path: 'sign-in', loadChildren:()=>import('./login/login.module').then(m => m.LoginModule) },
-  { path: 'home', loadChildren:()=>import('./home/home.module').then(m => m.HomeModule) , canActivate: [appGuard] },
-  { path: 'link-form', loadChildren:()=>import('./link-management/link-management.module').then(m => m.LinkManagementModule), canActivate: [appGuard]},
+  { path: 'home/:id', loadChildren:()=>import('./home/home.module').then(m => m.HomeModule) , canActivate: [appGuard] },
+  { path: 'link-management', loadChildren:()=>import('./link-management/link-management.module').then(m => m.LinkManagementModule), canActivate: [appGuard]},
+//  { path: 'link-form', loadChildren:()=>import('./link-management/link-management.module').then(m => m.LinkManagementModule), canActivate: [appGuard]},
   { path: 'customer', loadChildren:()=>import('./customer/customer.module').then(m => m.CustomerModule) , canActivate: [appGuard] },
   { path: 'it-sm', loadChildren:()=>import('./itsm/itsm.module').then(m => m.ItsmModule) , canActivate: [appGuard] },
   { path: 'proj-management', loadChildren:()=>import('./project-management/project-management.module').then(m => m.ProjectManagementModule) , canActivate: [appGuard] },
@@ -20,8 +21,10 @@ const routes: Routes = [
   { path: 'user-master', loadChildren:()=>import('./master/user/user.module').then(m => m.UserModule), canActivate: [appGuard]},
   { path: 'role-master', loadChildren:()=>import('./master/role/role.module').then(m => m.RoleModule), canActivate: [appGuard]},
   { path: 'item-master', loadChildren:()=>import('./master/item/item.module').then(m => m.ItemModule), canActivate: [appGuard]},
-  { path: 'ci-master', loadChildren:()=>import('./master/config-item/config-item.module').then(m =>m.ConfigItemModule), canActivate: [appGuard]},
-  { path: '**', redirectTo: 'sign-in', pathMatch: 'full' }
+ { path: 'ci-master', loadChildren:()=>import('./master/config-item/config-item.module').then(m =>m.ConfigItemModule), canActivate: [appGuard]},
+ { path: 'add-field', loadChildren:()=>import('./master/add-field/add-field.module').then(m =>m.AddFieldModule), canActivate: [appGuard]},
+ { path: 'approvalFlow', loadChildren:()=>import('./approval-flow/approval-flow.module').then(m =>m.ApprovalModule), canActivate: [appGuard]},
+ { path: '**', redirectTo: 'sign-in', pathMatch: 'full' }
 ];
 
 @NgModule({

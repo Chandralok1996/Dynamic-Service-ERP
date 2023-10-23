@@ -33,6 +33,8 @@ export class HeaderComponent {
   private updateDateTime() {
     const now = new Date();
     this.currentDateTime = now.toLocaleString(); // Adjust the date format as needed
+  
+    
   }
 
   signOut(): void {

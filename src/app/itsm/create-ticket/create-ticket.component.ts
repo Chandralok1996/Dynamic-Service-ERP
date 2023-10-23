@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ToasterService, AdminService } from 'src/app/_services';
+import { AddFieldComponent } from 'src/app/master/add-field/add-field.component';
 
 @Component({
   selector: 'app-create-ticket',
@@ -19,7 +21,7 @@ export class CreateTicketComponent {
   subformdata:any=[];
   nosubform: any=[];
 
-  constructor(private toaster: ToasterService, private adminService: AdminService, private router: Router, private formBuilder: FormBuilder) {
+  constructor(private toaster: ToasterService, public dialog: MatDialog,private adminService: AdminService, private router: Router, private formBuilder: FormBuilder) {
     this.getFormDataById(this.formID);
     this.dynamicForm = this.formBuilder.group({});
     if(!this.userCreated) {
@@ -64,7 +66,22 @@ export class CreateTicketComponent {
       })
     );
   }
+  addField(item: any) {
 
+    const dialogRef = this.dialog.open(AddFieldComponent, {
+      width: '50%',
+     // scrollStrategy: new NoopScrollStrategy(),
+      disableClose: true,
+      data: { data: item }
+    });
+
+    dialogRef.afterClosed().subscribe((result:any) => {
+      this.getFormDataById(this.formID);
+    })
+
+
+  
+  }
   submitForm() {
     var match: any = this.dynamicForm.value, error: any = [];
     this.formFields.forEach((element: any) => {

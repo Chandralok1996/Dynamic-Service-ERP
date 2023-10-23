@@ -17,42 +17,58 @@ export class RoleComponent {
   updateFormFieldDialog!: MatDialogRef<UpdateFormFieldComponent>;
   addFormFieldDialog!: MatDialogRef<AddFormFieldComponent>;
   private formDataSubscription: Subscription = new Subscription();
-  formID: any;
+  formID: any = 50001;
   formData: any;
+  fmmid:any;
   dataSource: any;
   pagination: any;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  displayedColumns: string[] = ['sr', 'roleID', 'roleName', 'roleDetails', 'action'];
+  displayedColumns: string[] = ['sr', 'id', 'value','action'];
 
   private formListSubscription: Subscription = new Subscription();
   constructor(private matDialog: MatDialog, private adminService: AdminService, 
-    private toaster: ToasterService, private service: AppService, private route : Router) {
+    private toaster: ToasterService,public router: Router, private service: AppService, private route : Router) {
     this.pagination = this.service.pagination;
-    this.getFormData();
+   // this.getFormData();
+    this.getFormDataById();
   }
 
   ngOnInit(): void { }
 
-getFormDataById(id: number): void {
-    this.formDataSubscription.add(
-      this.adminService.getFormByID(id).subscribe((res: any) => {
-        if (res.status == 200) {
-          this.formData = res.rows;
-          console.table(this.formData);
-          this.dataSource = new MatTableDataSource(this.formData);
-          this.dataSource.paginator = this.paginator;
-          this.toaster.success(res.message);
-        } else {
-          this.toaster.error(res.message);
-        }
-      }, (error: any) => {
-        this.toaster.error(`${error.status} ${error.statusText}`);
-      })
-    );
-  }
-
-  addFieldModel(): void {
-    this.route.navigate(['/role-master/create']);
+// getFormDataById(id: number): void {
+//     this.formDataSubscription.add(
+//       this.adminService.getFormByID(this.id).subscribe((res: any) => {
+//         if (res.status == 200) {
+//           this.formData = res.rows;
+//           console.table(this.formData);
+//           this.dataSource = new MatTableDataSource(this.formData);
+//           this.dataSource.paginator = this.paginator;
+//           this.toaster.success(res.message);
+//         } else {
+//           this.toaster.error(res.message);
+//         }
+//       })
+//     )}
+  
+    getFormDataById(): void {
+      
+      this.formDataSubscription.add(
+        this.adminService.getFormByID(this.formID).subscribe((res: any) => {
+          if (res.status == 200) {
+            this.formData = res.userRole[0].column_value;
+            this.fmmid = res.userRole[0].fmmd_id;
+            console.table(this.formData);
+            this.dataSource = new MatTableDataSource(this.formData);
+            this.dataSource.paginator = this.paginator;
+            this.toaster.success(res.message);
+          } else {
+            this.toaster.error(res.message);
+          }
+        })
+      )}
+  addFieldModel(id:any): void {
+    
+    this.route.navigate(['/role-master/create',id]);
     
   //   var data={
   //      "rolName":this.formID,
@@ -74,23 +90,30 @@ getFormDataById(id: number): void {
   //   });
   }
 
-  getFormData(): void {
-    this.formListSubscription.add(
-      this.adminService.getFormList().subscribe((res: any) => {
-        if (res.status == 200) {
-          this.formData = res.rows;
-          this.dataSource = new MatTableDataSource(this.formData);
-          this.dataSource.paginator = this.paginator;
-          this.toaster.success(res.message);
-        } else {
-          this.toaster.error(res.message);
-        }
-      }, (error: any) => {
-        this.toaster.error(`${error.status} ${error.statusText}`);
-      })
-    );
+  // getFormData(): void {
+  //   
+  //   this.formListSubscription.add(
+  //     this.adminService.getFormList().subscribe((res: any) => {
+  //       if (res.status == 200) {
+  //         this.formData = res.rows;
+  //         this.dataSource = new MatTableDataSource(this.formData);
+  //         this.dataSource.paginator = this.paginator;
+  //         this.toaster.success(res.message);
+  //       } else {
+  //         this.toaster.error(res.message);
+  //       }
+  //     }, (error: any) => {
+  //       this.toaster.error(`${error.status} ${error.statusText}`);
+  //     })
+  //   );
+  // }
+  OpenUpdate(id:any,data:any){
+    
+    data.fmmd_id=this.fmmid;
+    this.router.navigate(['/role-master/update',id]);
+   
+    this.adminService.setData(data);
   }
-
   addFormModel(): void {
     console.log("object")
   }

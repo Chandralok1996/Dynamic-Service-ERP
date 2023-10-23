@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ToasterService, AdminService } from 'src/app/_services';
+import { AddFieldComponent } from '../../add-field/add-field.component';
 
 @Component({
   selector: 'app-item-create',
@@ -19,8 +21,8 @@ export class ItemCreateComponent {
   subformdata:any=[];
   nosubform: any=[];
   linkListData: any;
-
-  constructor(private toaster: ToasterService, private adminService: AdminService, private router: Router, private formBuilder: FormBuilder) {
+  itemlistdata:any;
+  constructor(private toaster: ToasterService,public dialog: MatDialog, private adminService: AdminService, private router: Router, private formBuilder: FormBuilder) {
     this.getFormDataById(this.formID);
     console.log(this.formID);
     
@@ -38,6 +40,7 @@ export class ItemCreateComponent {
     this.getUserNameList();
   }
   getFormDataById(id: number): void {
+    
     this.formDataSubscription.add(
       this.adminService.getFormByID(id).subscribe((res: any) => {
         if (res.status == 200) {
@@ -51,9 +54,9 @@ export class ItemCreateComponent {
           this.subformdata=this.subformdata.filter((item:any)=>{
             return item.type=="subform"
           })
-          this.formFields = this.formFields.sort((a: any, b: any) => {
-            return a.position - b.position;
-          });
+          // this.formFields = this.formFields.sort((a: any, b: any) => {
+          //   return a.position - b.position;
+          // });
           this.formFields.forEach((value: any) => {
             if(value.mandatory) {
               this.dynamicForm.addControl(`${value.column_label}`, this.formBuilder.control(null, Validators.required));
@@ -70,7 +73,22 @@ export class ItemCreateComponent {
       })
     );
   }
+  addField(item: any) {
 
+    const dialogRef = this.dialog.open(AddFieldComponent, {
+      width: '50%',
+     // scrollStrategy: new NoopScrollStrategy(),
+      disableClose: true,
+      data: { data: item }
+    });
+
+    dialogRef.afterClosed().subscribe((result:any) => {
+      this.getFormDataById(this.formID);
+    })
+
+
+  
+  }
   submitForm() {
     var match: any = this.dynamicForm.value, error: any = [];
     this.formFields.forEach((element: any) => {
@@ -102,10 +120,10 @@ export class ItemCreateComponent {
   }
 
   getUserNameList(){
+    
       this.adminService.linkList(this.formID).subscribe((res:any)=>{
       console.log(res);
       this.linkListData=res.rows;
-    
     })
   }
 
