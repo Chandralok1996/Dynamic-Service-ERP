@@ -105,7 +105,7 @@ export class ItemUpdateComponent {
 
   pachformdata()
   {
-    
+    debugger
     console.log(this.itemlistdata);
    this.userName=this.linklistDetail['User Name'];
 

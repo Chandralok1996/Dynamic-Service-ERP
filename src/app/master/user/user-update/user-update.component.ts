@@ -1,10 +1,11 @@
-import { Component } from "@angular/core";
+import { Component, ElementRef, ViewChild } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { ToasterService, AdminService } from "src/app/_services";
 import { AddFieldComponent } from "../../add-field/add-field.component";
+import { MatSelectChange } from "@angular/material/select";
 @Component({
   selector: "app-user-update",
   templateUrl: "./user-update.component.html",
@@ -16,6 +17,7 @@ export class UserUpdateComponent {
   dynamicForm!: FormGroup;
   userCreated: any = localStorage.getItem("user-created");
   private formDataSubscription: Subscription = new Subscription();
+  @ViewChild("changeEl") el!: ElementRef;
   incr: any = 0;
   promisedata: any;
   userlistdata: any;
@@ -30,8 +32,21 @@ export class UserUpdateComponent {
   pattern: any;
   epattern: any;
   checking: boolean = true;
-  checkMandatory:boolean=false;
-  checkValid:boolean=false;
+  checkMandatory: boolean = false;
+  checkValid: boolean = false;
+  match: any;
+  supportGroupData: any;
+  supportGroupAdded: any;
+  supportGroupRemoved: any = [];
+  supportGroupValue: any = [];
+  supportGroupCreated: any = [];
+  userRoleCreated: any = [];
+  userRoleData: any;
+  userRoleAdded: any;
+  userRoleRemoved: any = [];
+  userRoleValue: any = [];
+  checkElement:boolean=false;
+  checkRoleElement:boolean=false;
   constructor(
     private toaster: ToasterService,
     private adminService: AdminService,
@@ -59,123 +74,118 @@ export class UserUpdateComponent {
   }
 
   getFormDataById(id: number): void {
-    
+    debugger;
     this.promisedata = new Promise<any>((resolve, reject) => {
       console.log("geting form column");
       this.formDataSubscription.add(
-        this.adminService.getFormByID(id).subscribe(
-          (res: any) => {
-            ;
-            if (res.status == 200) {
-              this.formFields = res.rows;
-              // console.log(this.formFields);
-              this.nosubform = res.rows;
-              // console.log(this.nosubform);
+        this.adminService.getFormByID(id).subscribe((res: any) => {
+          if (res.status == 200) {
+            this.formFields = res.rows;
 
-              this.nosubform = this.nosubform.filter((item: any) => {
-                return item.type != "subform";
-              });
-              this.nosubform = this.nosubform.filter((item: any) => {
-                return item.type != "password";
-              });
-              var assign = this.nosubform.filter((item: any) => {
-                return item.type == "assigndropdown";
-              });
-              // console.log(assign);
-              this.assign = assign;
-              this.subformdata = res.rows;
-              this.subformdata = this.subformdata.filter((item: any) => {
-                return item.type == "subform";
-              });
-              // this.formFields = this.formFields.sort((a: any, b: any) => {
-              //   return a.position - b.position;
-              // });
-              this.subformdata = this.subformdata.map((res: any) => ({
-                ...res,
-                isactive: "",
-                pattern: "",
-              }));
-              console.log(this.subformdata);
-              this.subformdata.forEach((element: any) => {
-                if (element.column_label == "Mobile Number") {
-                  (element.isactive = 10), (element.pattern = `[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}`);
-                }
-                else if(element.column_label=="Email Id")
+            // console.log(this.formFields);
+            this.nosubform = res.rows;
+            // console.log(this.nosubform);
 
-                {
-                  element.isactive="",
-                  element.pattern=`[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$`
+            this.nosubform = this.nosubform.filter((item: any) => {
+              return item.type != "subform";
+            });
+            this.nosubform = this.nosubform.filter((item: any) => {
+              return item.type != "password";
+            });
+            var assign = this.nosubform.filter((item: any) => {
+              return item.type == "assigndropdown";
+            });
+            // console.log(assign);
+            this.assign = assign;
+            this.subformdata = res.rows;
+            this.subformdata = this.subformdata.filter((item: any) => {
+              return item.type == "subform";
+            });
+            // this.formFields = this.formFields.sort((a: any, b: any) => {
+            //   return a.position - b.position;
+            // });
+            this.subformdata = this.subformdata.map((res: any) => ({
+              ...res,
+              isactive: "",
+              pattern: "",
+            }));
+            console.log(this.subformdata);
+            this.subformdata.forEach((element: any) => {
+              if (element.column_label == "Mobile Number") {
+                (element.isactive = 10),
+                  (element.pattern = `[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}`);
+              } else if (element.column_label == "Email Id") {
+                (element.isactive = ""),
+                  (element.pattern = `[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$`);
+              } else {
+                element.isactive = "";
+                element.pattern = "";
+              }
+            });
+            console.log(this.subformdata);
 
-                }
-                else {
-                  element.isactive = "";
-                  element.pattern = "";
-                }
-              });
-              console.log(this.subformdata);
-
-              // this.formFields = this.formFields.sort((a: any, b: any) => {
-              //   return a.position - b.position;
-              // });
-              this.formFields.forEach((value: any) => {
-                // console.log(value);
-
-                if (value.mandatory) {
-                  this.checkMandatory=true;
-                 if(value.type == "password" && value.update_column == false) {
+            // this.formFields = this.formFields.sort((a: any, b: any) => {
+            //   return a.position - b.position;
+            // });
+            this.formFields.forEach((value: any) => {
+              // console.log(value);
+              if (value.column_label == "Support Group") {
+                this.supportGroupCreated.push(value.column_value);
+              }
+              if (value.column_label == "User Role") {
+                this.userRoleCreated.push(value.column_value);
+              }
+              if (value.mandatory) {
+                this.checkMandatory = true;
+                if (value.type == "password" && value.update_column == false) {
                   this.dynamicForm.removeControl(`${value.column_label}`);
-                  }
-               
-                 else if (value.column_label == "Email Id") {
-                    this.dynamicForm.addControl(
-                      `${value.column_label}`,
-                      this.formBuilder.control(null, [
-                        Validators.required,
-                        Validators.pattern(
-                          "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$"
-                        ),
-                      ])
-                    );
-                    this.checkValid=true;
-                    // this.dynamicForm.controls[`${value.column_label}`].setValidators([Validators.required,Validators.pattern('[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,3}$')]);
-                    this.pattern = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$";
-                  } 
-               else if (value.column_label == "Mobile Number") {
-                    // this.dynamicForm.controls[`${value.column_label}`].setValidators([Validators.required,Validators.pattern('[0-9]{10}')]);
-                    this.dynamicForm.addControl(
-                      `${value.column_label}`,
-                      this.formBuilder.control(null, [
-                        Validators.required,
-                        Validators.pattern("[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$"),
-                      ])
-                    );
-                    this.checkValid=true;
-                    this.pattern = "[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$";
-                  }
-                  else {
-                    this.dynamicForm.addControl(
-                      `${value.column_label}`,
-                      this.formBuilder.control(null, Validators.required)
-                    );
-                  }
-                }
-                 else {
-                
+                } else if (value.column_label == "Email Id") {
                   this.dynamicForm.addControl(
                     `${value.column_label}`,
-                    this.formBuilder.control(null)
+                    this.formBuilder.control(null, [
+                      Validators.required,
+                      Validators.pattern(
+                        "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$"
+                      ),
+                    ])
                   );
-                  this.checkMandatory=false;
-                  this.checkValid=false;
+                  this.checkValid = true;
+                  // this.dynamicForm.controls[`${value.column_label}`].setValidators([Validators.required,Validators.pattern('[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,3}$')]);
+                  this.pattern = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$";
+                } else if (value.column_label == "Mobile Number") {
+                  // this.dynamicForm.controls[`${value.column_label}`].setValidators([Validators.required,Validators.pattern('[0-9]{10}')]);
+                  this.dynamicForm.addControl(
+                    `${value.column_label}`,
+                    this.formBuilder.control(null, [
+                      Validators.required,
+                      Validators.pattern(
+                        "[(]?[0-9]{3}[)]?[-s.]?[0-9]{3}[-s.]?[0-9]{4,6}$"
+                      ),
+                    ])
+                  );
+                  this.checkValid = true;
+                  this.pattern =
+                    "[(]?[0-9]{3}[)]?[-s.]?[0-9]{3}[-s.]?[0-9]{4,6}$";
+                } else {
+                  this.dynamicForm.addControl(
+                    `${value.column_label}`,
+                    this.formBuilder.control(null, Validators.required)
+                  );
                 }
-              });
-              this.toaster.success(res.message);
-            } else {
-              this.toaster.error(res.message);
-            }
-          },
-         
-        )
+              } else {
+                this.dynamicForm.addControl(
+                  `${value.column_label}`,
+                  this.formBuilder.control(null)
+                );
+                this.checkMandatory = false;
+                this.checkValid = false;
+              }
+            });
+            this.toaster.success(res.message);
+          } else {
+            this.toaster.error(res.message);
+          }
+        })
       );
       resolve("done");
     });
@@ -193,11 +203,11 @@ export class UserUpdateComponent {
 
   //user details or user list
   userlist() {
+    debugger;
     var patchpromise = new Promise<any>((resolve, reject) => {
       this.adminService.getuserdetails(this.userid).subscribe((res: any) => {
         this.userlistdata = res.result;
 
-        // console.log(this.userlistdata);
         this.userlistdata.map((res: any) => {
           // console.log(res);
         });
@@ -212,8 +222,12 @@ export class UserUpdateComponent {
       this.pachformdata();
     });
   }
+  ngAfterViewInit() {
+    debugger;
+    this.selectionChange(this.el);
+  }
   pachformdata() {
-    
+    debugger;
     this.formshow = true;
     if (this.formshow == true) {
       setTimeout(() => {
@@ -227,12 +241,26 @@ export class UserUpdateComponent {
       }, 2000);
     }
     console.log(this.userlistdata[0]);
+    this.userlistdata.forEach((element2: any) => {
+      if (element2["Support Group"]) {
+        this.supportGroupValue = element2["Support Group"];
+      }
+      if (element2["User Role"]) {
+        this.userRoleValue = element2["User Role"];
+      }
+    });
+    console.log(this.supportGroupValue);
+    console.log(this.userRoleValue);
     // this.dynamicForm.patchValue(this.userlistdata[1])
     // this.dynamicForm.patchValue(this.userlistdata[2])
     // this.dynamicForm.patchValue(this.userlistdata[3])
   }
   onItemSelect(data: any, event: any) {
     // console.log(event.value);
+  }
+  selectionChange(event: any) {
+    debugger;
+    console.log(event.value);
   }
   OnlyNumbersAllowed(event: any, data: any): boolean {
     console.log(event);
@@ -265,8 +293,11 @@ export class UserUpdateComponent {
       this.getFormDataById(this.formID);
     });
   }
+  onSelectValue(data1: any, event: any) {
+    debugger;
+    this.supportGroupRemoved.push(data1);
+  }
   submitForm() {
-    ;
     this.updatebtn = true;
     var match: any = this.dynamicForm.value,
       error: any = [];
@@ -282,8 +313,68 @@ export class UserUpdateComponent {
     //   this.toaster.warning(`${error} is required!`);
     //   return;
     // }
+    this.supportGroupData = { add: [], remove: [] };
+    this.supportGroupAdded = this.dynamicForm.value["Support Group"];
+    this.supportGroupData.add.push(this.supportGroupAdded);
+    this.supportGroupAdded.forEach((element: any) => {
+      this.supportGroupValue.forEach((element1: any) => {
+        if (element1 !== element) {
+         this.checkElement = this.supportGroupRemoved.includes(element1);
+         if(this.checkElement == true)
+         {
+          this.supportGroupRemoved.remove(element1);
 
-    this.userCreated.push(match);
+         }
+         else{
+          this.supportGroupRemoved.push(element1);
+
+         }
+
+        } else {
+          this.supportGroupRemoved = [];
+        }
+      });
+    });
+
+
+    this.userRoleData = { add: [], remove: [] };
+    this.userRoleAdded = this.dynamicForm.value["User Role"];
+    this.userRoleData.add.push(this.userRoleAdded);
+    this.userRoleAdded.forEach((element: any) => {
+      this.userRoleValue.forEach((element1: any) => {
+        if (element1 !== element) {
+         this.checkRoleElement = this.userRoleRemoved.includes(element1);
+         if(this.checkRoleElement == true)
+         {
+          this.userRoleRemoved.remove(element1);
+
+         }
+         else{
+          this.userRoleRemoved.push(element1);
+
+         }
+
+        } else {
+          this.userRoleRemoved = [];
+        }
+      });
+    });
+    this.userRoleData.remove.push(this.userRoleRemoved);
+
+    this.match = {
+      Description: this.dynamicForm.value.Description,
+      Designation: this.dynamicForm.value.Designation,
+      "Email Id": this.dynamicForm.value["Email Id"],
+      "First Name": this.dynamicForm.value["First Name"],
+      "Last Name": this.dynamicForm.value["Last Name"],
+      "Login Name": this.dynamicForm.value["Login Name"],
+      "Middle Name": this.dynamicForm.value["Middle Name"],
+      "Mobile Number": this.dynamicForm.value["Mobile Number"],
+      "Support Group": this.supportGroupData,
+      "User Role":this.userRoleData,
+      "User Type": this.dynamicForm.value["User Type"],
+    };
+    this.userCreated.push(this.match);
 
     // console.log(match);
     match.user_id = this.userid;

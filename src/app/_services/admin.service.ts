@@ -265,10 +265,28 @@ getapprovalListDetails():Observable<any>
     httpOptions
      );
   }
+
+  //getApprovalList
+  // getapprovalList():Observable<any>
+  // {
+  //   const httpOptions = {
+  //     headers: new HttpHeaders({
+  //       'auth-token': JSON.parse(localStorage.getItem('user') || '').token,
+  //     }),
+  //   };
+  //   return this._http.get<any>( `${environment._url}/approval/getApprovalList`,
+  //   httpOptions
+  //    );
+  // }
+
+  getapprovalList(uscorg_id: number): Observable<any> {
+    return this._http.get<any>( `${environment._url}/approval/getApprovalList/${uscorg_id}`);
+  }
   //Create approval
 createApproval(data: any): Observable<any[]> {
   const httpOptions = {
     headers: new HttpHeaders({
+      'Content-Type': 'application/json',
       'auth-token': JSON.parse(localStorage.getItem('user') || '').token,
     }),
   };
@@ -277,5 +295,11 @@ createApproval(data: any): Observable<any[]> {
     data,
     httpOptions
   );
+}
+updateApprover(data: any): Observable<any> {
+  return this._http.put<any>( `${environment._url}/approval/updateApprover`, data );
+}
+getApprovaldetails(appr_id: number): Observable<any> {
+  return this._http.get<any>(`${environment._url}/approval/getApprovalDetails/${appr_id}`);
 }
 }

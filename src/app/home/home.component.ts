@@ -102,6 +102,13 @@ routeuser()
       this.router.navigate(['/user-master'])
     }
 }
+routeApproval(){
+  if(this.rolename=="developer")
+  {
+    this.router.navigate(['admin/approvalFlow']);
+  }
+  
+}
 routeItem()
 {
     if(this.rolename=="developer")

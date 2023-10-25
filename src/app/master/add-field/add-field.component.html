@@ -53,15 +53,15 @@
         </div>
     <div class="row">
       <div class="col-md-12">
-        <label style="font-size:16px;"><strong>{{fieldData.column_label}}</strong></label>
+        <label style="font-size:16px;"><strong>{{column_label}}</strong></label>
         <input
           class="form-control"
-          formControlName="column_value" placeholder="Enter {{fieldData.column_label}}"
+          formControlName="column_value" placeholder="Enter {{column_label}}"
           [ngClass]="{ 'is-invalid': submitted && f.column_value.errors }"
         />
         <div *ngIf="submitted && f.column_value.errors" class="invalid-feedback">
           <div *ngIf="f.column_value.errors.required">
-            {{ fieldData.column_label }} is required
+            {{column_label}} is required
           </div>
         </div>
       </div>
@@ -89,3 +89,5 @@
     </div>
   </form>
 </div>
+<!-- <app-create-approval [item]="fieldData"></app-create-approval> -->
+

@@ -21,6 +21,11 @@ import { FormListComponent } from "./form-list/form-list.component";
 import { OrganizationComponent } from "./organization/organization.component";
 import { CreateOrganizationComponent } from "./organization/create-organization/create-organization.component";
 import { ModuleListComponent } from './module-list/module-list.component';
+import { ApprovalFlowComponent } from "./approval-flow/approval-flow.component";
+import { CreateApprovalComponent } from "./approval-flow/create-approval/create-approval.component";
+import { CreateApproverComponent } from "./approval-flow/approver/create-approver.component";
+import { UpdateApprovalComponent } from './approval-flow/update-approval/update-approval.component';
+import { UpdateApproverComponent } from './approval-flow/approver/update-approver/update-approver.component';
 
 const routes: Routes = [
   {
@@ -72,6 +77,21 @@ const routes: Routes = [
         component: ModuleListComponent,
         canActivate: [adminGuard],
       },
+      {
+        path: "approvalFlow",
+        component: ApprovalFlowComponent,
+        canActivate: [adminGuard],
+      },
+      {
+        path: "createApproval",
+        component:CreateApprovalComponent,
+        canActivate: [adminGuard],
+      },
+      {
+        path: "updateApproval/:id",
+        component:UpdateApprovalComponent,
+        canActivate: [adminGuard],
+      },
     ],
   },
 ];
@@ -93,6 +113,11 @@ const routes: Routes = [
     OrganizationComponent,
     CreateOrganizationComponent,
     ModuleListComponent,
+    ApprovalFlowComponent,
+    CreateApprovalComponent,
+    CreateApproverComponent,
+    UpdateApprovalComponent,
+    UpdateApproverComponent
   ],
   imports: [
     CommonModule,

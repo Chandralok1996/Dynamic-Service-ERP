@@ -44,6 +44,10 @@
     <mat-icon>horizontal_split</mat-icon>
     <span>Item Management</span>
   </a>
+  <a mat-list-item [routerLink]="['ci-master']" (click)="onToggleClose()">
+    <mat-icon>horizontal_split</mat-icon>
+    <span>Configuration Item Management</span>
+  </a>
   <a mat-list-item [routerLink]="['/customer']" (click)="onToggleClose()">
     <mat-icon>supervisor_account</mat-icon>
     <span>Customer Management</span>
@@ -167,7 +171,7 @@
     <mat-icon>grain</mat-icon>
     <span>Event Management</span>
   </a>
-  <a mat-list-item  [routerLink]="['/approvalFlow']" (click)="onToggleClose()">
+  <a mat-list-item (click)="onToggleClose()">
     <mat-icon>receipt</mat-icon>
     <span>Approval Management</span>
   </a>
@@ -305,6 +309,10 @@
  <a mat-list-item routerLink="admin/formList" (click)="onToggleClose()">
     <mat-icon>iso</mat-icon>
     <span>Form Access</span>
+  </a>
+  <a mat-list-item routerLink="admin/approvalFlow" (click)="onToggleClose()">
+    <mat-icon>iso</mat-icon>
+    <span>Approval Management</span>
   </a>
 </div>
 

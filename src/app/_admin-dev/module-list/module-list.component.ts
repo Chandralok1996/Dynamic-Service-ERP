@@ -55,7 +55,22 @@ export class ModuleListComponent {
       'fmls_id':this.form.value.module_name,
       'org_id':this.paramData.id
     }
-    this.adminService.setData(match);
+    this.adminService.applyFormprevilenge(match);
+    this.adminService.applyFormprevilenge(match).subscribe(
+      (res: any) => {
+        if (res.message == "User created successfully") {
+          this.toaster.success(res.message);
+          this.router.navigate(["/user-master"]);
+        } else {
+          this.toaster.success("Something went wrong");
+        }
+      },
+      (error: any) => {
+        console.log();
+
+        this.toaster.success(error.error.message);
+      }
+    );
     console.log(match);
     this.router.navigate(['/home',match.org_id]);
    

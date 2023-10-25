@@ -1,0 +1,112 @@
+<section>
+    <div class="container">
+      <div>
+        <div class="row">
+          <div
+            class="modal-header bg-primary"
+            style="border-top:2px solid black; background-color: #3f51b5 !important; height: 4rem"
+          >
+            <h2 mat-dialog-title class="text-white modal-title">
+              Update Approver
+            </h2>
+            <button
+              mat-icon-button
+              (click)="closeDialog(false)"
+              class="me-3"
+              aria-label="Close"
+            >
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+          <div
+            mat-dialog-content
+            class="modal-body"
+            style="height: max-content;"
+          >
+            <form [formGroup]="approverForm">
+              <div>
+                <div class="row">
+                  <div class="col-6">
+                    <mat-form-field>
+                      <mat-label>Select Type</mat-label>
+                      <mat-select matInput formControlName="role_name">
+                        <mat-option
+                          *ngFor="let role of approverTypeData;let i=index;"
+                          (click)="onSelectApproverType(role,i)"
+                          [value]="role.aptype_id"
+                        >
+                          {{ role.type }}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error
+                        class="mb-4"
+                        *ngIf="formCtrl.role_name.errors?.required"
+                        >Type is required</mat-error
+                      >
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6" *ngIf="showUser">
+                    <mat-form-field>
+                      <mat-label>Select Approver Name</mat-label>
+                      <mat-select matInput formControlName="approver_name">
+                        <mat-option
+                          *ngFor="let approver of approverList"
+                          [value]="approver.user_id" (click)="onChangeUser(approver)"
+                        >
+                          {{approver.name}}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error
+                        class="mb-4"
+                        *ngIf="formCtrl.approver_name.errors?.required"
+                        >Approver name is required</mat-error
+                      >
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-5" *ngIf="showRole">
+                    <mat-form-field>
+                      <mat-label>Select Approver Name</mat-label>
+                      <mat-select matInput formControlName="approver_name">
+                        <mat-option
+                          *ngFor="let approver of approverList"
+                          [value]="approver.usrl_id" (click)="onChangeUser(approver)"
+                        >
+                          {{ approver.usrlname }}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error
+                        class="mb-4"
+                        *ngIf="formCtrl.approver_name.errors?.required"
+                        >Approver name is required</mat-error>
+                    </mat-form-field>
+                  </div>
+                &nbsp; &nbsp;
+                <div
+                mat-dialog-actions
+                class="modal-footer"
+                align="end"
+                style="border-bottom:2px solid black;"
+              >
+                <button type="submit" (click)="onSubmit()" [disabled]="approverForm.invalid" mat-flat-button color="primary">
+                  Update</button
+                >&nbsp;
+                <button
+                  type="button"
+                  mat-stroked-button
+                  color="primary"
+                  (click)="closeDialog(false)"
+                >
+                  Cancel
+                </button>
+              </div>
+                </div>
+               
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+   
+  </section>

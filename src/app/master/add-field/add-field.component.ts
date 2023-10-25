@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from "@angular/core";
+import { Component, Inject, Input, OnInit } from "@angular/core";
 import {
   FormGroup,
   FormArray,
@@ -7,6 +7,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { Router } from "@angular/router";
 import { AdminService, ToasterService } from "src/app/_services";
 export interface DialogData {
   data: string;
@@ -24,17 +25,26 @@ export class AddFieldComponent {
   label: any;
   fieldData: any;
   addFieldData: any;
-
+  column_label:any;
+  fieldtype:any;
+  @Input() item: any;
   constructor(
+   
     public dialogRef: MatDialogRef<AddFieldComponent>,
     private formBuilder: FormBuilder,
     private toaster: ToasterService,
     public adminService: AdminService,
+    public router: Router,
     @Inject(MAT_DIALOG_DATA) public dialogData: DialogData
-  ) {}
+  ) {
+    
+  }
 
   ngOnInit(): void {
-    this.fieldData = this.dialogData.data;
+    
+    this.fieldData = this.dialogData;
+    this.column_label=this.fieldData.data.column_label;
+    this.fieldtype =this.fieldData.data.type;
     this.addFieldForm = new FormGroup({
       column_value: new FormControl("", [Validators.required]),
     });
@@ -66,27 +76,36 @@ export class AddFieldComponent {
       return;
     }
     this.loading = true;
+    this.fieldData.column_label = this.column_label;
+    this.fieldData.type=this.fieldtype;
+    this.fieldData.column_value =this.addFieldForm.value.column_value;
+    console.log(this.fieldData);
+    if(this.fieldData !== null)
+    {
+      this.adminService.setData(this.fieldData);
+      this.router.navigate(['/approvalFlow/createApproval']);
+      this.onNoClick();
+    }
+    // this.addFieldData = {
+    //   fmmd_id: this.fieldData.fmmd_id,
+    //   column_value: this.addFieldForm.value.column_value,
+    // };
 
-    this.addFieldData = {
-      fmmd_id: this.fieldData.fmmd_id,
-      column_value: this.addFieldForm.value.column_value,
-    };
+    // this.adminService
+    //   .createMasterData(this.addFieldData)
+    //   .subscribe((res: any) => {
+    //     console.log(res);
+    //     if(res.status == 200){
+    //       this.onNoClick();
 
-    this.adminService
-      .createMasterData(this.addFieldData)
-      .subscribe((res: any) => {
-        console.log(res);
-        if(res.status == 200){
-          this.onNoClick();
-
-          // this.alterservices.success(res.message, {  autoClose: true, keepAfterRouteChange: true });
-          this.toaster.success(res.message);
-        }
-        else if(res.status == 409){
-          // this.alterservices.error(res.err, {  autoClose: true, keepAfterRouteChange: true });
-          this.toaster.error(res.message);
-        }
-            console.log(res);
-      });
+        
+    //       this.toaster.success(res.message);
+    //     }
+    //     else if(res.status == 409){
+         
+    //       this.toaster.error(res.message);
+    //     }
+    //         console.log(res);
+    //   });
   }
 }

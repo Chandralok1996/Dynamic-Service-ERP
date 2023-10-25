@@ -43,7 +43,7 @@
               >
                 <mat-option
                   [value]="options.id"
-                  *ngFor="let options of field.column_value"
+                  *ngFor="let options of field.column_value" #changeEl  (click)="selectionChange($event)"
                 >
                   {{ options.value }}</mat-option
                 >
@@ -59,9 +59,9 @@
               <mat-error *ngIf="checkMandatory"
               >{{field.column_label}} is required.</mat-error
             >
-            <mat-error *ngIf="checkValid"
+            <!-- <mat-error *ngIf="checkValid"
               >{{field.column_label}} is invalid.</mat-error
-            >
+            > -->
             </mat-form-field>
           </div>
         </div>
@@ -119,8 +119,8 @@
                 </mat-select>
                 <mat-error *ngIf="checkMandatory">{{field.column_label}} is required.</mat-error
               >
-              <mat-error *ngIf="checkValid">{{field.column_label}} is invalid.</mat-error
-              >
+              <!-- <mat-error *ngIf="checkValid">{{field.column_label}} is invalid.</mat-error
+              > -->
               </mat-form-field>
             </div>
           </div>

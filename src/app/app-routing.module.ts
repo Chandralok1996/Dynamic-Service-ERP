@@ -23,7 +23,7 @@ const routes: Routes = [
   { path: 'item-master', loadChildren:()=>import('./master/item/item.module').then(m => m.ItemModule), canActivate: [appGuard]},
  { path: 'ci-master', loadChildren:()=>import('./master/config-item/config-item.module').then(m =>m.ConfigItemModule), canActivate: [appGuard]},
  { path: 'add-field', loadChildren:()=>import('./master/add-field/add-field.module').then(m =>m.AddFieldModule), canActivate: [appGuard]},
- { path: 'approvalFlow', loadChildren:()=>import('./approval-flow/approval-flow.module').then(m =>m.ApprovalModule), canActivate: [appGuard]},
+ //{ path: 'approvalFlow', loadChildren:()=>import('./approval-flow/approval-flow.module').then(m =>m.ApprovalModule), canActivate: [appGuard]},
  { path: '**', redirectTo: 'sign-in', pathMatch: 'full' }
 ];
 

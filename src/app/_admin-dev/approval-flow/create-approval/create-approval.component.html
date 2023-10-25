@@ -1,0 +1,275 @@
+<div class="container-fluid">
+  <div class="row py-3">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+      <div class="row p-2">
+        <div class="card p-3 shadow float-right">
+          <div class="text-center">
+            <h1
+              style="
+                font-weight: 600;
+                font-family: 'Gill Sans', 'Gill Sans MT', Calibri,
+                  'Trebuchet MS', sans-serif;
+              "
+            >
+              <u>Create&nbsp;&nbsp;Approval</u>
+            </h1>
+          </div>
+
+          <div class="row py-3">
+            <form [formGroup]="form" (ngSubmit)="submitForm()">
+              <div class="row">
+                <div class="col-md-4">
+                  <mat-form-field class="fieldInput">
+                    <mat-label>Form Module Name</mat-label>
+                    <mat-select matInput formControlName="module_name">
+                      <mat-option
+                        *ngFor="let module of modulelist"
+                        (click)="getFormID(module)"
+                        [value]="module.fmls_id"
+                      >
+                        {{ module.form_name }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error
+                      class="mb-4"
+                      *ngIf="formCtrl.module_name.errors?.required"
+                      >Form Module is required</mat-error
+                    >
+                    <!-- <input
+                      matInput
+                      formControlName="module_name"
+                      [(ngModel)]="moduleName"
+                      type="text"
+                    /> -->
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field class="fieldInput" appearance="outline">
+                    <mat-label>Approval Name</mat-label>
+                    <input
+                      matInput
+                      placeholder="Enter approval name"
+                      formControlName="name"
+                      type="text"
+                    />
+                    <mat-error
+                      class="mb-4"
+                      *ngIf="formCtrl.name.errors?.required"
+                      >Approval name is required</mat-error
+                    >
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4" class="fieldInput">
+                  <!-- <button class="f style="align-items: end;" ieldInput"
+                  class="btn btn-primary"
+                  (click)="openApproverCreateDialog()"
+                >
+                <strong style="padding-bottom:25px;">Add Approver<mat-icon>add_box</mat-icon></strong></button
+                > -->
+                <button class="btn btn-primary float-right"(click)="openApproverCreateDialog()"><mat-icon style="float:left">add_box</mat-icon> &nbsp;Add Approver</button>
+                  </div>
+              </div>
+           
+              <!-- <div class="row">
+                <div class="col-md-6">
+                  <mat-form-field class="fieldInput">
+                    <mat-label>Select Approver Role</mat-label>
+                    <mat-select matInput formControlName="role_name">
+                      <mat-option
+                        *ngFor="let role of approverTypeData"
+                        [value]="role.aptype_id"
+                        (click)="onSelectType(role)"
+                      >
+                        {{ role.type }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error
+                      class="mb-4"
+                      *ngIf="formCtrl.role_name.errors?.required"
+                      >Role is required</mat-error
+                    >
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6" *ngIf="showUser">
+                  <mat-form-field class="fieldInput">
+                    <mat-label>Select Approver</mat-label>
+                    <mat-select matInput formControlName="approver_name">
+                      <mat-option
+                        *ngFor="let approver of approverList"
+                        [value]="approver.user_id"
+                      >
+                        {{ approver.name }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error
+                      class="mb-4"
+                      *ngIf="formCtrl.approver_name.errors?.required"
+                      >Approver name is required</mat-error
+                    >
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6" *ngIf="showRole">
+                  <mat-form-field class="fieldInput">
+                    <mat-label>Select Approver</mat-label>
+                    <mat-select matInput formControlName="approver_name">
+                      <mat-option
+                        *ngFor="let approver of approverList"
+                        [value]="approver.usrl_id"
+                      >
+                        {{ approver.usrlname }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error
+                      class="mb-4"
+                      *ngIf="formCtrl.approver_name.errors?.required"
+                      >Approver name is required</mat-error
+                    >
+                  </mat-form-field>
+                </div>
+              </div> -->
+              <div class="row mt-3">
+                <div class="col-md-12">
+                  <!-- <mat-form-field appearance="outline">
+                    <mat-label>Run this process</mat-label> -->
+                  <!-- <mat-radio-group matInput formControlName="condition" *ngFor="let con of approvalCondition let i = index">
+                      <mat-radio-button  
+                        [value]="con">
+                        {{ con.type }}
+                      </mat-radio-button>
+                    </mat-radio-group> -->
+                  <strong
+                    ><label style="margin-left: 150px"
+                      >Run this process&nbsp;&nbsp;:</label
+                    ></strong
+                  >
+                  <div
+                    *ngFor="let con of approvalCondition; let i = index"
+                    style="display: inline; margin-left: 30px"
+                  >
+                    <input
+                      type="radio"
+                      name="condition"
+                      formControlName="condition"
+                      [checked]="con.checked"
+                      value="{{con.cond_id}}"
+                      (change)="onRadioChange(con)"
+                    />
+                    <label style="margin-left: 10px">{{ con.type }}</label>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- </mat-form-field> -->
+              <div class="row mt-4" *ngIf="showModal">
+                <div class="col-4">
+                  <mat-form-field>
+                    <mat-label>Form Label Name</mat-label>
+                    <mat-select matInput formControlName="table_value">
+                      <mat-option
+                        *ngFor="let form of formFields"
+                        (click)="getfieldValue(form)"
+                        [value]="form.column_label"
+                      >
+                        {{ form.column_label }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error
+                      class="mb-4"
+                      *ngIf="formCtrl.table_value.errors?.required"
+                      >Field is required</mat-error
+                    >
+                    <!-- <input
+                      matInput
+                      formControlName="select_value"
+                      [(ngModel)]="FieldName"
+                      type="text"
+                    /> -->
+                  </mat-form-field>
+                </div>
+                <div class="col-4">
+                  <mat-form-field>
+                    <mat-label>Select Opreator</mat-label>
+                    <mat-select matInput formControlName="equals">
+                      <mat-option
+                        *ngFor="let op of operatorList"
+                        [value]="op">
+                        {{op}}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error class="mb-4" *ngIf="formCtrl.equals.errors?.required">Operator is required</mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-4">
+                  <mat-form-field>
+                    <mat-label>Field value</mat-label>
+                    <mat-select matInput formControlName="select_value">
+                      <mat-option
+                        *ngFor="let fieldValue of formFieldValueData"
+                        [value]="fieldValue.id"
+                      >
+                        {{ fieldValue.value }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error
+                      class="mb-4"
+                      *ngIf="formCtrl.select_value.errors?.required"
+                      >Field value is required</mat-error
+                    >
+                    <!-- <input
+                      matInput
+                      formControlName="table_value"
+                      [(ngModel)]="tableValue"
+                      type="text"
+                    /> -->
+                  </mat-form-field>
+                </div>
+             
+              </div>
+              <div class="row mt-2">
+                <div class="col-md-6"></div>
+                <div class="col-md-6">
+                  <button
+                    class="btn btn-outline-secondary"
+                    routerLink="/admin/approvalFlow"
+                    style="margin-left: 200px"
+                  >
+                    Cancel</button
+                  >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <button
+                    class="btn btn-primary"
+                    [disabled]="this.form.invalid"
+                    style="float: right"
+                  >
+                    Create
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+          <!-- <div class="row">
+                <div class="col-4"></div>
+                <div class="col-6">
+                  <a
+                    [routerLink]="['/admin/createOrganization']"
+                    routerLinkActive="router-link-active"
+                    >Create Organization</a
+                  >
+                </div>
+                <div class="col-2"></div>
+              </div> -->
+          <br />
+          <!-- <div class="text-center mt-1">
+                <span style="color: brown">Powered by :</span>
+                <a href="https://augtrans.com/"> Augmented Transformations</a>
+              </div> -->
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <!-- <img src="../../assets/ass.avif"> -->
+    </div>
+  </div>
+</div>
+
+<!-- <app-item-detail [item]="currentItem"></app-item-detail> -->
