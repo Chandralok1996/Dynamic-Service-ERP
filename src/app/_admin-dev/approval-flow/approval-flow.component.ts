@@ -42,12 +42,12 @@ export class ApprovalFlowComponent {
   isMenuOpened: boolean = false;
 
   ngOnInit(): void {
-    this.approvalList(this.orgId);
+    this.approvalList();
   }
 
-  approvalList(org:any) {
+  approvalList() {
     
-    var a = this.adminService.getapprovalList(org).subscribe(
+    var a = this.adminService.getapprovalList().subscribe(
       (res: any) => {
         if(res.status == 200)
         {
@@ -66,10 +66,32 @@ export class ApprovalFlowComponent {
       
       })
   }
-
+  deleteApproval(id:any){
+    
+   
+    var apprData={
+      appr_id: id,
+      status: false
+    }
+    var a = this.adminService.deleteApproval(apprData).subscribe(
+      (res: any) => {
+        if(res.status == 200)
+        {
+          this.toaster.success("Approval is deleted successfully.")
+          this.approvalList();
+        }
+        else{
+          this.toaster.error("Something went wrong,Please contact to your administrator");
+        }
+      
+      })
+  }
   OpenUpdate(id:any,data1:any){
 
 this.router.navigate(['/admin/updateApproval',id])
+  }
+  goToMailAction(id: any) {
+    this.router.navigate(['/admin/mail-action', id]);
   }
   userupdate(data: any) {
     console.log(data);

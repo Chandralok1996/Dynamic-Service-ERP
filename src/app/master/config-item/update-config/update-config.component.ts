@@ -21,7 +21,7 @@ export class UpdateConfigComponent {
   incr: any = 0;
   promisedata: any;
   formfieldname: any;
-  itemlistdata: any;
+  ciItemDetailsData: any;
   cicd_id: any;
   updatebtn: boolean = false;
   enviorment: any;
@@ -32,7 +32,7 @@ export class UpdateConfigComponent {
 
   subformdata: any = [];
   nosubform: any = [];
-
+  linkListData:any;
   showform: boolean = false;
 
   constructor(
@@ -48,15 +48,20 @@ export class UpdateConfigComponent {
     } else {
       this.userCreated = JSON.parse(this.userCreated);
     }
+      
+    this.dynamicForm = this.formBuilder.group({
+      astd_id: this.formBuilder.control('', Validators.required),
+      user_id: this.formBuilder.control('',[(Validators.required)]),
+    });
     this.getFormDataById(this.formID);
   }
   ngOnInit(): void {
     var paramData = this.route.snapshot.params;
     this.cicd_id = paramData["id"];
-    this.dynamicForm = this.formBuilder.group({
-      astd_id: this.formBuilder.control(null, Validators.required),
-    });
+  
     this.itemlist();
+    this.getUserNameList();
+
   }
   itemlist() {
     this.adminService.itemList().subscribe((res: any) => {
@@ -149,17 +154,18 @@ export class UpdateConfigComponent {
   // }
   configdetails() {
     this.adminService.getconfigdetails(this.cicd_id).subscribe((res: any) => {
-      this.itemlistdata = res.result;
-      console.log(this.itemlistdata);
+      this.ciItemDetailsData = res.result;
+      console.log(this.ciItemDetailsData);
       this.pachformdata();
     });
   }
 
   pachformdata() {
+    debugger
     setTimeout(() => {
-      for(var i=0;i<this.itemlistdata.length;i++)
+      for(var i=0;i<this.ciItemDetailsData.length;i++)
       {
-         this.dynamicForm.patchValue(this.itemlistdata[i])
+         this.dynamicForm.patchValue(this.ciItemDetailsData[i])
       }
      }, 2000);
   }
@@ -176,7 +182,36 @@ export class UpdateConfigComponent {
     });
   }
   submitForm() {
-    // localStorage.setItem('user-created', JSON.stringify(this.userCreated));
+    debugger
+    if(this.dynamicForm.invalid)
+    {
+      return;
+    }
+    this.updatebtn=true;
+    var match: any = this.dynamicForm.value, error: any = [];
+    this.userCreated.push(match);
+    console.log(match);
+    match.cicd_id=this.cicd_id;
+    this.adminService.updateCI(match).subscribe((res:any)=>{
+      console.log(res);
+      if(res.status==200)
+      {
+        this.toaster.success(res.message);
+        this.router.navigate(['/ci-master']);
+      }
+      else
+      {
+        this.toaster.error("Something went wrong");
+        this.updatebtn=false;
+      }
+    },)
+  }
+  getUserNameList(){
+    
+    this.adminService.linkList(this.formID).subscribe((res:any)=>{
+    console.log(res);
+    this.linkListData=res.rows;
+  })
   }
   ngOnDestroy(): void {
     this.formDataSubscription.unsubscribe();

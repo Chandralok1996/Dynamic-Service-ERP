@@ -13,6 +13,7 @@ import { AddFieldComponent } from '../../add-field/add-field.component';
 })
 export class ItemCreateComponent {
   formID: number = 50002;
+  linkedData:any;
   formFields: any;
   dynamicForm!: FormGroup;
   userCreated: any = localStorage.getItem('user-created');
@@ -21,13 +22,14 @@ export class ItemCreateComponent {
   subformdata:any=[];
   nosubform: any=[];
   linkListData: any;
+  fmls_id:any;
   itemlistdata:any;
   constructor(private toaster: ToasterService,public dialog: MatDialog, private adminService: AdminService, private router: Router, private formBuilder: FormBuilder) {
     this.getFormDataById(this.formID);
     console.log(this.formID);
     
     this.dynamicForm = this.formBuilder.group({
-      user_id: new FormControl('',[(Validators.required)]),
+      user_id:this.formBuilder.control('',[(Validators.required)]),
     });
     if(!this.userCreated) {
       this.userCreated = [];
@@ -45,6 +47,7 @@ export class ItemCreateComponent {
       this.adminService.getFormByID(id).subscribe((res: any) => {
         if (res.status == 200) {
           this.formFields = res.rows;
+          this.fmls_id=this.formFields[0].fmls_id;
           this.nosubform=res.rows
           this.nosubform=this.nosubform.filter((item:any)=>{
             return item.type!="subform"
@@ -88,6 +91,31 @@ export class ItemCreateComponent {
 
 
   
+  }
+  getIDBasedLinkingByUser(userId:any){
+    
+    var userData={
+       fmls_id:this.fmls_id,
+       id:[userId]
+    }
+    this.adminService.getIDBasedLinking(userData).subscribe((res: any) => {
+      if (res.status == 200) {
+        this.linkedData=res.rows;
+        // this.linkedData.forEach((element:any) => {
+        //   if(element['Affected Product'].length>0)
+        //   {
+        //     this.linkedAssetData=element['Affected Product'];
+        // this.ShowLinkedData=true;
+        //     this.dynamicForm.addControl('astd_id', this.formBuilder.control('', Validators.required));
+        
+        //   }
+        // });
+        this.toaster.success(res.message);
+
+      } else {
+        this.toaster.error("Something went wrong");
+      }
+    });
   }
   submitForm() {
     var match: any = this.dynamicForm.value, error: any = [];

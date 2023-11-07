@@ -16,6 +16,7 @@ import { SidenavListComponent } from './_shared/sidenav-list/sidenav-list.compon
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,7 +31,7 @@ import { SidenavListComponent } from './_shared/sidenav-list/sidenav-list.compon
     RouterModule,
     BrowserModule,
     MaterialModule,
-
+    
     ToastrModule.forRoot({
       timeOut: 2500,
       positionClass: 'toast-bottom-right',

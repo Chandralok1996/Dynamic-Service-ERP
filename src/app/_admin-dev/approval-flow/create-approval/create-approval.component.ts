@@ -11,7 +11,9 @@ import { MatDialog } from "@angular/material/dialog";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { AdminService, AppService, ToasterService } from "src/app/_services";
-import { CreateApproverComponent } from "../approver/create-approver.component";
+import { CreateApproverComponent } from "../approver/create-approver/create-approver.component";
+import { LoadingComponent } from "../loading.component";
+
 
 @Component({
   selector: "app-create-approval",
@@ -33,7 +35,7 @@ export class CreateApprovalComponent {
   formFieldValueData: any = [];
   formFieldsData: any;
   operatorList: any = ["=", ">", "<", "!=", "true", "false", "=="];
-  orgID = 901;
+  orgID = null;
   table_name: any;
   showRole: boolean = false;
   showUser: boolean = false;
@@ -49,6 +51,8 @@ export class CreateApprovalComponent {
   showApprover: boolean = false;
   checkModuleName:boolean=true;
   approverDataArray:any=[];
+  approvalListData:any;
+  newApproval:any;
   // @Input() item: any;
   private subscription: Subscription = new Subscription();
 
@@ -66,9 +70,6 @@ export class CreateApprovalComponent {
       module_name: new FormControl("", [Validators.required]),
       name: new FormControl("", [Validators.required]),
       condition: new FormControl("", [Validators.required]),
-      select_value: new FormControl("", [Validators.required]),
-      equals: new FormControl("", [Validators.required]),
-      table_value: new FormControl("", [Validators.required]),
     });
   
     this.getFormModuleList();
@@ -88,7 +89,28 @@ export class CreateApprovalComponent {
       }
     });
   }
- 
+  openDialog(): void {
+    const dialogRef = this.dialog.open(LoadingComponent, {disableClose: true});
+    this.approvalList();
+    dialogRef.afterClosed().subscribe(result => {
+      this.router.navigate(['/admin/mail-action', this.newApproval.appr_id]);
+    });
+  }
+
+  approvalList() {
+    var a = this.adminService.getapprovalList().subscribe(
+      (res: any) => {
+        if (res.status == 200) {
+          console.log(res);
+          this.approvalListData = res.result;
+          this.newApproval = res.result[0];
+          console.log(a);
+        }
+        else {
+          this.toaster.error("Something went wrong,Please contact your administrator");
+        }
+      })
+    }
   getfieldValue(data1: any) {
     this.formFieldValueData = data1.column_value;
     this.table_name = data1.table_name;
@@ -110,15 +132,17 @@ export class CreateApprovalComponent {
   }
 
   getApproverList() {   
+    debugger
     this.adminService.getapprovalListDetails().subscribe((res: any) => {
       if (res.status) {
         this.approvalCondition = res.condition;
-        this.approvalCondition.forEach((element:any) => {
+       this.approvalCondition.forEach((element:any,index:any) => {
           if(element.type == 'update')
           {
-            element.checked = true;
+            return this.approvalCondition.splice(index,1);
           }
-        });
+    
+       });
       } else {
         this.toaster.error(res.message);
       }
@@ -132,26 +156,23 @@ export class CreateApprovalComponent {
     this.selectedCondition = event.type;
     if (this.selectedCondition == "On-Condition") {
       this.showModal = true;
-    } else {
+      this.form.addControl('select_value',new FormControl('', Validators.required));
+      this.form.addControl('table_value',new FormControl('', Validators.required));
+      this.form.addControl('equals',new FormControl('', Validators.required));
+    } else if(this.selectedCondition == "create") {
       this.showModal = false;
+      this.form.removeControl('select_value',new FormControl('', Validators.required));
+      this.form.removeControl('table_value',new FormControl('', Validators.required));
+      this.form.removeControl('equals',new FormControl('', Validators.required));
     }
   }
-  // checkModuleNameList(){
-  //   if(this.form.value.module_name != '')
-  //   {
-  //     this.checkModuleName = false;
-  //   }
-  //   else
-  //   {
-  //     this.checkModuleName = true;
-  //     this.toaster.error("Please select Module Name");
-  //   }
-  // }
+ 
   submitForm(): void {
-    
-    if (!this.form.valid) {
+  debugger
+    if (this.form.invalid) {
       return;
     }
+
     let match = {
       appr_name: this.form.value.name,
       fmls_id: this.form.value.module_name,
@@ -163,15 +184,15 @@ export class CreateApprovalComponent {
       select_value: this.form.value.select_value,
       approver: this.approverDataArray
     };
-    // this.router.navigate(["/admin/SelectModule", this.form.value.name]);
 
     this.adminService.createApproval(match).subscribe(
       (res: any) => {
-        if (res.message == "Approval created successfully") {
+        if (res.status == 200) {
           this.toaster.success(res.message);
-          this.router.navigate(["/approvalFlow"]);
+          //this.router.navigate(["/admin/approvalFlow"]);
+          this.openDialog();
         } else {
-          this.toaster.success("Something went wrong");
+          this.toaster.error("Something went wrong");
         }
       },
       (error: any) => {
@@ -190,18 +211,17 @@ export class CreateApprovalComponent {
       disableClose: true,
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-     
-      this.approver = result;
+    dialogRef.afterClosed().subscribe((result2) => {
+      this.approverDataArray=[];
+      this.approver = result2;
       this.approver.forEach((element:any) => {
         this.approverDataArray.push({
-          "level": element.levelstep,
+          "level": element.level,
           "user_id": element.user_id,
           "aptype_id":element.aptype_id
         })
       });
-      console.log(this.approverDataArray);
-    });
 
+    });
   }
 }

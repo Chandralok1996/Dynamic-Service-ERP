@@ -171,10 +171,8 @@
     <mat-icon>grain</mat-icon>
     <span>Event Management</span>
   </a>
-  <a mat-list-item (click)="onToggleClose()">
-    <mat-icon>receipt</mat-icon>
-    <span>Approval Management</span>
-  </a>
+  
+  
   <a mat-list-item  [routerLink]="['/history']" (click)="onToggleClose()">
     <mat-icon>receipt</mat-icon>
     <span>History Management</span>
@@ -183,10 +181,15 @@
     <mat-icon>lock_open</mat-icon>
     <span>Reset Password</span>
   </a>
+  <a mat-list-item [routerLink]="['/qrCode']" (click)="onToggleClose()">
+    <mat-icon>grain</mat-icon>
+    <span>QR Code Management</span>
+  </a>
   <a mat-list-item [routerLink]="['/help-support']" (click)="onToggleClose()">
     <mat-icon>headset_mic</mat-icon>
     <span>Help & Support</span>
   </a>
+ 
 </div>
 
 <!-- <div *ngIf="userRole === 'enduser'">
@@ -313,6 +316,10 @@
   <a mat-list-item routerLink="admin/approvalFlow" (click)="onToggleClose()">
     <mat-icon>iso</mat-icon>
     <span>Approval Management</span>
+  </a>
+  <a mat-list-item [routerLink]="['/link-management']" (click)="onToggleClose()">
+    <mat-icon>grain</mat-icon>
+    <span>Link Management</span>
   </a>
 </div>
 

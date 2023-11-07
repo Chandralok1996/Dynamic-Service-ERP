@@ -115,7 +115,12 @@ public selectedData:any;
   getItemdetails(astd_id: number): Observable<any> {
     return this._http.get<any>( `${environment._url}/assets/getAssetDetails/${astd_id}`);
   }
+  
 
+  //get ticket details
+  getIncidentdetailsbyId(inid_id: number): Observable<any> {
+    return this._http.get<any>( `${environment._url}/incident/getIncidentDetails/${inid_id}`);
+  }
   updateItem(astd_id:any): Observable<any[]> {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -184,6 +189,11 @@ incidentCreate(data: any): Observable<any[]> {
     httpOptions
   );
 }
+
+//update incident
+incidentUpdate(data: any): Observable<any> {
+  return this._http.put<any>( `${environment._url}/incident/updateIncident`, data );
+}
   //role-create
   createRole(data: any): Observable<any[]> {
     const httpOptions = {
@@ -247,7 +257,17 @@ configCreate(data: any): Observable<any[]> {
     httpOptions
   );
 }
-
+getLinkFormList():Observable<any>
+  {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'auth-token': JSON.parse(localStorage.getItem('user') || '').token,
+      }),
+    };
+    return this._http.get<any>( `${environment._url}/formTemplate/getAllLinkedForms`,
+    httpOptions
+     );
+  }
 getData(){
 return this.selectedData;
 }
@@ -279,8 +299,8 @@ getapprovalListDetails():Observable<any>
   //    );
   // }
 
-  getapprovalList(uscorg_id: number): Observable<any> {
-    return this._http.get<any>( `${environment._url}/approval/getApprovalList/${uscorg_id}`);
+  getapprovalList(): Observable<any> {
+    return this._http.get<any>( `${environment._url}/approval/getApprovalList/`);
   }
   //Create approval
 createApproval(data: any): Observable<any[]> {
@@ -296,10 +316,119 @@ createApproval(data: any): Observable<any[]> {
     httpOptions
   );
 }
+//Create approver
+
+ createApprover(data: any): Observable<any[]> {
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'auth-token': JSON.parse(localStorage.getItem('user') || '').token,
+    }),
+  };
+  return this._http.post<any[]>(
+    `${environment._url}/approval/addApprover`,
+    data,
+    httpOptions
+  );
+}
+updateApproval(data: any): Observable<any> {
+  return this._http.put<any>( `${environment._url}/approval/updateApproval`, data );
+}
 updateApprover(data: any): Observable<any> {
   return this._http.put<any>( `${environment._url}/approval/updateApprover`, data );
 }
+//delete approval
+deleteApproval(data: any): Observable<any> {
+  return this._http.put<any>( `${environment._url}/approval/deleteApproval`, data );
+}
+
+//delete approver
+
+deleteApprover(apprv_id:any){
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'auth-token': JSON.parse(localStorage.getItem('user') || '').token,
+    }),
+    };
+  return this._http.delete<any>(`${environment._url}/approval/deleteApprover/${apprv_id}`,
+  httpOptions)
+} 
 getApprovaldetails(appr_id: number): Observable<any> {
   return this._http.get<any>(`${environment._url}/approval/getApprovalDetails/${appr_id}`);
+}
+getApprovalMailTempDetails(apprv_id: number, lble_id: number): Observable<any> {
+  return this._http.get<any>(`${environment._url}/approval/getTemplateDetails/${apprv_id}/${lble_id}`);
+}
+//get incident Details
+getIncidentDetails(inid_id: any): Observable<any> {
+  return this._http.get<any>(`${environment._url}/incident/getIncidentDetails/${inid_id}`);
+}
+//add template
+addTemplate(data: any): Observable<any[]> {
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'auth-token': JSON.parse(localStorage.getItem('user') || '').token,
+    }),
+  };
+  return this._http.post<any[]>(
+    `${environment._url}/approval/addTemplate`,
+    data,
+    httpOptions
+  );
+}
+
+//add id based linking
+addIDBasedLinking(data: any): Observable<any[]> {
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'auth-token': JSON.parse(localStorage.getItem('user') || '').token,
+    }),
+  };
+  return this._http.post<any[]>(
+    `${environment._url}/formTemplate/createIdBasedLinking`,
+    data,
+    httpOptions
+  );
+}
+//get id based linking
+getIDBasedLinking(data: any): Observable<any[]> {
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'auth-token': JSON.parse(localStorage.getItem('user') || '').token,
+    }),
+  };
+  return this._http.post<any[]>(
+    `${environment._url}/formTemplate/getIdBsdLinkedFormList`,
+    data,
+    httpOptions
+  );
+}
+//update configuration item
+updateCI(data: any): Observable<any[]> {
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'auth-token': JSON.parse(localStorage.getItem('user') || '').token,
+    }),
+  };
+  return this._http.put<any[]>(
+    `${environment._url}/ci/updateConfigItem`,
+    data,
+    httpOptions
+  );
+}
+
+//update template
+updateTemplate(data: any): Observable<any[]> {
+  const httpOptions = {
+    headers: new HttpHeaders({
+      'auth-token': JSON.parse(localStorage.getItem('user') || '').token,
+    }),
+  };
+  return this._http.put<any[]>(
+    `${environment._url}/approval/updateTemplate`,
+    data,
+    httpOptions
+  );
 }
 }

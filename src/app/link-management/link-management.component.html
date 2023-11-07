@@ -11,14 +11,14 @@
               </div>
             </div>
             
-            <div class="col-md-7 text-end">
-                <button style="margin-top: -16px;" mat-raised-button [routerLink]="['/link-form/create']" color="primary"><mat-icon style="float: left;">add</mat-icon> Create Link</button>
-                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+            <div class="col-md-7 text-end" style="margin-top: 8px;">
+                <button mat-raised-button [routerLink]="['/link-management/create']" color="primary"><mat-icon style="float: left;">add</mat-icon> Create Link</button>
+                <button mat-icon-button [matMenuTriggerFor]="menu" [hidden]="true" aria-label="Example icon-button with a menu">
                     <mat-icon >more_vert</mat-icon>
                   </button>
-                  <mat-menu #menu="matMenu">
-                    <!-- <mat-checkbox #menuItems>All</mat-checkbox> -->
-                    <mat-checkbox [checked]="task.check" (change)="selectlabel($event,task)"  #menuItems *ngFor="let task of tempvar, let i = index;" color="primary">
+                  <mat-menu #menu="matMenu" [hidden]="true">
+                  
+                    <mat-checkbox [checked]="task.check"  #menuItems *ngFor="let task of tempvar, let i = index;" color="primary">
                     {{task.keyName}}
                   </mat-checkbox>
                   </mat-menu>
@@ -28,12 +28,25 @@
             <div class="card p-2 shadow">
                 <div class="table-hight">
                     <table mat-table [dataSource]="dataSource" tabindex="0">
-                        <ng-container [matColumnDef]="column" *ngFor="let column of copyDisplayColumn">
-                          <th mat-header-cell *matHeaderCellDef> {{column | titlecase}} </th>
-                          <td mat-cell *matCellDef="let element"> <span *ngIf="column !='Action'">{{element[column]}}</span> <span *ngIf="column =='Action'"> 
-                            <button mat-mini-fab color="primary" 
-                            ><mat-icon>edit</mat-icon></button> </span> </td>
+                        <ng-container matColumnDef="sr">
+                          <th mat-header-cell *matHeaderCellDef> No. </th>
+                          <td mat-cell *matCellDef="let element; let i = index;"> {{i+1}} </td>
                         </ng-container>
+                        <ng-container matColumnDef="formName">
+                          <th mat-header-cell *matHeaderCellDef>Form Name</th>
+                          <td mat-cell *matCellDef="let element"> {{element.form_name}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="linkedForm">   
+                          <th mat-header-cell *matHeaderCellDef>Linked Form</th>
+                          <td mat-cell *matCellDef="let element"> {{element.linked_form}} </td>
+                        </ng-container>
+                    
+                        <!-- <ng-container matColumnDef="action">
+                          <th mat-header-cell *matHeaderCellDef> action </th>
+                          <td mat-cell *matCellDef="let row">
+                            <button mat-mini-fab color="primary" (click)="OpenUpdate(row.id,row)"><mat-icon>edit</mat-icon></button>
+                        </td>
+                        </ng-container> -->
                         <tr mat-header-row *matHeaderRowDef="copyDisplayColumn; sticky: true"></tr>
                         <tr mat-row *matRowDef="let row; columns: copyDisplayColumn;"></tr>
                         <tr class="mat-row" *matNoDataRow>
@@ -41,7 +54,7 @@
                         </tr>
                     </table>
                 </div>
-                <mat-paginator  [pageSize]="6" [pageSizeOptions]=pagination showFirstLastButtons aria-label="Select page of periodic elements"> </mat-paginator>
+                <mat-paginator [pageSizeOptions]=pagination showFirstLastButtons aria-label="Select page of periodic elements"> </mat-paginator>
             </div>
         </div>
     </div>

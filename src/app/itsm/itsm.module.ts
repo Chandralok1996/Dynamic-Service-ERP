@@ -10,6 +10,7 @@ import { HistoryManagementComponent } from './history-management/history-managem
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule,Routes } from '@angular/router';
 import { MaterialModule } from '../material.module';
+
 import { DashboardCardComponent } from './dashboard-card/dashboard-card.component';
 import { AssetLocationDetailsComponent } from './dashboard-card/asset-location-details/asset-location-details.component';
 import { AssetTypeDetailsComponent } from './dashboard-card/asset-type-details/asset-type-details.component';
@@ -43,8 +44,8 @@ const routes: Routes = [
   { path: 'assetLocation_Details', component: AssetLocationDetailsComponent },
   { path: 'assetTypeDetails', component: AssetTypeDetailsComponent },
  { path: 'create-tickets', component: CreateTicketComponent },
-  { path: 'update-tickets', component: UpdateTicketComponent },
-  { path: 'details-tickets', component: DetailsTicketComponent },
+  { path: 'update-tickets/:id', component: UpdateTicketComponent },
+  { path: 'details-tickets/:id', component: DetailsTicketComponent },
 
 ]
 

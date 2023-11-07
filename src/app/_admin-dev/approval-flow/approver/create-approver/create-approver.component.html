@@ -1,0 +1,197 @@
+<section>
+  <div class="container">
+    <div>
+      <div class="row">
+        <div
+          class="modal-header bg-primary"
+          style="
+            border-top: 2px solid black;
+            background-color: #3f51b5 !important;
+            height: 4rem;
+          "
+        >
+          <h2 mat-dialog-title class="text-white modal-title">
+            Add New Approver
+          </h2>
+          <button
+            mat-icon-button
+            (click)="closeDialog(false)"
+            class="me-3"
+            aria-label="Close"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+        <div mat-dialog-content class="modal-body" style="height: max-content">
+          <form [formGroup]="approverForm">
+            <div>
+              <div class="row">
+                <div class="col-md-3">
+                  <mat-form-field>
+                    <mat-label>Select Type</mat-label>
+                    <mat-select matInput formControlName="role_name">
+                      <mat-option
+                        *ngFor="let role of approverTypeData; let i = index"
+                        (click)="onSelectType(role, i)"
+                        [value]="role"
+                      >
+                        {{ role.type }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error
+                      class="mb-4"
+                      *ngIf="formCtrl.role_name.errors?.required"
+                      >Type is required</mat-error
+                    >
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3" *ngIf="showUser">
+                  <mat-form-field>
+                    <mat-label>Select Approver Name</mat-label>
+                    <mat-select matInput formControlName="approver_name">
+                      <mat-option
+                        *ngFor="let approver of approverList"
+                        [value]="approver"
+                      >
+                        {{ approver.name }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error
+                      class="mb-4"
+                      *ngIf="formCtrl.approver_name.errors?.required"
+                      >Approver name is required</mat-error
+                    >
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3" *ngIf="showRole">
+                  <mat-form-field>
+                    <mat-label>Select Approver Name</mat-label>
+                    <mat-select matInput formControlName="approver_name">
+                      <mat-option
+                        *ngFor="let approver of approverList"
+                        [value]="approver"
+                      >
+                        {{ approver.usrlname }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error
+                      class="mb-4"
+                      *ngIf="formCtrl.approver_name.errors?.required"
+                      >Approver name is required</mat-error
+                    >
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                  <mat-form-field>
+                    <mat-label>Select Level</mat-label>
+                    <mat-select matInput formControlName="level">
+                      <mat-option
+                        *ngFor="let level1 of levelListData"
+                        [value]="level1"
+                      >
+                        {{ level1.level_name }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error
+                      class="mb-4"
+                      *ngIf="formCtrl.level.errors?.required"
+                      >Level is required</mat-error
+                    >
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3 mt-2">
+                  <button
+                    *ngIf="!isUpdate"
+                    type="button"
+                    mat-flat-button
+                    color="primary"
+                    [disabled]="approverForm.invalid"
+                    (click)="addLevel()"
+                  >
+                    <mat-icon style="float: left">add</mat-icon>
+                  </button>
+                </div>
+              </div>
+              <div class="row my-2" *ngIf="showApprover">
+                <div class="card p-2 shadow">
+                  <div>
+                    <table
+                      mat-table
+                      [dataSource]="dataSource"
+                      tabindex="0" style="overflow-y: scroll;"
+                    >
+                      <ng-container matColumnDef="level">
+                        <th mat-header-cell *matHeaderCellDef>Level</th>
+                        <td mat-cell *matCellDef="let element">
+                          {{ element.levelstep }}
+                        </td>
+                      </ng-container>
+                      <ng-container matColumnDef="approver_type">
+                        <th mat-header-cell *matHeaderCellDef>Approver Type</th>
+                        <td mat-cell *matCellDef="let element">
+                          {{ element.role_name }}
+                        </td>
+                      </ng-container>
+                      <ng-container matColumnDef="approver_name">
+                        <th mat-header-cell *matHeaderCellDef>Approver Name</th>
+                        <td mat-cell *matCellDef="let element">
+                          {{ element.approver_name }}
+                        </td>
+                      </ng-container>
+                      <ng-container matColumnDef="action">
+                        <th mat-header-cell *matHeaderCellDef>Action</th>
+                        <td mat-cell *matCellDef="let row; let i = index">
+                          <button
+                            type="button"
+                            mat-mini-fab
+                            color="primary"
+                            (click)="removeLevel(row,i)"
+                          >
+                            <mat-icon>delete</mat-icon>
+                          </button>
+                        </td>
+                      </ng-container>
+                      <tr
+                        mat-header-row
+                        *matHeaderRowDef="displayedColumns; sticky: true"
+                      ></tr>
+                      <tr
+                        mat-row
+                        *matRowDef="let row; columns: displayedColumns"
+                      ></tr>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    mat-dialog-actions
+    class="modal-footer"
+    align="end"
+    style="border-bottom: 2px solid black"
+  >
+    <button
+      type="submit"
+      (click)="onSubmit()"
+      [disabled]="enableAddApprover"
+      mat-flat-button
+      color="primary"
+    >
+      Add Approver</button
+    >&nbsp;
+    <button
+      type="button"
+      mat-stroked-button
+      color="primary"
+      (click)="closeDialog(false)"
+    >
+      Cancel
+    </button>
+  </div>
+</section>

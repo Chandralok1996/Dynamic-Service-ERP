@@ -62,7 +62,7 @@ export class ModuleListComponent {
           this.toaster.success(res.message);
           this.router.navigate(["/user-master"]);
         } else {
-          this.toaster.success("Something went wrong");
+          this.toaster.error("Something went wrong");
         }
       },
       (error: any) => {

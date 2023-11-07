@@ -116,7 +116,8 @@ export class UserCreateComponent {
                   this.pattern = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$";
                   this.checkValid = true;
                   // this.dynamicForm.controls[`${value.column_label}`].setValidators([Validators.required,Validators.pattern('[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,3}$')]);
-                } else if (value.column_label == "Mobile Number") {
+                } 
+                else if (value.column_label == "Mobile Number") {
                   // this.dynamicForm.controls[`${value.column_label}`].setValidators([Validators.required,Validators.pattern('[0-9]{10}')]);
                   this.dynamicForm.addControl(
                     `${value.column_label}`,
@@ -220,7 +221,7 @@ export class UserCreateComponent {
           this.toaster.success(res.message);
           this.router.navigate(["/user-master"]);
         } else {
-          this.toaster.success("Something went wrong");
+          this.toaster.error("Something went wrong");
         }
       },
       (error: any) => {

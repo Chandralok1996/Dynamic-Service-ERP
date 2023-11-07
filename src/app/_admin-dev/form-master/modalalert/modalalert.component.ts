@@ -19,12 +19,13 @@ export class ModalalertComponent implements OnInit{
         {
         }
   ngOnInit(): void {
-    // this.applypre()
+     this.applypre()
     console.log(this.data);
     
   }
   applypre()
   {
+    
     console.log(this.data.forms);
 
 

@@ -26,7 +26,7 @@
             <form [formGroup]="approverForm">
               <div>
                 <div class="row">
-                  <div class="col-6">
+                  <div class="col-md-4">
                     <mat-form-field>
                       <mat-label>Select Type</mat-label>
                       <mat-select matInput formControlName="role_name">
@@ -45,7 +45,7 @@
                       >
                     </mat-form-field>
                   </div>
-                  <div class="col-md-6" *ngIf="showUser">
+                  <div class="col-md-4" *ngIf="showUser">
                     <mat-form-field>
                       <mat-label>Select Approver Name</mat-label>
                       <mat-select matInput formControlName="approver_name">
@@ -63,7 +63,7 @@
                       >
                     </mat-form-field>
                   </div>
-                  <div class="col-md-5" *ngIf="showRole">
+                  <div class="col-md-4" *ngIf="showRole">
                     <mat-form-field>
                       <mat-label>Select Approver Name</mat-label>
                       <mat-select matInput formControlName="approver_name">
@@ -78,6 +78,24 @@
                         class="mb-4"
                         *ngIf="formCtrl.approver_name.errors?.required"
                         >Approver name is required</mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-4">
+                    <mat-form-field>
+                      <mat-label>Select Level</mat-label>
+                      <mat-select matInput formControlName="level">
+                        <mat-option
+                          *ngFor="let level1 of levelListData"
+                          [value]="level1.level"
+                        >
+                          {{ level1.level_name }}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error
+                        class="mb-4"
+                        *ngIf="formCtrl.level.errors?.required"
+                        >Level is required</mat-error
+                      >
                     </mat-form-field>
                   </div>
                 &nbsp; &nbsp;

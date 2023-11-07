@@ -1,0 +1,9 @@
+.mat-mdc-unelevated-button > .mat-icon {
+    margin-right: 0px;
+  }
+  .mat-mdc-header-row {
+    background: #3f51b5;
+  }
+  th {
+    color: white !important;
+  }

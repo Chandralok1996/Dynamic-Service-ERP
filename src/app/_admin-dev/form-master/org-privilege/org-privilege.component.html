@@ -11,7 +11,7 @@
             </div>
           </div>
           <div class="col-md-6" style="padding-top: 10px;font-weight: bold;">
-         
+            <span>User Management</span>
               <button mat-raised-button color="warn"  style="float: right;" [disabled]="applyobjformat.length==0" (click)="saveAllData()">Apply All</button>
             </div>
       </div>
@@ -32,14 +32,8 @@
                           <div class="form-check form-check-inline" >
                             <input class="form-check-input" [checked]="data.visibility" (click)="getevent('C',data.uscorg_id,element.fmmd_id,$event)" type="checkbox" id="inlineCheckbox1" value="option1">
 
-                            <label class="form-check-label"   >Access</label>
+                            <label class="form-check-label"   >Visible</label>
                           </div>
-                          <!-- <div class="form-check form-check-inline" >
-                            <input class="form-check-input" [checked]="element.mandatory" (click)="getevent('C',data.uscorg_id,element.fmmd_id,$event)" type="checkbox" id="inlineCheckbox1" value="option1">
-
-                            <label class="form-check-label"   >M</label>
-                          </div> -->
-                      
                         </span>
                       </div>
                   
@@ -50,16 +44,10 @@
 
            <!-- <button mat-button *ngIf="(element.del==true)" (click)="deletedata(element.fmmd_id)" color="primary"><i class="fa fa-trash del"   aria-hidden="true" ></i>                           
                     </button> -->
-
-
-                  &nbsp;                                   </span>
-
+                  &nbsp;
+                 </span>
             </td>
-
-         
-
             </ng-container>
-              
               <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
               <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
               <!-- <tr class="mat-row" *matNoDataRow>
@@ -70,7 +58,6 @@
       </div>
       
       <mat-paginator [pageSizeOptions]=pagination showFirstLastButtons aria-label="Select page of periodic elements">
-          
            </mat-paginator>
   </div>
 </div>

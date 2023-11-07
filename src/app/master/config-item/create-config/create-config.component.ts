@@ -25,6 +25,9 @@ export class CreateConfigComponent {
   cls: any;
   showform: boolean=false;
   itemlistdata: any;
+  linkListData:any;
+  fmls_id:any;
+  linkedData:any;
 
   constructor(private toaster: ToasterService,public dialog: MatDialog, private adminService: AdminService, private router: Router, private formBuilder: FormBuilder) {
     this.getFormDataById(this.formID);
@@ -33,14 +36,18 @@ export class CreateConfigComponent {
     } else {
       this.userCreated = JSON.parse(this.userCreated);
     }
+       this.dynamicForm = this.formBuilder.group({
+    //  astd_id:this.formBuilder.control(null,Validators.required)
+    user_id: this.formBuilder.control('',[(Validators.required)]),
+    });
   }
 
   ngOnInit(): void {
-    this.dynamicForm = this.formBuilder.group({
-    //  astd_id:this.formBuilder.control(null,Validators.required)
-    });
+ 
 this.showform=true;
 this.itemlist()
+this.getUserNameList();
+
   }
   getFormDataById(id: number): void {
     
@@ -109,6 +116,13 @@ this.itemlist()
       
     })
   }
+  getUserNameList(){
+    
+    this.adminService.linkList(this.formID).subscribe((res:any)=>{
+    console.log(res);
+    this.linkListData=res.rows;
+  })
+  }
 // createform()
 // {
 //   this.formFields.forEach((element:any) => {
@@ -125,6 +139,7 @@ this.itemlist()
     
 //   });
 // }
+
 addField(item: any) {
 
   const dialogRef = this.dialog.open(AddFieldComponent, {
@@ -141,6 +156,7 @@ addField(item: any) {
 
 
 }
+
   submitForm() {
     
     var match: any = this.dynamicForm.value, error: any = [];

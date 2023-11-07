@@ -559,7 +559,8 @@ console.log(this.abc);
       });
     }
       let apiFormat={
-      "fields":arr
+      "fields":arr,
+      "Pri_For":"Role_Field"
     }
     this.matDialog.open(ModalalertComponent,{data:apiFormat,disableClose: true})
  

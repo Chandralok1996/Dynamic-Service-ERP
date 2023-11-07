@@ -1,1 +1,33 @@
-<p>details-ticket works!</p>
+<div class="container-fluid bg-img">
+    <div class=" p-3">
+        <div class="row">
+            <div class="col-md-1">
+                <button type="button" class="btn btn-danger" [routerLink]="['/it-sm']"><mat-icon style="float: left;">keyboard_return</mat-icon> </button>
+            </div>
+            <div class="col-md-8"> 
+                 <div class="head">Ticket Details : &nbsp;&nbsp;&nbsp;&nbsp; Has been assigned to () </div>
+                </div>
+            <!-- <div class="col-md-2">
+                <button class="btn btn-primary float-right" [routerLink]="['/it-sm/update-tickets']"> <mat-icon class="float-left">edit</mat-icon> &nbsp;<strong  style="margin-bottom:3px;">Edit Ticket</strong></button>
+
+            </div> -->
+            
+            <div class="col-md-3">
+                <button class="btn btn-primary float-right" style="align-items: end;" (click)="updateTicketDetails()"><mat-icon style="float:left">edit</mat-icon> &nbsp;  Edit Ticket</button>
+             </div>
+        </div>
+      <br><br><br>
+       
+            <div class="row" style="margin-left: 10%; margin-top: 5%;">
+                <strong><h1><strong><u>Please check </u></strong></h1></strong>
+            <div class="col-md-4" style="font-weight: 1000;"*ngFor="let keyValuePair of DetailedArray | keyvalue">
+                
+                <h2><p><strong>{{ keyValuePair.key }}</strong>: {{ keyValuePair.value }}</p></h2>
+               
+            </div>
+          <div class="col-md-4"></div>
+        </div>
+
+       
+    </div>
+</div>

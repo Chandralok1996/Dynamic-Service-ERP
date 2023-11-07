@@ -30,7 +30,7 @@ export class ItemUpdateComponent {
   constructor(private toaster: ToasterService, public dialog: MatDialog,private adminService: AdminService, private router: Router, private route: ActivatedRoute, private formBuilder: FormBuilder) 
   {
     this.dynamicForm = this.formBuilder.group({
-      user_id: new FormControl('',[(Validators.required)]),
+      user_id:this.formBuilder.control('',[(Validators.required)]),
     });
 
     // this.dynamicForm = new FormGroup({
@@ -60,9 +60,9 @@ export class ItemUpdateComponent {
             });
             this.formFields.forEach((value: any) => {
               if(value.mandatory) {
-                this.dynamicForm.addControl(`${value.column_label}`, this.formBuilder.control(null, Validators.required));
+                this.dynamicForm.addControl(`${value.column_label}`,this.formBuilder.control('',Validators.required));
               } else {
-                this.dynamicForm.addControl(`${value.column_label}`, this.formBuilder.control(null));
+                this.dynamicForm.addControl(`${value.column_label}`,this.formBuilder.control(''));
               }
             });
           } else {
@@ -73,67 +73,43 @@ export class ItemUpdateComponent {
       );
       resolve("done")
     })
-        this.promisedata.then((res: any)=>{
-          this.itemlist()
-        })
+    this.itemlist();
+        // this.promisedata.then((res: any)=>{
+        //   this.itemlist()
+        // })
   }
   //Item details or Item list
   itemlist()
   {
-    
-      var patchpromise=new Promise<any>((resolve,reject)=>{
-        this.adminService.getItemdetails(this.astdid).subscribe((res:any)=>{
-          this.itemlistdata=res.result;
-          this.linklistDetail=res.linkData[0]['User Name'][0];
-          console.log(this.itemlistdata);
-          console.log("starting patch promise");
-          resolve("patching");
-         
-          // this.itemlistdata.forEach((element:any) => {
-          //   if(this.dynamicForm.get('column_label') == element.key)
-          //   {
-          //     this.itemDetails.push(element);
-          //   }
-          // });
-        })
-      
-      })
-    
-          patchpromise.then((res:any)=>{this.pachformdata()})
-       // }
+
+    // var patchpromise = new Promise<any>((resolve, reject) => {
+      this.adminService.getItemdetails(this.astdid).subscribe((res: any) => {
+        this.itemlistdata = res.result;
+        this.pachformdata();
+        // this.linklistDetail=res.linkData[0]['User Name'][0];
+       //  this.dynamicForm.patchValue({user_id:this.linklistDetail['user_id']})
+       
+
+      });
+   // });
+
+    // patchpromise.then((res: any) => {
+    //   console.log("Item details came");
+    //   this.pachformdata();
+    // });
+
+  
   }
 
   pachformdata()
   {
     debugger
-    console.log(this.itemlistdata);
-   this.userName=this.linklistDetail['User Name'];
-
     setTimeout(() => {
-   for(var i=0;i<this.itemlistdata.length;i++)
-   {
-      this.dynamicForm.patchValue(this.itemlistdata[i])
-   this.dynamicForm.patchValue({user_id:this.linklistDetail['user_id']})
-
-   }
-  }, 2000);
-  //  this.dynamicForm.patchValue(this.itemlistdata)
-
-  // if (this.itemlistdata.length > 0) {
-
-  //   this.itemDetails = [this.itemlistdata[0]]; 
-
-  //   this.itemDetails.forEach((item: any) => {
-
-  //     this.dynamicForm.patchValue(item);
-
-  //   });
-
-  // } else {
-
-  //   console.log("itemlistdata is empty");
-
-  // }
+      for(var i=0;i<this.itemlistdata.length;i++)
+      {
+         this.dynamicForm.patchValue(this.itemlistdata[i]);
+      }
+     }, 2000);
   }
   addField(item: any) {
 
@@ -160,8 +136,12 @@ export class ItemUpdateComponent {
   })
 }
   submitForm() {
-    
-    this.updatebtn=true
+    debugger
+    if(this.dynamicForm.invalid)
+    {
+      return;
+    }
+    this.updatebtn=true;
     var match: any = this.dynamicForm.value, error: any = [];
     this.userCreated.push(match);
     console.log(match);

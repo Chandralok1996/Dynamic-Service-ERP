@@ -35,18 +35,20 @@ export class UserUpdateComponent {
   checkMandatory: boolean = false;
   checkValid: boolean = false;
   match: any;
-  supportGroupData: any;
   supportGroupAdded: any;
   supportGroupRemoved: any = [];
   supportGroupValue: any = [];
   supportGroupCreated: any = [];
   userRoleCreated: any = [];
-  userRoleData: any;
   userRoleAdded: any;
   userRoleRemoved: any = [];
   userRoleValue: any = [];
   checkElement:boolean=false;
+  userRoleRemovedData:any;
+  supportGroupRemovedData:any;
   checkRoleElement:boolean=false;
+  userRoleData = { add: [], remove: [] };
+  supportGroupData = { add: [], remove: [] };
   constructor(
     private toaster: ToasterService,
     private adminService: AdminService,
@@ -74,7 +76,7 @@ export class UserUpdateComponent {
   }
 
   getFormDataById(id: number): void {
-    debugger;
+    ;
     this.promisedata = new Promise<any>((resolve, reject) => {
       console.log("geting form column");
       this.formDataSubscription.add(
@@ -203,7 +205,7 @@ export class UserUpdateComponent {
 
   //user details or user list
   userlist() {
-    debugger;
+    ;
     var patchpromise = new Promise<any>((resolve, reject) => {
       this.adminService.getuserdetails(this.userid).subscribe((res: any) => {
         this.userlistdata = res.result;
@@ -222,10 +224,10 @@ export class UserUpdateComponent {
       this.pachformdata();
     });
   }
-  ngAfterViewInit() {
-    debugger;
-    this.selectionChange(this.el);
-  }
+  // ngAfterViewInit() {
+  //   ;
+  //   this.selectionChange(this.el);
+  // }
   pachformdata() {
     debugger;
     this.formshow = true;
@@ -259,7 +261,7 @@ export class UserUpdateComponent {
     // console.log(event.value);
   }
   selectionChange(event: any) {
-    debugger;
+    ;
     console.log(event.value);
   }
   OnlyNumbersAllowed(event: any, data: any): boolean {
@@ -294,13 +296,12 @@ export class UserUpdateComponent {
     });
   }
   onSelectValue(data1: any, event: any) {
-    debugger;
+    ;
     this.supportGroupRemoved.push(data1);
   }
   submitForm() {
     this.updatebtn = true;
-    var match: any = this.dynamicForm.value,
-      error: any = [];
+   
     // this.formFields.forEach((element: any) => {
     //   if(element.mandatory) {
     //     if(!match[element.column_label]) {
@@ -313,70 +314,92 @@ export class UserUpdateComponent {
     //   this.toaster.warning(`${error} is required!`);
     //   return;
     // }
-    this.supportGroupData = { add: [], remove: [] };
+   
     this.supportGroupAdded = this.dynamicForm.value["Support Group"];
-    this.supportGroupData.add.push(this.supportGroupAdded);
+    this.supportGroupData.add=this.supportGroupAdded;
     this.supportGroupAdded.forEach((element: any) => {
       this.supportGroupValue.forEach((element1: any) => {
         if (element1 !== element) {
-         this.checkElement = this.supportGroupRemoved.includes(element1);
-         if(this.checkElement == true)
-         {
-          this.supportGroupRemoved.remove(element1);
+        // this.checkElement = this.supportGroupRemoved.includes(element1);
+        //  if(this.checkElement == true)
+        //  {
+        //   this.supportGroupRemoved.pop(element1);
 
-         }
-         else{
-          this.supportGroupRemoved.push(element1);
+        //  }
+        //  else{
+         // this.supportGroupRemoved.push(element1);
+          if(this.supportGroupValue.length>0)
+          {
+            if(this.supportGroupRemoved.length>0){
+              this.supportGroupRemoved.forEach((element3:any) => {
+                if(element1!=element3)
+                {
+                  this.supportGroupRemoved.push(element1);
+                }
+               
+              });
+            }
+          else{
+            this.supportGroupRemoved.push(element1);
+          }
+          }
+       
 
-         }
+     //    }
 
         } else {
           this.supportGroupRemoved = [];
         }
       });
     });
+    this.supportGroupRemovedData=this.supportGroupRemoved.filter((ele:any,index:any)=>this.supportGroupRemoved.indexOf(ele)===index)
 
+    this.supportGroupData.remove=this.supportGroupRemovedData;
 
-    this.userRoleData = { add: [], remove: [] };
+   
     this.userRoleAdded = this.dynamicForm.value["User Role"];
-    this.userRoleData.add.push(this.userRoleAdded);
+    this.userRoleData.add = this.userRoleAdded;
     this.userRoleAdded.forEach((element: any) => {
       this.userRoleValue.forEach((element1: any) => {
         if (element1 !== element) {
-         this.checkRoleElement = this.userRoleRemoved.includes(element1);
-         if(this.checkRoleElement == true)
-         {
-          this.userRoleRemoved.remove(element1);
+        //  this.checkRoleElement = this.userRoleRemoved.includes(element1);
+        //  if(this.checkRoleElement == true)
+        //  {
+        //   this.userRoleRemoved.pop(element1);
 
-         }
-         else{
+        //  }
+        //  else{
+        //   this.userRoleRemoved.push(element1);
+
+        //  }
+        if(this.userRoleValue.length>0)
+        {
+          if(this.userRoleRemoved.length>0){
+            this.userRoleRemoved.forEach((element4:any) => {
+              if(element1!=element4)
+              {
+                this.userRoleRemoved.push(element1);
+              }
+             
+            });
+          }
+        else{
           this.userRoleRemoved.push(element1);
-
-         }
-
+        }
+        }
         } else {
           this.userRoleRemoved = [];
         }
       });
     });
-    this.userRoleData.remove.push(this.userRoleRemoved);
+    this.userRoleRemovedData=this.userRoleRemoved.filter((ele:any,index:any)=>this.userRoleRemoved.indexOf(ele)===index)
+    this.userRoleData.remove=this.userRoleRemovedData;
+    this.dynamicForm.value['Support Group']=this.supportGroupData;
+    this.dynamicForm.value['User Role']=this.userRoleData;
+    var match: any = this.dynamicForm.value,
+    error: any = [];
+    this.userCreated.push(match);
 
-    this.match = {
-      Description: this.dynamicForm.value.Description,
-      Designation: this.dynamicForm.value.Designation,
-      "Email Id": this.dynamicForm.value["Email Id"],
-      "First Name": this.dynamicForm.value["First Name"],
-      "Last Name": this.dynamicForm.value["Last Name"],
-      "Login Name": this.dynamicForm.value["Login Name"],
-      "Middle Name": this.dynamicForm.value["Middle Name"],
-      "Mobile Number": this.dynamicForm.value["Mobile Number"],
-      "Support Group": this.supportGroupData,
-      "User Role":this.userRoleData,
-      "User Type": this.dynamicForm.value["User Type"],
-    };
-    this.userCreated.push(this.match);
-
-    // console.log(match);
     match.user_id = this.userid;
     this.adminService.updateuser(match).subscribe(
       (res: any) => {
@@ -386,7 +409,7 @@ export class UserUpdateComponent {
           this.toaster.success(res.message);
           this.router.navigate(["/user-master"]);
         } else {
-          this.toaster.success("Something went wrong");
+          this.toaster.error("Something went wrong");
           this.updatebtn = false;
         }
       },

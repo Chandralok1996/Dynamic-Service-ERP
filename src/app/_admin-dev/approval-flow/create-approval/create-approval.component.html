@@ -17,9 +17,9 @@
           </div>
 
           <div class="row py-3">
-            <form [formGroup]="form" (ngSubmit)="submitForm()">
+            <form [formGroup]="form">
               <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-6">
                   <mat-form-field class="fieldInput">
                     <mat-label>Form Module Name</mat-label>
                     <mat-select matInput formControlName="module_name">
@@ -44,7 +44,7 @@
                     /> -->
                   </mat-form-field>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                   <mat-form-field class="fieldInput" appearance="outline">
                     <mat-label>Approval Name</mat-label>
                     <input
@@ -60,15 +60,14 @@
                     >
                   </mat-form-field>
                 </div>
-                <div class="col-md-4" class="fieldInput">
+                <!-- <div class="col-md-4" class="fieldInput"> -->
                   <!-- <button class="f style="align-items: end;" ieldInput"
                   class="btn btn-primary"
                   (click)="openApproverCreateDialog()"
                 >
                 <strong style="padding-bottom:25px;">Add Approver<mat-icon>add_box</mat-icon></strong></button
                 > -->
-                <button class="btn btn-primary float-right"(click)="openApproverCreateDialog()"><mat-icon style="float:left">add_box</mat-icon> &nbsp;Add Approver</button>
-                  </div>
+                  <!-- </div> -->
               </div>
            
               <!-- <div class="row">
@@ -151,7 +150,7 @@
                       type="radio"
                       name="condition"
                       formControlName="condition"
-                      [checked]="con.checked"
+                      checked="checked"
                       value="{{con.cond_id}}"
                       (change)="onRadioChange(con)"
                     />
@@ -226,6 +225,13 @@
                 </div>
              
               </div>
+              <div class="row mt-3">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                <button class="btn btn-primary float-right"(click)="openApproverCreateDialog()"><mat-icon style="float:left">add_box</mat-icon> &nbsp;Add Approver</button>
+              </div>
+              <div class="col-md-4"></div>
+                </div>
               <div class="row mt-2">
                 <div class="col-md-6"></div>
                 <div class="col-md-6">
@@ -238,7 +244,8 @@
                   >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   <button
                     class="btn btn-primary"
-                    [disabled]="this.form.invalid"
+                    [disabled]="this.form.invalid || this.approverDataArray.length == 0"
+                    (click)="submitForm()"
                     style="float: right"
                   >
                     Create

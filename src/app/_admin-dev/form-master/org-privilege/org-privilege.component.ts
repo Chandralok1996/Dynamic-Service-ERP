@@ -25,15 +25,10 @@ export class OrgPrivilegeComponent implements OnInit {
 
   ]
   dataFormat:any={
-      
-  
-  
       "uscorg_id":"",
       "visibility":"",
       "col_id":""
-    
   }
-
   abc:any=[]
   apiFormat:any=[
     {
@@ -82,13 +77,10 @@ export class OrgPrivilegeComponent implements OnInit {
   getFormDataById(id: number): void {
       this.adminService.getFormByID(id).subscribe((res: any) => {
         if (res.status == 200) {
-          this.formData = res.rows;
-          
+          this.formData = res.rows;       
           console.log(this.formData);
-          
           console.table(this.formData);
           this.userolelist=res.userRole[0]
-     
           this.formData=this.formData.map((item:any)=>({
             ...item,Action:true
           }))
@@ -110,18 +102,10 @@ export class OrgPrivilegeComponent implements OnInit {
                   }                
               }
             }
-            
-            
           })
-   
-
           console.log(this.formData);
-          
-       
-    
           this.roleobject=this.userolelist.column_value
           console.log(this.roleobject);
-          
           var column=this.userolelist.column_value
           var arr:any=[]
           var getcol=column.forEach((item:any)=>{
@@ -134,6 +118,8 @@ export class OrgPrivilegeComponent implements OnInit {
             return item.column_label!="User Role"
           })
           this.dataSource = new MatTableDataSource(this.formData);
+          console.log(this.dataSource);
+          
           this.dataSource.paginator = this.paginator;
           this.toaster.success(res.message);
         } else {
@@ -158,7 +144,6 @@ export class OrgPrivilegeComponent implements OnInit {
     //col-->filed id
     console.log(data);
     console.log(col);
-
     console.log(event.target.checked);
     this.hideshow="dj"
     //get filed id
@@ -171,15 +156,11 @@ export class OrgPrivilegeComponent implements OnInit {
     }
    })
      //here filtering role
-    
-   data=data
+     data=data
      this.roleid=data
      //if abc array is empty
     console.log(ac);
-
    console.log(this.formData);
-
- 
 if(this.abc.length==0)
 {
   console.log(  this.formData
@@ -237,8 +218,7 @@ check=basedcol.filter((item:any)=>{
         if(event.target.checked==true)
         {
 
-          this.abc[index].visibility=true
-        
+          this.abc[index].visibility=true   
         }else 
         {
           this.abc[index].visibility=false

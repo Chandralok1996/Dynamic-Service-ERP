@@ -67,121 +67,212 @@
       <div class="row " *ngFor="let data of incidentlistdata">
          <div class="col-md-12 ">
                <div class="card1 mt-2" *ngIf="data.Priority === 'High'" (click)="gotoincdetails(data.inid_id)">
-                  <div class="row" >
-                     <div class="col-md-3" >
-                     <p class="subFields">{{data['Issue Description']}}</p> 
-                     <p class="subFields">{{data['inid_id']}}</p> 
-                     <p class="subFields">From : Nikhil Chavan</p> 
-                     <!-- <p class="subFields">{{data['Call Mode']}}</p>  -->
-                     </div>
-                     <div class="col-md-3">
-                        <p class="subFields"> {{data['Priority']}}</p> 
-                        <p class="subFields">{{data['Call Type']}} </p> 
-                        <p class="subFields">{{data['Call Category']}} </p>
-                     
-                     </div>
-                     <div class="col-md-1 d-flex" style="height: 90px;">
-                        <div class="vr"></div>
-                     </div>
-                     <div class="col-md-3">
-                        <p id="assignedto">Last Updated :</p>
-                        <p id="status">Assigned To :</p>
-                        <p id="priority">Status :</p>
-                     </div>
-                     <div class="col-md-2">
-                        <p id="assignedto">03-09-2023 11:33:34</p>
-                        <p id="status">Chandralok Pandey</p>
-                        <p id="priority">Assigned</p>
-                     </div>
-                  </div>
+                  <div class="row">
+                     <div class="col-md-6 col-sm-6">
+                       <!-- <p id="description">{{data.short_desc}}</p> -->
+                         <p id="description1">Asset Group: {{data['Asset Group']}}</p>
+                         
+                       
+                       
+                       <div class="row">
+                         <div class="col-md-7 col-sm-7">
+                           <a style="text-align: left;"> <span id="incid" class="la la-trash">
+                               {{data.inid_id}}</span></a>
+                         </div>
+ 
+                         <div class="col-md-5 col-sm-5">
+                           <p id="group">Category: {{data['Call Category']}} </p>
+                         </div>
+ 
+                       </div>
+ 
+                       <div class="row">
+                         <div class="col-md-7 col-sm-7">
+                           <!-- <p id="from">From: {{data.openedby}}/{{data.openedbyempid}}</p> -->
+                           <p id="from">Call Mode: {{data['Call Mode']}}</p>
+                         </div>
+ 
+                         <div class="col-md-5 col-sm-5">
+                           <!-- <p id="created">Created :{{data.createddate}}</p> -->
+                           <p id="from">Call Type: {{data['Call Type']}}</p>
+                         </div>
+ 
+                       </div>
+                    
+<!--  
+                     <div class="row">
+                      <div class="col-md-5 col-sm-5">
+                        <p id="assignedto">Issue Description:</p>
+                        
+                       </div>
+   
+                       <div class="col-md-4 col-sm-2">
+                        <p id="assignedto1">{{data['Issue Description']}}</p>
+                                      
+                       </div>
+                     </div> -->
+ 
+                    
+                    </div>
+                  
                </div>
+              </div>
                <div class="card2 mt-2" *ngIf="data.Priority === 'Medium' " (click)="gotoincdetails(data.inid_id)">
-                  <div class="row" >
-                     <div class="col-md-3" >
-                     <p class="subFields">{{data['Issue Description']}}</p> 
-                     <p class="subFields">{{data['inid_id']}}</p> 
-                     <p class="subFields">From : Nikhil Chavan</p> 
-                     </div>
-                     <div class="col-md-3">
-                        <p class="subFields"> {{data['Priority']}}</p> 
-                        <p class="subFields">{{data['Call Type']}} </p> 
-                        <p class="subFields">{{data['Call Category']}} </p>
+                <div class="row">
+                  <div class="col-md-6 col-sm-6">
+                    <!-- <p id="description">{{data.short_desc}}</p> -->
+                      <p id="description1">Asset Group: {{data['Asset Group']}}</p>
+                      
+                    
+                    
+                    <div class="row">
+                      <div class="col-md-7 col-sm-7">
+                        <a style="text-align: left;"> <span id="incid" class="la la-trash">
+                            {{data.inid_id}}</span></a>
+                      </div>
+
+                      <div class="col-md-5 col-sm-5">
+                        <p id="group">Category: {{data['Call Category']}} </p>
+                      </div>
+
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-7 col-sm-7">
+                        <!-- <p id="from">From: {{data.openedby}}/{{data.openedbyempid}}</p> -->
+                        <p id="from">Call Mode: {{data['Call Mode']}}</p>
+                      </div>
+
+                      <div class="col-md-5 col-sm-5">
+                        <!-- <p id="created">Created :{{data.createddate}}</p> -->
+                        <p id="from">Call Type: {{data['Call Type']}}</p>
+                      </div>
+
+                    </div>
+                 
+<!--  
+                  <div class="row">
+                   <div class="col-md-5 col-sm-5">
+                     <p id="assignedto">Issue Description:</p>
                      
-                     </div>
-                     <div class="col-md-1 d-flex" style="height: 90px;">
-                        <div class="vr"></div>
-                     </div>
-                     <div class="col-md-3">
-                        <p id="assignedto">Last Updated :</p>
-                        <p id="status">Assigned To :</p>
-                        <p id="priority">Status :</p>
-                     </div>
-                     <div class="col-md-2">
-                        <p id="assignedto">03-09-2023 11:33:34</p>
-                        <p id="status">Chandralok Pandey</p>
-                        <p id="priority">Assigned</p>
-                     </div>
-                  </div>
+                    </div>
+
+                    <div class="col-md-4 col-sm-2">
+                     <p id="assignedto1">{{data['Issue Description']}}</p>
+                                   
+                    </div>
+                  </div> -->
+
+                 
+                 </div>
+               
+            </div>
                </div>
                <div class="card3 mt-2" *ngIf="data.Priority === 'Critical' " (click)="gotoincdetails(data.inid_id)">
-                  <div class="row" >
-                     <div class="col-md-3" >
-                     <p class="subFields">{{data['Issue Description']}}</p> 
-                     <p class="subFields">{{data['inid_id']}}</p> 
-                     <p class="subFields">From : Nikhil Chavan</p> 
-                     </div>
-                     <div class="col-md-3">
-                        <p class="subFields"> {{data['Priority']}}</p> 
-                        <p class="subFields">{{data['Call Type']}} </p> 
-                        <p class="subFields">{{data['Call Category']}} </p>
+                <div class="row">
+                  <div class="col-md-6 col-sm-6">
+                    <!-- <p id="description">{{data.short_desc}}</p> -->
+                      <p id="description1">Asset Group: {{data['Asset Group']}}</p>
+                      
+                    
+                    
+                    <div class="row">
+                      <div class="col-md-7 col-sm-7">
+                        <a style="text-align: left;"> <span id="incid" class="la la-trash">
+                            {{data.inid_id}}</span></a>
+                      </div>
+
+                      <div class="col-md-5 col-sm-5">
+                        <p id="group">Category: {{data['Call Category']}} </p>
+                      </div>
+
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-7 col-sm-7">
+                        <!-- <p id="from">From: {{data.openedby}}/{{data.openedbyempid}}</p> -->
+                        <p id="from">Call Mode: {{data['Call Mode']}}</p>
+                      </div>
+
+                      <div class="col-md-5 col-sm-5">
+                        <!-- <p id="created">Created :{{data.createddate}}</p> -->
+                        <p id="from">Call Type: {{data['Call Type']}}</p>
+                      </div>
+
+                    </div>
+                 
+<!--  
+                  <div class="row">
+                   <div class="col-md-5 col-sm-5">
+                     <p id="assignedto">Issue Description:</p>
                      
-                     </div>
-                     <div class="col-md-1 d-flex" style="height: 90px;">
-                        <div class="vr"></div>
-                     </div>
-                     <div class="col-md-3">
-                        <p id="assignedto">Last Updated :</p>
-                        <p id="status">Assigned To :</p>
-                        <p id="priority">Status :</p>
-                     </div>
-                     <div class="col-md-2">
-                        <p id="assignedto">03-09-2023 11:33:34</p>
-                        <p id="status">Chandralok Pandey</p>
-                        <p id="priority">Assigned</p>
-                     </div>
-                  </div>
+                    </div>
+
+                    <div class="col-md-4 col-sm-2">
+                     <p id="assignedto1">{{data['Issue Description']}}</p>
+                                   
+                    </div>
+                  </div> -->
+
+                 
+                 </div>
+               
+            </div>
                </div>
                <div class="card mt-2" *ngIf="data.Priority === 'Low' " (click)="gotoincdetails(data.inid_id)">
-                  <div class="row" >
-                     <div class="col-md-3" >
-                     <p class="subFields">{{data['Issue Description']}}</p> 
-                     <p class="subFields">{{data['inid_id']}}</p> 
-                     <p class="subFields">From : Nikhil Chavan</p> 
-                     </div>
-                     <div class="col-md-3">
-                        <p class="subFields"> {{data['Priority']}}</p> 
-                        <p class="subFields">{{data['Call Type']}} </p> 
-                        <p class="subFields">{{data['Call Category']}} </p>
+                <div class="row">
+                  <div class="col-md-6 col-sm-6">
+                    <!-- <p id="description">{{data.short_desc}}</p> -->
+                      <p id="description1">Asset Group: {{data['Asset Group']}}</p>
+                      
+                    
+                    
+                    <div class="row">
+                      <div class="col-md-7 col-sm-7">
+                        <a style="text-align: left;"> <span id="incid" class="la la-trash">
+                            {{data.inid_id}}</span></a>
+                      </div>
+
+                      <div class="col-md-5 col-sm-5">
+                        <p id="group">Category: {{data['Call Category']}} </p>
+                      </div>
+
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-7 col-sm-7">
+                        <!-- <p id="from">From: {{data.openedby}}/{{data.openedbyempid}}</p> -->
+                        <p id="from">Call Mode: {{data['Call Mode']}}</p>
+                      </div>
+
+                      <div class="col-md-5 col-sm-5">
+                        <!-- <p id="created">Created :{{data.createddate}}</p> -->
+                        <p id="from">Call Type: {{data['Call Type']}}</p>
+                      </div>
+
+                    </div>
+                 
+<!--  
+                  <div class="row">
+                   <div class="col-md-5 col-sm-5">
+                     <p id="assignedto">Issue Description:</p>
                      
-                     </div>
-                     <div class="col-md-1 d-flex" style="height: 90px;">
-                        <div class="vr"></div>
-                     </div>
-                     <div class="col-md-3">
-                        <p id="assignedto">Last Updated :</p>
-                        <p id="status">Assigned To :</p>
-                        <p id="priority">Status :</p>
-                     </div>
-                     <div class="col-md-2">
-                        <p id="assignedto">03-09-2023 11:33:34</p>
-                        <p id="status">Chandralok Pandey</p>
-                        <p id="priority">Assigned</p>
-                     </div>
-                  </div>
+                    </div>
+
+                    <div class="col-md-4 col-sm-2">
+                     <p id="assignedto1">{{data['Issue Description']}}</p>
+                                   
+                    </div>
+                  </div> -->
+
+                 
+                 </div>
+               
+            </div>
                </div>
             
             
-         </div>
+         
       </div>
    </div>
 </div>

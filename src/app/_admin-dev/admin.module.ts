@@ -23,9 +23,13 @@ import { CreateOrganizationComponent } from "./organization/create-organization/
 import { ModuleListComponent } from './module-list/module-list.component';
 import { ApprovalFlowComponent } from "./approval-flow/approval-flow.component";
 import { CreateApprovalComponent } from "./approval-flow/create-approval/create-approval.component";
-import { CreateApproverComponent } from "./approval-flow/approver/create-approver.component";
+import { NgxEditorModule } from 'ngx-editor';
 import { UpdateApprovalComponent } from './approval-flow/update-approval/update-approval.component';
 import { UpdateApproverComponent } from './approval-flow/approver/update-approver/update-approver.component';
+import { CreateApproverComponent } from "./approval-flow/approver/create-approver/create-approver.component";
+import { LoadingComponent } from "./approval-flow/loading.component";
+import { MailActionComponent } from "./mail-action/mail-action.component";
+
 
 const routes: Routes = [
   {
@@ -87,6 +91,16 @@ const routes: Routes = [
         component:CreateApprovalComponent,
         canActivate: [adminGuard],
       },
+      { 
+        path: 'mail-action', 
+        component: MailActionComponent, 
+        canActivate: [adminGuard]
+      },
+      { 
+        path: 'mail-action/:id', 
+        component: MailActionComponent, 
+        canActivate: [adminGuard]
+      },
       {
         path: "updateApproval/:id",
         component:UpdateApprovalComponent,
@@ -117,6 +131,8 @@ const routes: Routes = [
     CreateApprovalComponent,
     CreateApproverComponent,
     UpdateApprovalComponent,
+    MailActionComponent,
+  LoadingComponent,
     UpdateApproverComponent
   ],
   imports: [
@@ -126,6 +142,7 @@ const routes: Routes = [
     MatMenuModule,
     FormsModule,
     MatButtonModule,
+    NgxEditorModule,
     RouterModule.forChild(routes),
   ],
 })

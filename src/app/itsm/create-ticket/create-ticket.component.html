@@ -4,21 +4,52 @@
         <div class="row card p-3">
             <h2 >Create Incident</h2>
             <hr>
-          
+        
              <div class="row">
                     <div class="col-md-6 px-2 py-1" *ngFor="let field of nosubform;">
                         <mat-form-field class="d-grid gap-2" appearance="outline">
                             <mat-label>{{field?.column_label}}</mat-label>
-                            <input *ngIf="(field.type != 'dropdown')?(field.type!='assigndropdown'):false" matInput formControlName="{{field.column_label}}" type="{{ field?.type }}">
+                            <input *ngIf="(field.type != 'dropdown')?(field.type!='assigndropdown'):false" 
+                            matInput formControlName="{{field.column_label}}" 
+                            type="{{ field?.type }}"
+                            [readonly]="field.read_only"
+                            (keypress)="OnlyNumbersAllowed($event, field.column_label)"
+                            >
                             <mat-select formControlName="{{field.column_label}}" *ngIf="(field.type == 'dropdown')?true:(field.type == 'assigndropdown')?true:false">
                                 <mat-option>Select Column name</mat-option>
                                 <mat-option [value]=options.id *ngFor="let options of field.column_value">{{options.value | titlecase}}</mat-option>
                             </mat-select>
               <mat-icon matSuffix *ngIf="field.type =='dropdown' || field.type == 'assigndropdown'" (click)="$event.stopPropagation(); addField(field)">add_circle</mat-icon>
+              <mat-error *ngIf="checkMandatory"
+              >{{ field.column_label }} is required.</mat-error
+            >
+            <!-- <mat-error *ngIf="checkValid"
+            >{{ field.column_label }} is not valid.</mat-error
+          > -->
+           
+            </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 px-2 py-1" >
+                        <mat-form-field class="d-grid gap-2" appearance="outline">
+                           <mat-label>User Name</mat-label>
+                            <mat-select formControlName="user_id">
+                                <mat-option>Select User Name</mat-option>
+                                <mat-option [value]=data.user_id *ngFor="let data of linkFormData['User Name']" (click)="getIDBasedLinkingByUser(data.user_id)">{{data['User Name']}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-6 px-2 py-1" *ngIf="ShowLinkedData">
+                        <mat-form-field class="d-grid gap-2" appearance="outline">
+                           <mat-label>Affected Product</mat-label>
+                            <mat-select formControlName="astd_id">
+                                <mat-option>Select product name</mat-option>
+                                <mat-option [value]=data.astd_id *ngFor="let data of linkedAssetData">{{data.asset_name}}</mat-option>
+                            </mat-select>
                         </mat-form-field>
                     </div>
                 </div>
-             
         </div>
         <div class="row card p-3 mt-2" *ngIf="subformdata.length!=0">
             <h2 class="">{{subformdata[0].module_title}}</h2>

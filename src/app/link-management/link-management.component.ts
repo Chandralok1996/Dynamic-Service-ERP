@@ -25,7 +25,7 @@ export class LinkManagementComponent {
   displayedColumns: any = [];
   private formListSubscription: Subscription = new Subscription();
   tempvar: any;
-  copyDisplayColumn: any;
+  copyDisplayColumn: any = ['sr','formName','linkedForm'];
   temparray: any = [];
   formlabel: any;
   formfield: any = [];
@@ -35,7 +35,7 @@ export class LinkManagementComponent {
   fmlsid: any;
   linkListData: any;
   id: any;
-  formListData: any;
+  linkFormData: any;
 
   constructor(
     private adminService: AdminService,
@@ -53,61 +53,89 @@ export class LinkManagementComponent {
   isMenuOpened: boolean = false;
 
   ngOnInit(): void {
-    this.getFormList();
+  
+    this.getLinkList();
   }
 
-  getFormList() {
-    
-    var a = this.adminService.getFormList().subscribe((res: any) => {
-      console.log(res.status);
-      this.formListData = res.result;
-    });
-  }
-  getLinkList() {
-    console.log(this.fmlsid);
-
-    var a = this.adminService.linkList(this.fmlsid).subscribe(
-      (res: any) => {
-        console.log(res.status);
-        this.linkListData = res.result;
-        console.log(a);
-        var keyarr: any = [];
-        this.dataSource = new MatTableDataSource(this.linkListData);
-        this.dataSource.paginator = this.paginator;
-      },
-      (error: any) => {
-        console.log(error.error.message);
-        if (error.error.message == "Token is not provided") {
-          this.service.logout();
+  // getFormList() {
+  //   
+  //   var a = this.adminService.getFormList().subscribe((res: any) => {
+  //     console.log(res.status);
+  //     this.formListData = res.result;
+  //   });
+  // }
+  getLinkList(): void {
+      
+   
+      this.adminService.getLinkFormList().subscribe((res: any) => {
+        if (res.status == 200) {
+       this.linkFormData=res.rows;
+          this.dataSource = new MatTableDataSource(this.linkFormData);
+          this.dataSource.paginator = this.paginator;
+          this.toaster.success(res.message);
+        } else {
+          this.toaster.error(res.message);
         }
-      }
-    );
-  }
-  selectlabel(event: any, data: any) {
-    console.log(this.orgkeys);
-    var getorg: any = [];
-    for (var i = 0; i < this.orgkeys.length; i++) {
-      getorg.push(this.orgkeys[i].keyName);
+      })
     }
-    console.log(getorg);
-    if (event.checked == true) {
-      let getindex = getorg.indexOf(data.keyName);
-      this.x.splice(getindex, 0, data.keyName);
-      this.displayedColumns = this.x;
-      let actionind = this.displayedColumns.indexOf("Action");
-      this.displayedColumns.splice(actionind, 1);
-      this.displayedColumns.push("Action");
-    } else {
-      //unchecked
-      let getindex = this.x.indexOf(data.keyName);
-      this.x.splice(getindex, 1);
-      this.displayedColumns = this.x;
-    }
-  }
+    
+//   getformfield()
+//   {
+    
+//   console.log(this.formID);
+//   this.adminService.getFormByID(this.formID).subscribe((res:any)=>{
+//   console.log(res);
+//   this.formlabel=res.rows
+//   this.formlabel.forEach((element:any) => {
+//   this.formfield.push(element.column_label)
+// });
+//   console.log(this.formfield);
+//   console.log(this.formfield);
+//   this.tempvar=this.formfield.map((item:any)=>{
 
-  toggler(): void {
-    this.isMenuOpened = !this.isMenuOpened;
-  }
+//   return {
+//     "keyName":item,
+//     "check":true
+//   }
+    
+// })
+//   console.log(this.tempvar);
+//   this.tempvar=this.tempvar.map((res:any)=>{
+//   if(res.keyName=="astd_id" ||res.keyName=="Asset Name" || res.keyName=="Asset Type" || res.keyName=="Category" || res.keyName=="Vendor Name" || res.keyName=="Status" )
+//   {
+//     return {
+//       "keyName":res.keyName,
+//       "check":true
+//     }
+//   }
+//   else
+//   {
+//     return {
+//       "keyName":res.keyName,
+//       "check":false
+//     }
+//   }
+ 
+// })
+// // this.copyDisplayColumn=this.tempvar
+// this.orgkeys=this.tempvar
+// this.getkeys=this.tempvar.filter((res:any)=>{
+//   return res.check==true
+// })
+// console.log(this.getkeys);
+// this.x;
+// for(var i=0;i<this.getkeys.length;i++)
+// {
+//       this.x.push(this.getkeys[i].keyName)
+// }
+
+// console.log(this.x);
+// this.x.push('Action')
+// this.copyDisplayColumn=this.x;
+// })
+//   }
+
+ 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();

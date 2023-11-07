@@ -43,6 +43,8 @@ export class UpdateApproverComponent {
   apprID:any;
   match:any;
   approverDataDetails: any;
+  levelListData:any;
+
   // @ViewChild(MatPaginator) paginator!: MatPaginator;
   displayedColumns: string[] = [
     "sr",
@@ -59,7 +61,7 @@ export class UpdateApproverComponent {
     @Inject(MAT_DIALOG_DATA) public dialogData: DialogData
   ) {}
   ngOnInit(): void {
-    debugger;
+    ;
     this.approverData = this.dialogData;
     this.approverDataDetails = this.approverData.data;
     this.index1 = this.approverData.id;
@@ -88,9 +90,11 @@ export class UpdateApproverComponent {
   //   });
   //}
   getApproverList() {
+    
     this.adminService.getapprovalListDetails().subscribe((res: any) => {
       if (res.status == 200) {
         this.approverListData = res.approversList;
+        this.levelListData = res.level;
         this.approverTypeData = res.type;
         this.approverRoleData = res.role;
         this.onSelectApproverType(this.approverDataDetails,this.typeIndex);
@@ -243,7 +247,7 @@ export class UpdateApproverComponent {
         fmmd_id:null,
         column_name:null,
         column_label:null,
-        level:this.approverForm.value.level
+        level:this.approverDataDetails.level
     
     }
     }
@@ -259,5 +263,8 @@ export class UpdateApproverComponent {
     }, (error: any) => {
       this.toaster.error(`${error.status} ${error.statusText}`);
     });
+  }
+  onNoClick() {
+    this._mdr.close();
   }
 }

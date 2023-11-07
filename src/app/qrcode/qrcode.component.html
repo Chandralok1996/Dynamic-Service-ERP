@@ -1,0 +1,23 @@
+<div class="modal fade" id="view" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header modalHeaderCenter" style="background: #454397;padding: 5px 0;">
+                <h2 class="modal-title text-white text-center">Scan QR Code</h2>
+                <a class="btn-close2" data-bs-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></a>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <ngx-qrcode
+                [elementType]="elementType"
+                [errorCorrectionLevel]="correctionLevel"
+                [value]="value"
+                alt="QR Code"
+                cssClass="bshadow"></ngx-qrcode>
+            </div>
+            <div class="modal-footer border-btm">
+           
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+  </div>

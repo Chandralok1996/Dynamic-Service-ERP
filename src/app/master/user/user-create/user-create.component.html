@@ -58,9 +58,7 @@
               <mat-error *ngIf="checkMandatory"
                 >{{ field.column_label }} is required.</mat-error
               >
-              <mat-error *ngIf="checkValid && !checkMandatory"
-                >{{ field.column_label }} is invalid.</mat-error
-              >
+            
             </mat-form-field>
           </div>
         </div>
@@ -116,8 +114,7 @@
               <mat-error *ngIf="checkMandatory"
                 >{{ field.column_label }} is required.</mat-error
               >
-              <mat-error *ngIf="checkValid">{{ field.column_label }} is invalid.</mat-error
-              >
+             
             </mat-form-field>
           </div>
         </div>

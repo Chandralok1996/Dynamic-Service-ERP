@@ -8,7 +8,7 @@
           <div class="col-md-12 px-2 py-1" >
               <mat-form-field class="d-grid gap-2" appearance="outline">
                  <mat-label>Assigned To</mat-label>
-                  <mat-select formControlName="user_id" [(ngModel)]="userName">
+                  <mat-select formControlName="user_id">
                       <mat-option>Select User Name</mat-option>
                       <mat-option [value]=data.user_id *ngFor="let data of linkListData['User Name']">{{data['User Name']}}</mat-option>
                   </mat-select>
@@ -26,7 +26,7 @@
                 type="{{ field?.type }}"
               />
               <mat-select
-                formControlName="{{ field.column_label }}"
+                formControlName="{{field.column_label}}"
                 *ngIf="field.type == 'dropdown'"
               >
                 <mat-option>Select Column name</mat-option>
@@ -62,7 +62,7 @@
           <button
             mat-raised-button
             type="submit"
-            [disabled]="!dynamicForm.valid"
+            [disabled]="dynamicForm.invalid"
             color="primary"
             (click)="submitForm()"
           >
