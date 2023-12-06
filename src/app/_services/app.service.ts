@@ -53,8 +53,8 @@ export class AppService {
     localStorage.removeItem('user');
     localStorage.clear();
     this.userSubject.next(null);
-    this.toaster.success('Log out successfully.');
     this.router.navigate(['/sign-in']);
+    this.toaster.success('Log out successfully.');
   }
 
 }

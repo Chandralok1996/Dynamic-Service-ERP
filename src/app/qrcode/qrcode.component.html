@@ -1,23 +1,49 @@
-<div class="modal fade" id="view" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header modalHeaderCenter" style="background: #454397;padding: 5px 0;">
-                <h2 class="modal-title text-white text-center">Scan QR Code</h2>
-                <a class="btn-close2" data-bs-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i></a>
+<div class="container-fluid">
+  <div class="row py-5" style="background-color: darkgray">
+    <div class="col-md-3"></div>
+    <div class="col-md-8">
+      <div class="row" style="border-width: 2 px; width: 70%">
+        <div class="card shadow">
+          <div class="text-center">
+            <h1
+              style="
+                font-weight: 800;
+                font-family: 'Gill Sans', 'Gill Sans MT', Calibri,
+                  'Trebuchet MS', sans-serif;
+                color: blueviolet;
+              "
+            >
+              <u>Scan QR Code</u>
+            </h1>
+          </div>
+
+          <div class="row py-4">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+              <div>
+                <qrcode
+                [qrdata]="urlLink"
+                  [width]="300"
+                  [errorCorrectionLevel]="'M'"
+                  style="border-block: 1 px solid"
+                ></qrcode>
+              </div>
+              <div *ngIf="showThisQR1">
+                <qrcode
+                  qrdata="stringQrCode1"
+                  [width]="300"
+                  [errorCorrectionLevel]="'M'"
+                  style="border-block: 1 px solid"             
+                ></qrcode>
+              </div>
             </div>
-            <div class="modal-body">
-              <div class="row">
-                <ngx-qrcode
-                [elementType]="elementType"
-                [errorCorrectionLevel]="correctionLevel"
-                [value]="value"
-                alt="QR Code"
-                cssClass="bshadow"></ngx-qrcode>
-            </div>
-            <div class="modal-footer border-btm">
-           
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
+            <div class="col-md-3"></div>
+          </div>
+
+          <br />
         </div>
+      </div>
     </div>
+    <div class="col-md-1"></div>
   </div>
+</div>

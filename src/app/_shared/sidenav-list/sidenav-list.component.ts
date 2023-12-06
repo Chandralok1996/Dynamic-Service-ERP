@@ -38,7 +38,10 @@ export class SidenavListComponent implements OnInit {
   userRole: any;
   roleAcc: any;
   modulelist:any;
-
+  url:any;
+  private ignoreURL: string = 'createTicket';
+  private ignoreURL1:string='IncidentList';
+  public ignoreURL2:string='feedback_form';
   constructor(
     private appService: AppService,
     private toaster: ToasterService,
@@ -48,34 +51,51 @@ export class SidenavListComponent implements OnInit {
     private formBuilder: FormBuilder,
     public dialog: MatDialog
   ) {
-    this.appService.user.subscribe((res: any) => {
-      console.log(res);
-      this.user = JSON.parse(res);
-      this.userRole = this.user.roleName;
-      console.log(this.userRole);
-      this.roleAcc = this.user.roleAccess[0].fmls_id;
-      console.log(this.roleAcc);
-    });
+    this.url=window.location.pathname.slice(1);
+    this.appService.user.subscribe((res:any)=>{
+      if(res!=null){
+        this.user=JSON.parse(res);
+        this.userRole = this.user.roleName;
+        this.roleAcc = this.user.roleAccess[0].fmls_id;
+      }
+    else{
+      if (this.url.includes(this.ignoreURL))
+      {   
+        this.router.navigate([this.url]);
+        
+      }
+      // else if(this.url.includes(this.ignoreURL1))
+      // {
+      //   this.router.navigate([this.url]);
+      // }
+      // else if(this.url.includes(this.ignoreURL2))
+      // {
+      //   this.router.navigate([this.url]);
+      // }
+    }
+   
+      
+    }) 
   }
 
   ngOnInit() {
     this.tokenName = localStorage.getItem("user");
     console.log(this.tokenName);
     this.tokenName = localStorage.getItem("user");
-    this.getFormModuleList();
+  //  this.getFormModuleList();
     //  var res=this.adminService;
   }
-  getFormModuleList() {
-    debugger
-    this.adminService.getFormList().subscribe((res: any) => {
-      if (res.status) {
-        this.modulelist = res.rows;
+  // getFormModuleList() {
+    
+  //   this.adminService.getFormList().subscribe((res: any) => {
+  //     if (res.status) {
+  //       this.modulelist = res.rows;
        
-      } else {
-        this.toaster.error(res.message);
-      }
-    });
-  }
+  //     } else {
+  //       this.toaster.error(res.message);
+  //     }
+  //   });
+  // }
   onToggleClose() {
     this.closeSideNav.emit();
   }

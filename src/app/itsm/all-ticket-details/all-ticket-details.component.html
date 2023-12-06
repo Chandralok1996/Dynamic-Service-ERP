@@ -1,0 +1,123 @@
+<div class="row">
+    <!-- <div class="col-md-6">
+        <button onclick="history.back()" class="btn btn-back">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#dc3545" class="bi bi-arrow-return-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z"/>
+              </svg> Back</button>
+    </div> -->
+        <div class="col-md-5 mb-2">
+        </div>
+        <!-- <div class="col-md-6">
+            <p id="head"><u><strong style="font-weight: 1200;">Ticket Details</strong></u></p>
+        </div>  -->
+</div>
+<div class="container">
+<div class="col-md-12 col-lg-12 col-xs-12 col-sm-12 col-xl-12" 
+    style="background-color:#6776c547;margin-top: 0rem;border-radius: 3px;">
+    <br>
+    <div class="row p-3">
+        <div class="col-sm-2 float-start">
+            <!-- <p id="p2">Ticket Details : <strong>{{ticketNo}}</strong> Has been assigned to <strong>{{userName}}</strong></p> -->
+            <button type="button" class="btn btn-danger" [routerLink]="['/it-sm/allTickets']"><mat-icon>keyboard_return</mat-icon> </button>
+        </div>
+        <div class="col-sm-8">
+            <p id="p2">Ticket<strong> ({{ticketNo}})</strong> has been assigned to <strong>({{userName}})</strong></p>
+        </div>
+
+        <div class="col-md-2">
+            <button class="btn btn-primary float-end" (click)="updateTicketDetails()"><mat-icon style="float:left">edit</mat-icon> &nbsp;  Edit Ticket</button>
+        </div>
+    </div>
+
+    <!-- <div class="row ml-3">
+        <div class=" col-md-12 col-sm-12">
+            <hr id="hr">
+        </div>
+    </div> -->
+
+    <!-- <div class="row  ml-3">
+        <div class="col-sm-6">
+            <h4 id="p3">{{afd.detaii_desc}}</h4>
+        </div>
+    </div> -->
+    <div class="card mx-3 anime">
+        <div class="row ml-3 mt-2 p-3">
+            <div class="col-md-4" *ngFor="let keyValuePair of DetailedArray | keyvalue">
+                <h4><p><strong>{{ keyValuePair.key }}</strong>: {{ keyValuePair.value }}</p></h4>
+            </div>
+        </div>
+        <hr class="mx-3 mb-0">
+        <div class="row mt-3">
+            <div class="col-sm-6 px-4">
+                <h2 class="m-0"><u><strong>Attachments</strong></u> :-</h2><br>
+                <!-- <div *ngFor="let item of incidentDataAttachment;let index = index">
+                    <div class="panel panel-default mt-2">
+                      <div class="panel-body" style="display: fle;">
+                        <h3 class="f-attach">{{item.filename}}
+                         <button type="button" class="btn btn-primary btn-sm"
+                                    (click)="openDoc(item.angular_path, item.startPage)">
+                                    <mat-icon>remove_red_eye</mat-icon>
+                                </button> &nbsp;
+                                <button type="button" class="btn btn-primary btn-sm"
+                                (click)="downloadPdf(item.angular_path, item.filename)">
+                                <mat-icon>cloud_download</mat-icon>
+                            </button>
+                        </h3>
+                      </div>
+                    </div>
+                  </div> -->
+                  <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">View</th>
+                            <th scope="col">Download</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of incidentDataAttachment;let index = index">
+                            <th class="mt-2" scope="row">{{ item.filename}}</th>
+                            <td>
+                                <button type="button" class="btn btn-primary btn-sm"
+                                    (click)="openDoc(item.angular_path, item.startPage)">
+                                    <mat-icon>remove_red_eye</mat-icon>
+                                </button>
+                               
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-primary btn-sm"
+                                (click)="downloadPdf(item.angular_path, item.filename)">
+                                <mat-icon>cloud_download</mat-icon>
+                            </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- <div class=" verticalLine3">
+    </div> -->
+    <!-- <div class="row ml-3">
+        <div class="col-md-12 col-sm-12">
+            <hr id="hr">
+        </div>
+    </div> -->
+
+
+    <!-- <div class="ml-3 mt-2">
+        <p>
+            <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
+                aria-controls="collapseExample">
+                View Audit trail
+            </a>
+        </p>
+        <div class="collapse " id="collapseExample">
+            <div class="card card-body ">
+                <textarea rows="5" style="border: none;">{{previousData}}</textarea>
+            </div>
+        </div>
+    </div> -->
+    <br>
+</div>
+</div>

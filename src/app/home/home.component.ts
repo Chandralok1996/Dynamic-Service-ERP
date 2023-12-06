@@ -64,7 +64,7 @@ getFormData(): void {
       });
      });
      return this.formListData;
-        this.toaster.success(res.message);
+       
       } else {
         this.toaster.error(res.message);
       }

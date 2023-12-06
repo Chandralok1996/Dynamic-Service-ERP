@@ -6,7 +6,7 @@
         <hr />
 
         <div class="row">
-          <div class="col-md-6 px-2 py-1" *ngFor="let field of nosubform">
+          <div class="col-md-6 px-2 py-1" *ngFor="let field of formFields">
             <mat-form-field class="d-grid gap-2" appearance="outline">
               <mat-label>{{ field?.column_label }} </mat-label>
               <input

@@ -99,7 +99,7 @@ export class FormListComponent implements OnInit{
           // })
           this.dataSource = new MatTableDataSource(this.formData);
           this.dataSource.paginator = this.paginator;
-          this.toaster.success(res.message);
+         
         } else {
           this.toaster.error(res.message);
         }

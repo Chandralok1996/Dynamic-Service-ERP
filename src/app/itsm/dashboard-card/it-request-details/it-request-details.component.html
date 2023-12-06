@@ -1,0 +1,76 @@
+<section>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-1">
+                <button type="button" class="btn btn-danger" onclick="history.back()"><mat-icon
+                        style="float: left;">keyboard_return</mat-icon> </button>
+            </div>
+            <div class="col-md-4">
+                <div class="searchBar d-flex justify-content-center align-items-center">
+                    <span class="material-symbols-sharp">search</span><input class="form-control" type="search" #input
+                        placeholder="Enter search query..." (keyup)="applyFilter($event)">
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+            <div class="col-md-4 text-end">
+                <button (click)="exportAsXLSX()" class="btn btn-primary float-right" style="margin-bottom:0px;"><p style="font-size:14px;">DOWNLOAD
+                    EXCEL<mat-icon style="padding-top:6px;">cloud_download</mat-icon></p></button>
+                <!-- <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                    <mat-icon >more_vert</mat-icon>
+                  </button> -->
+                  <!-- <mat-menu #menu="matMenu">
+                    <mat-checkbox [checked]="task.check" (change)="selectlabel($event,task)"  #menuItems *ngFor="let task of tempvar, let i = index;" color="primary">
+                    {{task.keyName}}
+                  </mat-checkbox>
+                  </mat-menu> -->
+            </div>
+
+
+
+        </div>
+        <div class="row my-2">
+            <div class="card p-2 shadow">
+                <div class="table-hight">
+                    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+                    
+            <ng-container matColumnDef="ticket_no" class="mat-column-ticket_no">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Ticket No. </th>
+                <td mat-cell *matCellDef="let itTickets"> {{itTickets.inid_id}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="problem" class="mat-column-problem">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Issue Description </th>
+                <td mat-cell *matCellDef="let itTickets"> {{itTickets['Issue Description']}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Category" class="mat-column-Category">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Category</th>
+                <td mat-cell *matCellDef="let itTickets"> {{itTickets.Category}} </td>
+            </ng-container>
+            <ng-container matColumnDef="callMode" class="mat-column-callMode">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Call Mode</th>
+                <td mat-cell *matCellDef="let itTickets"> {{itTickets['Call Mode']}} </td>
+            </ng-container>
+            <ng-container matColumnDef="callType" class="mat-column-callType">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Call Type</th>
+                <td mat-cell *matCellDef="let itTickets"> {{itTickets['Call Type']}} </td>
+            </ng-container>
+            <ng-container matColumnDef="Status" class="mat-column-Status">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+                <td mat-cell *matCellDef="let itTickets"> {{itTickets.Status}} </td>
+            </ng-container>
+            <ng-container matColumnDef="Priority" class="mat-column-Priority">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Priority</th>
+                <td mat-cell *matCellDef="let itTickets"> {{itTickets.Priority}} </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+               ></tr>
+                    </table>
+                </div>
+                <mat-paginator [pageSize]="6" [pageSizeOptions]=pagination showFirstLastButtons
+                    aria-label="Select page of periodic elements"> </mat-paginator>
+            </div>
+        </div>
+    </div>
+</section>

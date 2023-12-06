@@ -229,7 +229,7 @@ export class UserUpdateComponent {
   //   this.selectionChange(this.el);
   // }
   pachformdata() {
-    debugger;
+    ;
     this.formshow = true;
     if (this.formshow == true) {
       setTimeout(() => {

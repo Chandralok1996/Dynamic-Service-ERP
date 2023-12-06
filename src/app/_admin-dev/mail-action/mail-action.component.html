@@ -3,77 +3,122 @@
         <div class="row">
             <div class="d-flex align-items-center">
                 <button mat-flat-button [routerLink]="['/admin/approvalFlow']" color="warn" class="me-2"><mat-icon style="float: left;">keyboard_return</mat-icon> Back</button>
-                <h1 class="mt-3">Below approvers at corresponding levels will approve the records added in the form <b class="text-primary">"{{approvalListDetailsData?.form_name}}"</b></h1>
+                <h1 class="mt-3">Below approvers at corresponding levels will approve the records added in the form <b class="text-primary">"{{approvalListDetailsData?.form_name}}".</b></h1>
             </div>
-            <div class="col-12" *ngFor="let data of approverListDetailsData; let i = index">
+            <div class="col-12" *ngIf="approvalListDetailsData?.type == 'create'">
                 <div class="d-flex align-items-center">
-                    <button mat-stroked-button class="me-2 btnToggle" color="primary" (click)="toggleLevel(i)">
-                        <mat-icon *ngIf="!levelStates[i]">add</mat-icon>
-                        <mat-icon *ngIf="levelStates[i]">remove</mat-icon>
-                    </button>
-                    <h3 class="mb-0 text-primary">Level {{data.level}} approver "{{data.name}}"</h3>
+                    <h3 class="mt-2 mb-0 text-primary">Approvers(c)</h3>
                 </div>
-                <div *ngIf="levelStates[i]">
-                    <div class="row mt-4">
-                        <div class="col-12">
-                        <div class="ms-4 d-flex align-items-center">
-                            <button mat-stroked-button class="me-2 btnToggle" color="primary" (click)="toggleApprove(i)">
-                                <mat-icon *ngIf="!levelApprove[i]">add</mat-icon>
-                                <mat-icon *ngIf="levelApprove[i]">remove</mat-icon>
-                            </button> 
-                            <h4 class="m-0">Approve 
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#3f51b5" class="bi bi-check-circle" viewBox="0 0 16 16">
-                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                                    <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>
-                                </svg>
-                            </h4>
-                        </div>
-                        </div>   
-                    </div>
-                    <div class="row mt-2" *ngIf="levelApprove[i]">
-                        <div class="col-7">
-                            <div class="card ms-5 p-3 shadow-sm">
-                                <div class="d-flex align-items-center">
-                                    <p class="mb-0 ms-4">Send mail to <span class="text-primary">"{{varEmail}}"</span></p>
-                                    <span class="spacer"></span>
-                                    <button mat-raised-button color="primary" class="me-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"
-                                    (click)="openEdit(data, 5001)"><mat-icon>edit</mat-icon></button>
-                                    <!-- <button mat-raised-button color="warn"><mat-icon>delete</mat-icon></button> -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mt-4">   
-                        <div class="col-12">
-                            <div class="ms-4 d-flex align-items-center">
-                                <button mat-stroked-button class="me-2 btnToggle" color="primary" (click)="toggleReject(i)">
-                                    <mat-icon *ngIf="!levelReject[i]">add</mat-icon>
-                                    <mat-icon *ngIf="levelReject[i]">remove</mat-icon>
-                                </button> 
-                                <h4 class="m-0">Reject 
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#f44336" class="bi bi-x-circle" viewBox="0 0 16 16">
-                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-                                    </svg>
-                                </h4>
-                            </div>
-                        </div>   
-                    </div>
-                    <div class="row mt-2" *ngIf="levelReject[i]">
-                        <div class="col-7">
-                            <div class="card ms-5 p-3 shadow-sm">
-                            <div class="d-flex align-items-center">
-                                <p class="mb-0 ms-4">Send mail to <span class="text-primary">"{{varEmail}}"</span></p>
-                                <span class="spacer"></span>
-                                <button mat-raised-button color="primary" class="me-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" 
-                                (click)="openEdit(data, 5002)"><mat-icon>edit</mat-icon></button>
-                                <!-- <button mat-raised-button color="warn"><mat-icon>delete</mat-icon></button> -->
-                            </div>
-                            </div>
-                        </div>
+                <div class="row" *ngIf="approverListDetailsData.length != 0">
+                    <div class="col-2" *ngFor="let level of getFilteredDataKeys()">
+                        <dl>
+                            <dt>{{ level }}</dt>
+                            <dd *ngFor="let name of filteredData[level]">{{ name }}</dd>
+                        </dl>
                     </div>
                 </div>
-                <hr>
+                <div *ngIf="approverListDetailsData.length == 0">
+                    <p class="mb-0 text-warn ms-2">There are no approvers for this workflow.</p>
+                </div>
+            </div>
+            <div class="col-12" *ngIf="approvalListDetailsData?.type == 'update'">
+                <h3 class="mt-2 mb-0 text-primary">Approvers(u)</h3>
+                <div class="row" *ngIf="approverListDetailsData.length != 0">
+                    <div class="col-2" *ngFor="let level of getFilteredDataKeys()">
+                        <dl>
+                            <dt>{{ level }}</dt>
+                            <dd *ngFor="let name of filteredData[level]">{{ name }}</dd>
+                        </dl>
+                    </div>
+                </div>
+                <div *ngIf="approverListDetailsData.length == 0">
+                    <p class="mb-0 text-warn ms-2">There are no approvers for this workflow.</p>
+                </div>
+            </div>
+            <div class="col-12" *ngIf="approvalListDetailsData?.type == 'On-Condition'">
+                <h3 class="mt-2 mb-0 text-primary">Approvers(oc)</h3>
+                <div class="row" *ngIf="approverListDetailsData.length != 0">
+                    <div class="col-2" *ngFor="let level of getFilteredDataKeys()">
+                        <dl>
+                            <dt>{{ level }}</dt>
+                            <dd *ngFor="let name of filteredData[level]">{{ name }}</dd>
+                        </dl>
+                    </div>
+                </div>
+                <div *ngIf="approverListDetailsData.length == 0">
+                    <p class="mb-0 text-warn ms-2">There are no approvers for this workflow.</p>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="ms-4 d-flex align-items-center"> 
+                    <h4 class="m-0">Default alert
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
+                            <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"/>
+                        </svg>
+                    </h4>
+                </div>
+            </div>   
+        </div>
+        <div class="row mt-2">
+            <div class="col-7">
+                <div class="card ms-5 p-3 shadow-sm">
+                    <div class="d-flex align-items-center">
+                        <p class="mb-0 ms-4">Send mail to <span class="text-primary">"{{varEmail}}"</span></p>
+                        <span class="spacer"></span>
+                        <button mat-raised-button color="primary" class="me-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"
+                        (click)="openEdit(5005)"><mat-icon>edit</mat-icon></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="ms-4 d-flex align-items-center"> 
+                    <h4 class="m-0">Approve response
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#3f51b5" class="bi bi-check-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                            <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>
+                        </svg>
+                    </h4>
+                </div>
+            </div>   
+        </div>
+        <div class="row mt-2">
+            <div class="col-7">
+                <div class="card ms-5 p-3 shadow-sm">
+                    <div class="d-flex align-items-center">
+                        <p class="mb-0 ms-4">Send mail to <span class="text-primary">"{{varEmail}}"</span></p>
+                        <span class="spacer"></span>
+                        <button mat-raised-button color="primary" class="me-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"
+                        (click)="openEdit(5001)"><mat-icon>edit</mat-icon></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">   
+            <div class="col-12">
+                <div class="ms-4 d-flex align-items-center">
+                    <h4 class="m-0">Reject response
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#f44336" class="bi bi-x-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                        </svg>
+                    </h4>
+                </div>
+            </div>   
+        </div>
+        <div class="row mt-2">
+            <div class="col-7">
+                <div class="card ms-5 p-3 shadow-sm">
+                    <div class="d-flex align-items-center">
+                        <p class="mb-0 ms-4">Send mail to <span class="text-primary">"{{varEmail}}"</span></p>
+                        <span class="spacer"></span>
+                        <button mat-raised-button color="primary" class="me-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" 
+                        (click)="openEdit(5002)"><mat-icon>edit</mat-icon></button>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
@@ -84,31 +129,18 @@
             <div class="offcanvas-body">
                 <form [formGroup]="form" (ngSubmit)="addResponse()">
                     <div class="row">
-                        <div class="col-12">
-                            <label class="label">From <span class="text-warn">*</span></label>
-                            <input class="form-control" formControlName="mailby" [ngClass]="{ 'error-border': form.get('mailby').hasError('required') && form.get('mailby').touched }" readonly>
-                            <div *ngIf="form.get('mailby').hasError('required') && form.get('mailby').touched" class="text-danger">
-                                From is required.
-                            </div>
-                        </div>
-                        <div class="col-12 mt-3">
-                            <label class="label">To <span class="text-warn">*</span></label>
-                            <input class="form-control" formControlName="mailto" [ngClass]="{ 'error-border': form.get('mailto').hasError('required') && form.get('mailto').touched }" readonly>
-                            <div *ngIf="form.get('mailto').hasError('required') && form.get('mailto').touched" class="text-danger">
-                                To is required.
-                            </div>
-                        </div>
-                        <div class="col-12 mt-3">
-                            <label class="label">CC</label>
-                            <input class="form-control" formControlName="cc" [ngClass]="{ 'error-border': form.get('cc').hasError('email') }">
-                            <div *ngIf="form.get('cc').hasError('email')" class="text-danger">
-                                CC must be a valid email address.
-                            </div>
-                        </div>
                         <div class="col-12 mt-3">
                             <label class="label">Subject</label>
                             <input class="form-control" formControlName="subject">
                         </div>
+                        <!-- <mat-form-field class="mt-3">
+                            <mat-label>Select Labels</mat-label>
+                            <mat-select [(ngModel)]="selectedLabels" (change)="onLabelSelectionChange()" multiple>
+                                <mat-option *ngFor="let label of formDataLabels" [value]="label.column_label">
+                                {{ label.column_label }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field> -->
                         <div class="col-12 mt-3">
                             <label class="label">Body</label>
                             <div class="card d-grid">
@@ -116,7 +148,7 @@
                                 <ngx-editor [editor]="mailContent" formControlName="body"> </ngx-editor>
                             </div>
                             <div *ngIf="form.get('body').hasError('required') && form.get('body').touched" class="text-danger">
-                                To is required.
+                                Body is required.
                             </div>
                         </div>
                         <div class="col-12 mt-4 d-flex align-content-end align-items-center">
@@ -127,5 +159,39 @@
                 </form>
             </div>
         </div>
+        <!-- <div class="row my-4">
+            <div class="col-3"></div>
+            <div class="col-6">
+                <div class="card p-2 shadow-sm d-flex align-items-center justify-content-center">
+                    <h3 class="card-header-pills mb-0 text-primary">Edit Mail Response</h3>
+                    <form [formGroup]="form" (ngSubmit)="addResponse()">
+                        <div class="row">
+                            <div class="col-12 mt-3">
+                                <label class="label">Subject</label>
+                                <input class="form-control" formControlName="subject" [ngClass]="{ 'error-border': form.get('subject').hasError('required') && form.get('subject').touched }">
+                                <div *ngIf="form.get('subject').hasError('required') && form.get('subject').touched" class="text-danger">
+                                    Subject is required.
+                                </div>
+                            </div>
+                            <div class="col-12 mt-3">
+                                <label class="label">Body</label>
+                                <div class="card d-grid">
+                                    <ngx-editor-menu class="card" [editor]="mailContent" [toolbar]="toolbar"> </ngx-editor-menu>
+                                    <ngx-editor [editor]="mailContent" formControlName="body"> </ngx-editor>
+                                </div>
+                                <div *ngIf="form.get('body').hasError('required') && form.get('body').touched" class="text-danger">
+                                    Body is required.
+                                </div>
+                            </div>
+                            <div class="col-12 mt-4 d-flex align-content-end align-items-center">
+                                <button type="submit" class="me-2" mat-raised-button color="primary" [disabled]="!form.valid">Update</button>
+                                <button mat-stroked-button color="primary" data-bs-dismiss="offcanvas" aria-label="Close" (click)="cancelForm()">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-3"></div>
+        </div> -->
     </div>
 </section>

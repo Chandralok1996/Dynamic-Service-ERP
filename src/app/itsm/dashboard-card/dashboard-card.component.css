@@ -10,9 +10,30 @@
 .chart-container {
     /* position: relative;
     margin: auto; */
-    height: 40vh;
-    width: auto;
+    height: 50vh;
+    width:350px;
+    /* position: relative; */
+    /* height: 53vh;
+    width:38vw; */
+    /* display: flex;
+    align-items: center;
+    justify-content: center;    */
+
 }
+.chart-container1 {
+    /* position: relative;
+    margin: auto; */
+    height: 50vh;
+    width:350px;
+
+}
+.card-text{
+    color: #8080808f;
+}
+.charts{  
+      border: 1px solid #da2fe54f;
+    padding: 5px;
+    border-radius: 10px;}
 .chart-container-pie {
     position: relative;
     margin: auto;
@@ -111,7 +132,7 @@ table {
 
 }
 .cb{
-    background-color: #f9f9f9;
+    background-color:rgb(255, 255, 255);
     border-radius: 10px;
     border-bottom-color:#883bd1;
     border-top-color: #ae2eb0;
@@ -120,17 +141,26 @@ table {
 }
 .cb:hover{
     box-shadow: 0 3px 5px 0;
+    background-color:white;
     border-bottom-color:#883bd1;
     border-top-color: #ae2eb0;
     border-left-color: #883bd1;
     border-right-color: #ae2eb0; 
 }
 .cst{
-    font-weight: 600;
+    font-weight: 500;
      font-size:22px;
-    color:#3f51b5; 
-    text-decoration: underline;
+     color:#6a54e8; 
+    font-family:Arial, Helvetica, sans-serif;
+    /* text-decoration: underline; */
 }
+/* .cst:hover{
+     font-weight: 500;
+     font-size:22px;
+    color:#6a54e8; 
+    font-family:Arial, Helvetica, sans-serif;
+   
+} */
 .pendst{
     text-align: center; padding: 10px;padding-left: 51px; cursor: pointer;
 }

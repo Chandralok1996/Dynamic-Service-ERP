@@ -1,21 +1,33 @@
 <section>
     <div class="container">
-        <form [formGroup]="dynamicForm">
+        <form [formGroup]="dynamicForm" *ngIf="updateITTicket">
         <div class="row card p-3">
             <h2 >Update Incident</h2>
             <hr>
-          
+        
              <div class="row">
                     <div class="col-md-6 px-2 py-1" *ngFor="let field of nosubform;">
                         <mat-form-field class="d-grid gap-2" appearance="outline">
                             <mat-label>{{field?.column_label}}</mat-label>
-                            <input *ngIf="(field.type != 'dropdown')?(field.type!='assigndropdown'):false" matInput formControlName="{{field.column_label}}" type="{{ field?.type }}">
+                            <input *ngIf="(field.type != 'dropdown')?(field.type!='assigndropdown'):false" 
+                            matInput formControlName="{{field.column_label}}" 
+                            type="{{ field?.type }}"
+                            [readonly]="field.read_only"
+                            (keypress)="OnlyNumbersAllowed($event, field.column_label)"
+                            >
                             <mat-select formControlName="{{field.column_label}}" *ngIf="(field.type == 'dropdown')?true:(field.type == 'assigndropdown')?true:false">
                                 <mat-option>Select Column name</mat-option>
                                 <mat-option [value]=options.id *ngFor="let options of field.column_value">{{options.value | titlecase}}</mat-option>
                             </mat-select>
               <mat-icon matSuffix *ngIf="field.type =='dropdown' || field.type == 'assigndropdown'" (click)="$event.stopPropagation(); addField(field)">add_circle</mat-icon>
-                        </mat-form-field>
+              <mat-error *ngIf="checkMandatory"
+              >{{ field.column_label }} is required.</mat-error
+            >
+            <!-- <mat-error *ngIf="checkValid"
+            >{{ field.column_label }} is not valid.</mat-error
+          > -->
+           
+            </mat-form-field>
                     </div>
                 </div>
                 <div class="row">
@@ -24,7 +36,7 @@
                            <mat-label>User Name</mat-label>
                             <mat-select formControlName="user_id">
                                 <mat-option>Select User Name</mat-option>
-                                <mat-option [value]=data.user_id *ngFor="let data of linkFormData['User Name']" (click)="getIDBasedLinkingByUser(data.user_id)">{{data['User Name']}}</mat-option>
+                                <mat-option [value]=data.user_id *ngFor="let data of linkFormuserData['User Name']" (click)="getIDBasedLinkingByUser(data.user_id)">{{data['User Name']}}</mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
@@ -63,6 +75,182 @@
 
                 <button class="me-2" mat-raised-button type="submit"  color="secondary" [routerLink]="['/it-sm']">Cancel</button>
                 <button mat-raised-button type="submit" [disabled]="!dynamicForm.valid" color="primary" (click)="submitForm()">Update Incident</button>
+            </div>
+        </div>
+        <br>
+    </form>
+    <form [formGroup]="dynamicHouseKeepingForm" *ngIf="updateHouseKeepingTicket">
+        <div class="row card p-3">
+            <h2 >Update Incident</h2>
+            <hr>
+           
+             <div class="row">
+                    <div class="col-md-6 px-2 py-1" *ngFor="let field of nosubform;">
+                        <mat-form-field class="d-grid gap-2" appearance="outline">
+                            <mat-label>{{field?.column_label}}</mat-label>
+                            <input *ngIf="(field.type != 'dropdown')?(field.type!='assigndropdown'):false" 
+                            matInput formControlName="{{field.column_label}}" 
+                            type="{{ field?.type }}"
+                            [readonly]="field.read_only"
+                            (keypress)="OnlyNumbersAllowed($event, field.column_label)"
+                            >
+                            <mat-select formControlName="{{field.column_label}}" *ngIf="(field.type == 'dropdown')?true:(field.type == 'assigndropdown')?true:false">
+                                <mat-option>Select Column name</mat-option>
+                                <mat-option [value]=options.id *ngFor="let options of field.column_value">{{options.value | titlecase}}</mat-option>
+                            </mat-select>
+              <mat-icon matSuffix *ngIf="field.type =='dropdown' || field.type == 'assigndropdown'" (click)="$event.stopPropagation(); addField(field)">add_circle</mat-icon>
+              <mat-error *ngIf="checkMandatory"
+              >{{ field.column_label }} is required.</mat-error
+            >
+            <!-- <mat-error *ngIf="checkValid"
+            >{{ field.column_label }} is not valid.</mat-error
+          > -->
+           
+            </mat-form-field>
+                    </div>
+                    <div class="col-md-6 px-2 py-1">
+                        <mat-form-field class="d-grid gap-2" appearance="outline">
+                          <mat-label>Support Group</mat-label>
+                          <mat-select formControlName="Support Group">
+                            <mat-option>Select Support Group</mat-option>
+                            <mat-option
+                              [value]="data.table14_id"
+                              *ngFor="let data of linkFormData['Support Group']"
+                              >{{ data["Support Group"] }}</mat-option
+                            >
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                </div>
+                 <div class="row">
+                <div class="col-md-12 px-2 py-1">
+                  <mat-form-field class="d-grid gap-2" appearance="outline">
+                    <mat-label>CI Name</mat-label>
+                    <mat-select formControlName="cicd_id">
+                      <mat-option>Select Configuration item</mat-option>
+                      <mat-option
+                        [value]="data.cicd_id"
+                        *ngFor="let data of linkFormCIData['Config Item']"
+                        >{{ data["Config Item"] }}</mat-option
+                      >
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+        </div>
+      
+        <div class="row card p-3 mt-2" *ngIf="subformdata.length!=0">
+            <h2 class="">{{subformdata[0].module_title}}</h2>
+            <hr>
+                <div class="row">
+                    <div class="col-md-6 px-2 py-1" *ngFor="let field of subformdata;">
+                        <mat-form-field class="d-grid gap-2" appearance="outline">
+                            <mat-label>{{field?.column_label}}</mat-label>
+                            <input *ngIf="(field.type != 'dropdown')?(field.type!='assigndropdown'):false" matInput formControlName="{{field.column_label}}" type="{{ field?.type }}">
+                            <mat-select formControlName="{{field.column_label}}" *ngIf="(field.type == 'dropdown')?true:(field.type == 'assigndropdown')?true:false">
+                                <mat-option>Select Column name</mat-option>
+                                <mat-option [value]=options.id *ngFor="let options of field.column_value">{{options.value | titlecase}}</mat-option>
+                            </mat-select>
+              <mat-icon matSuffix *ngIf="field.type =='dropdown' || field.type == 'assigndropdown'" (click)="$event.stopPropagation(); addField(field)">add_circle</mat-icon>
+                        </mat-form-field>
+                    </div>
+                </div>
+           
+            
+        </div>
+        <div class="footer row mt-2 bg-light">
+            <div class="text-center">
+
+                <button class="me-2" mat-raised-button type="submit"  color="secondary" [routerLink]="['/it-sm']">Cancel</button>
+                <button mat-raised-button type="submit" [disabled]="!dynamicHouseKeepingForm.valid" color="primary" (click)="submitDynamicForm()">Update Incident</button>
+            </div>
+        </div>
+        <br>
+    </form>
+    <form [formGroup]="dynamicHRForm" *ngIf="updateHRTicket">
+        <div class="row card p-3">
+            <h2 >Update Incident</h2>
+            <hr>
+           
+             <div class="row">
+                    <div class="col-md-6 px-2 py-1" *ngFor="let field of nosubform;">
+                        <mat-form-field class="d-grid gap-2" appearance="outline">
+                            <mat-label>{{field?.column_label}}</mat-label>
+                            <input *ngIf="(field.type != 'dropdown')?(field.type!='assigndropdown'):false" 
+                            matInput formControlName="{{field.column_label}}" 
+                            type="{{ field?.type }}"
+                            [readonly]="field.read_only"
+                            (keypress)="OnlyNumbersAllowed($event, field.column_label)"
+                            >
+                            <mat-select formControlName="{{field.column_label}}" *ngIf="(field.type == 'dropdown')?true:(field.type == 'assigndropdown')?true:false">
+                                <mat-option>Select Column name</mat-option>
+                                <mat-option [value]=options.id *ngFor="let options of field.column_value">{{options.value | titlecase}}</mat-option>
+                            </mat-select>
+              <mat-icon matSuffix *ngIf="field.type =='dropdown' || field.type == 'assigndropdown'" (click)="$event.stopPropagation(); addField(field)">add_circle</mat-icon>
+              <mat-error *ngIf="checkMandatory"
+              >{{ field.column_label }} is required.</mat-error
+            >
+            <!-- <mat-error *ngIf="checkValid"
+            >{{ field.column_label }} is not valid.</mat-error
+          > -->
+           
+            </mat-form-field>
+                    </div>
+                    <div class="col-md-6 px-2 py-1">
+                        <mat-form-field class="d-grid gap-2" appearance="outline">
+                          <mat-label>Support Group</mat-label>
+                          <mat-select formControlName="Support Group">
+                            <mat-option>Select Support Group</mat-option>
+                            <mat-option
+                              [value]="data.table14_id"
+                              *ngFor="let data of linkFormData['Support Group']"
+                              >{{ data["Support Group"] }}</mat-option
+                            >
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                </div>
+                 <!-- <div class="row">
+                <div class="col-md-12 px-2 py-1">
+                  <mat-form-field class="d-grid gap-2" appearance="outline">
+                    <mat-label>CI Name</mat-label>
+                    <mat-select formControlName="cicd_id">
+                      <mat-option>Select Configuration item</mat-option>
+                      <mat-option
+                        [value]="data.cicd_id"
+                        *ngFor="let data of linkFormCIData['Config Item']"
+                        >{{ data["Config Item"] }}</mat-option
+                      >
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div> -->
+        </div>
+      
+        <div class="row card p-3 mt-2" *ngIf="subformdata.length!=0">
+            <h2 class="">{{subformdata[0].module_title}}</h2>
+            <hr>
+                <div class="row">
+                    <div class="col-md-6 px-2 py-1" *ngFor="let field of subformdata;">
+                        <mat-form-field class="d-grid gap-2" appearance="outline">
+                            <mat-label>{{field?.column_label}}</mat-label>
+                            <input *ngIf="(field.type != 'dropdown')?(field.type!='assigndropdown'):false" matInput formControlName="{{field.column_label}}" type="{{ field?.type }}">
+                            <mat-select formControlName="{{field.column_label}}" *ngIf="(field.type == 'dropdown')?true:(field.type == 'assigndropdown')?true:false">
+                                <mat-option>Select Column name</mat-option>
+                                <mat-option [value]=options.id *ngFor="let options of field.column_value">{{options.value | titlecase}}</mat-option>
+                            </mat-select>
+              <mat-icon matSuffix *ngIf="field.type =='dropdown' || field.type == 'assigndropdown'" (click)="$event.stopPropagation(); addField(field)">add_circle</mat-icon>
+                        </mat-form-field>
+                    </div>
+                </div>
+           
+            
+        </div>
+        <div class="footer row mt-2 bg-light">
+            <div class="text-center">
+
+                <button class="me-2" mat-raised-button type="submit"  color="secondary" [routerLink]="['/it-sm']">Cancel</button>
+                <button mat-raised-button type="submit" [disabled]="!dynamicHRForm.valid" color="primary" (click)="submitDynamicHRForm()">Update Incident</button>
             </div>
         </div>
         <br>

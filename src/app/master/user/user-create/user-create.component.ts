@@ -186,7 +186,7 @@ export class UserCreateComponent {
       // scrollStrategy: new NoopScrollStrategy(),
       disableClose: true,
       data: { data: item,
-      formName:this.formName },
+       },
     });
 
     dialogRef.afterClosed().subscribe((result: any) => {

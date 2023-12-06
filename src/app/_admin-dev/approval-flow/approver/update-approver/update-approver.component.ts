@@ -105,7 +105,7 @@ export class UpdateApproverComponent {
   }
 
   onSelectApproverType(data1: any, index: any) {
-    debugger;
+    ;
     if (data1.type == "user") {
       this.showRole = false;
       this.showUser = true;
@@ -216,7 +216,7 @@ export class UpdateApproverComponent {
   }
 
   onSubmit() {
-    debugger;
+    ;
     if (this.approverForm.invalid) {
       return;
     }

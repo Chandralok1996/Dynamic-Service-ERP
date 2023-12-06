@@ -1,0 +1,332 @@
+/* .card {
+
+  transition: 0.5s;
+  border-radius: 10px;
+  margin-left: 15px;
+  margin-top: 10px;
+}
+ */
+
+ .pro-card{
+    background-color: #fff;
+    padding: 0 3px 8px -2px;
+    width: 90.5%; 
+    height: auto;
+    transition: 0.5s;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: 0.5s;
+    bottom: 2px;
+    top: none;
+    z-index: -1;
+    box-shadow: 0px 4px 8px 0px #56535380;
+  
+  } 
+  .vl{
+    border-left: 8px solid yellow;
+  }
+  
+  .card-heading{
+    font-size: 20px;
+    font-weight: 600;
+    color: #2A2B2D;
+    padding: 0px 10px 10px 10px;
+   
+  }
+  
+  .card-heading-down{
+    font-size: 18px;
+    font-weight: 600;
+    color: #2A2B2D;
+    padding: 0px 8px 8px 8px;
+  }
+  
+  .not-active {
+    cursor: pointer;
+  }
+  
+  .fa-plus{
+    font-size: 10px;
+    background-color: #007aff;
+    color: #ffffff;
+    padding: 3px 5px 3px 5px;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-left: 5px;
+  }
+  
+  .clear-all{
+    margin-top: -30px;
+    font-size: 12px;
+    }
+  
+  /* .font-sans {
+    font-family: TKReg;
+  } */
+  
+  .cust-create-btn {
+    width: 215px;
+   height: 45px;
+   font-size: 16px;
+   position: relative;
+   left: -10%;
+   color: #fff;
+   border-radius: 10px;
+   background-color: #bebebe;
+   outline: none;
+   border: none;
+   font-weight: 600;
+   padding: 10px 15px 10px 15px;
+  }
+  .cust-create-btn:enabled {
+   width: 215px;
+   height: 45px;
+   font-size: 16px;
+   position: relative;
+   left: -10%;
+   color: #fff;
+   border-radius: 10px;
+   background-color: rgb(62, 144, 249);
+   outline: none;
+   border: none;
+   font-weight: 600;
+   padding: 10px 15px 10px 15px;
+  }
+  
+  .create-new {
+    background-color: #fff;
+    color: rgb(117, 116, 116);
+    width: 100px;
+    outline: none;
+    border-color: #8d8b8b;
+   /* margin-top: -120px; */
+    border-radius: 10px;
+    padding: 10px 10px 10px 10px;
+  }
+  
+  .profile-name{
+    font-size: 25px;
+    font-weight: 600;
+    color: #8c8c8c;
+    margin-top: 30px;
+  }
+  
+  
+  #user{
+  
+    width: 70px;
+    height: 70px;
+   
+    box-sizing: border-box;
+    border-radius: 50%;
+    background-color: #C4C4C4;
+    }
+    #Choose{
+      font-family: TKReg;
+      font-style: italic;
+      font-weight: normal;
+      margin-left: 5px;
+      font-size: 13px;
+      text-decoration-line: underline;
+     
+      }
+      hr {
+        border: 1px solid #c0bfbf;
+        margin-top: 0px !important;
+      }
+  
+      .scroll {
+        height: 500px;
+        overflow: hidden;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        }
+      
+        .scroll::-webkit-scrollbar {
+          width: 10px;
+      }
+      
+      .scroll::-webkit-scrollbar-track {
+          -webkit-box-shadow: inset 0 0 6px #696969;
+          border-radius: 10px;
+          box-shadow: #696969;
+      }  
+      
+      .scroll::-webkit-scrollbar-thumb {
+          border-radius: 10px;
+          -webkit-box-shadow: inset 0 0 6px #696969;
+          box-shadow: #696969;
+      }
+      
+      .scroll::-webkit-scrollbar-track {
+      background-color: #ebebeb;
+      -webkit-border-radius: 10px;
+      border-radius: 10px;
+      }
+      
+      .scroll::-webkit-scrollbar-thumb {
+      -webkit-border-radius: 10px;
+      border-radius: 10px;
+      background: #696969;
+      }
+  
+  
+  
+  /* .autocomplete-container .input-container input {
+    font-size: 12px;
+    box-sizing: border-box;
+    border: none;
+    box-shadow: none;
+    outline: 0;
+    background-color: #fff;
+    color: rgba(0,0,0,.87);
+    width: 100%;
+    padding: 0 15px;
+  
+  } */
+  
+  ::ng-deep .autocomplete-container {
+    box-shadow: none !important;
+    overflow: visible !important;
+  }
+  
+  ::ng-deep .autocomplete-container .input-container input {
+    font-size: 14px !important;
+    box-sizing: border-box !important;
+    border: 1px solid #ced4da !important;
+    box-shadow: none !important;
+    outline: none !important;
+    background-color: #fff !important;
+    color: #495057 !important;
+    width: 100% !important;
+    /* padding: 0 15px !important;
+    line-height: 31.96px !important; */
+    height: 31.96px !important;
+    appearance: none !important;
+    border-radius: 0.25rem !important;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out !important;
+    /* padding-left: 28px !important; */
+  }
+  
+  ::ng-deep .autocomplete-container .not-found {
+    padding: 0.4em 0;
+    font-size: 16px;
+    line-height: 2;
+    color: #FFFFFF !important;
+    background: #7e7e7e !important;
+  }
+  
+  ::ng-deep .autocomplete-container .input-container .x i {
+    margin-bottom: 8px;
+    font-size: 18px !important;
+  }
+  
+  .mat.dialog.container {
+    overflow-y:hidden !important ;
+    padding: 0px;
+  
+   }
+  
+  #create{
+    font-family: TKReg;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 21px;
+  color: #2A2B2D;
+  
+  }
+  
+  label{
+    font-family: TKReg;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 16px;
+  color: #2A2B2D;
+  }
+  
+  textstyle{
+    font-size: 12px;
+  }  
+    .close-button{  
+      float: right;
+      top:-24px;
+      right:-24px;
+    }
+    
+    .close-icon:hover {
+      transform: rotate(180deg);
+    }
+    
+    ::ng-deep .icon-outside .close-button{
+      float: right;
+      top:-52px;
+      right:-52px;
+    }
+    
+    ::ng-deep .icon-outside .mat-dialog-container {
+     overflow: unset
+    }
+   
+  
+  
+    .required-asterisk{
+      color: red;
+     
+    }
+  
+    input.ng-touched.ng-invalid {
+      border-color: red;
+    }
+    
+    select.ng-touched.ng-invalid {
+      border-color: red;
+    }
+  
+    .attach-do {
+      height: 0px;
+      width: 0px;
+      background-color: #e6e4e4;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      border-radius: 15px;
+      padding: 5px 5px 5px 5px;
+      
+    }
+    .attach-font {
+      font-size: 12px;
+      margin-right: 10px;
+      margin-left: 10px;
+      font-weight: bold;
+    }
+  
+    .attach-icon {
+      width: 30px;
+      height: 30px;
+      background-color: rgb(98, 98, 255);
+      border-radius: 50px;
+      padding: 9px 9px 9 9px;
+      margin: -6px 0px 0px -6px;
+      color: #fff;
+    }
+  
+    .panel {
+      margin-bottom: 6px !important;
+    }
+    
+    .panel-body {
+      background-color: #e6e4e4;
+      height: 40px;
+      padding: 5px 5px 5px 5px;
+    }
+  
+    .remove-btn {
+      outline: none;
+      border: none;
+      float: right;
+      background-color: #e6e4e4;
+    }
+  
+  

@@ -10,7 +10,8 @@ import {MatButtonModule} from '@angular/material/button';
 
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { QRCodeComponent } from './qrcode.component';
-import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
+import { QRCodeModule } from 'angularx-qrcode';
+
 const routes: Routes = [
   { path: '', component: QRCodeComponent },
  
@@ -29,9 +30,10 @@ const routes: Routes = [
     MatMenuModule,
     MatButtonModule,
     ReactiveFormsModule,
+    QRCodeModule,
     NgxMatSelectSearchModule,
-    NgxQRCodeModule,
+    
         RouterModule.forChild(routes)
   ]
 })
-export class QRCodeModule { }
+export class QRCodeMainModule { }

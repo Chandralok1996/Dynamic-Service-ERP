@@ -20,16 +20,16 @@ import { OrgPrivilegeComponent } from "./form-master/org-privilege/org-privilege
 import { FormListComponent } from "./form-list/form-list.component";
 import { OrganizationComponent } from "./organization/organization.component";
 import { CreateOrganizationComponent } from "./organization/create-organization/create-organization.component";
-import { ModuleListComponent } from './module-list/module-list.component';
+import { ModuleListComponent } from "./module-list/module-list.component";
 import { ApprovalFlowComponent } from "./approval-flow/approval-flow.component";
 import { CreateApprovalComponent } from "./approval-flow/create-approval/create-approval.component";
-import { NgxEditorModule } from 'ngx-editor';
-import { UpdateApprovalComponent } from './approval-flow/update-approval/update-approval.component';
-import { UpdateApproverComponent } from './approval-flow/approver/update-approver/update-approver.component';
+import { NgxEditorModule } from "ngx-editor";
+import { UpdateApprovalComponent } from "./approval-flow/update-approval/update-approval.component";
+import { UpdateApproverComponent } from "./approval-flow/approver/update-approver/update-approver.component";
 import { CreateApproverComponent } from "./approval-flow/approver/create-approver/create-approver.component";
 import { LoadingComponent } from "./approval-flow/loading.component";
 import { MailActionComponent } from "./mail-action/mail-action.component";
-
+import { ApprovalListComponent } from "./approval-flow/approval-list/approval-list.component";
 
 const routes: Routes = [
   {
@@ -88,23 +88,27 @@ const routes: Routes = [
       },
       {
         path: "createApproval",
-        component:CreateApprovalComponent,
+        component: CreateApprovalComponent,
         canActivate: [adminGuard],
       },
-      { 
-        path: 'mail-action', 
-        component: MailActionComponent, 
-        canActivate: [adminGuard]
+      {
+        path: "mail-action",
+        component: MailActionComponent,
+        canActivate: [adminGuard],
       },
-      { 
-        path: 'mail-action/:id', 
-        component: MailActionComponent, 
-        canActivate: [adminGuard]
+      {
+        path: "mail-action/:id",
+        component: MailActionComponent,
+        canActivate: [adminGuard],
       },
       {
         path: "updateApproval/:id",
-        component:UpdateApprovalComponent,
+        component: UpdateApprovalComponent,
         canActivate: [adminGuard],
+      },
+      {
+        path: "approvals",
+        component: ApprovalListComponent,
       },
     ],
   },
@@ -132,8 +136,9 @@ const routes: Routes = [
     CreateApproverComponent,
     UpdateApprovalComponent,
     MailActionComponent,
-  LoadingComponent,
-    UpdateApproverComponent
+    LoadingComponent,
+    UpdateApproverComponent,
+    ApprovalListComponent,
   ],
   imports: [
     CommonModule,

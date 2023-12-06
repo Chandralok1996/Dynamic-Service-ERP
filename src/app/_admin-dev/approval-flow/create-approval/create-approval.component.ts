@@ -132,7 +132,7 @@ export class CreateApprovalComponent {
   }
 
   getApproverList() {   
-    debugger
+    
     this.adminService.getapprovalListDetails().subscribe((res: any) => {
       if (res.status) {
         this.approvalCondition = res.condition;
@@ -168,7 +168,7 @@ export class CreateApprovalComponent {
   }
  
   submitForm(): void {
-  debugger
+  
     if (this.form.invalid) {
       return;
     }

@@ -20,11 +20,12 @@ export class AppComponent implements OnInit {
 
   ngOnInit()
   {
+    
       this.login=localStorage.getItem('user')
       console.log(this.login);
   if(this.login==null)
       {
-        this.service.logout()
+       // this.service.logout()
       }
  this.adminservice.userlist().subscribe((res:any)=>{
       console.log(res);

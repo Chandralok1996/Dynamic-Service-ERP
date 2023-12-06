@@ -29,10 +29,11 @@ export class UpdateConfigComponent {
   sla_res: any;
   configformfiled: any;
   itemdata: any;
-
+  linkListServiceData:any;
   subformdata: any = [];
   nosubform: any = [];
   linkListData:any;
+  linkListUserData:any;
   showform: boolean = false;
 
   constructor(
@@ -50,7 +51,7 @@ export class UpdateConfigComponent {
     }
       
     this.dynamicForm = this.formBuilder.group({
-      astd_id: this.formBuilder.control('', Validators.required),
+      astd_id: this.formBuilder.control(''),
       user_id: this.formBuilder.control('',[(Validators.required)]),
     });
     this.getFormDataById(this.formID);
@@ -154,18 +155,24 @@ export class UpdateConfigComponent {
   // }
   configdetails() {
     this.adminService.getconfigdetails(this.cicd_id).subscribe((res: any) => {
-      this.ciItemDetailsData = res.result;
+      this.ciItemDetailsData = res;
       console.log(this.ciItemDetailsData);
       this.pachformdata();
     });
   }
 
   pachformdata() {
-    debugger
+    
     setTimeout(() => {
-      for(var i=0;i<this.ciItemDetailsData.length;i++)
-      {
-         this.dynamicForm.patchValue(this.ciItemDetailsData[i])
+      // for(var i=0;i<this.ciItemDetailsData.length;i++)
+      // {
+      //    this.dynamicForm.patchValue(this.ciItemDetailsData[i])
+      // }
+      this.dynamicForm.patchValue(this.ciItemDetailsData.result[0]);
+      if(this.ciItemDetailsData.linkData.length!=0){
+        this.dynamicForm.patchValue({
+          user_id: this.ciItemDetailsData.linkData[0]['User Name'][0].user_id, 
+        });
       }
      }, 2000);
   }
@@ -182,7 +189,7 @@ export class UpdateConfigComponent {
     });
   }
   submitForm() {
-    debugger
+    
     if(this.dynamicForm.invalid)
     {
       return;
@@ -211,6 +218,8 @@ export class UpdateConfigComponent {
     this.adminService.linkList(this.formID).subscribe((res:any)=>{
     console.log(res);
     this.linkListData=res.rows;
+    this.linkListUserData=this.linkListData[0];
+    this.linkListServiceData=this.linkListData[1];
   })
   }
   ngOnDestroy(): void {

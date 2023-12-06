@@ -24,8 +24,11 @@ export class CreateConfigComponent {
   sla_res: any;
   cls: any;
   showform: boolean=false;
+  url:any;
   itemlistdata: any;
   linkListData:any;
+  linkListUserData:any;
+  linkListServiceData:any;
   fmls_id:any;
   linkedData:any;
 
@@ -37,8 +40,10 @@ export class CreateConfigComponent {
       this.userCreated = JSON.parse(this.userCreated);
     }
        this.dynamicForm = this.formBuilder.group({
-    //  astd_id:this.formBuilder.control(null,Validators.required)
+      
     user_id: this.formBuilder.control('',[(Validators.required)]),
+    srvd_id:this.formBuilder.control(''),
+    astd_id:this.formBuilder.control('')
     });
   }
 
@@ -46,7 +51,7 @@ export class CreateConfigComponent {
  
 this.showform=true;
 this.itemlist()
-this.getUserNameList();
+this.getLinkList();
 
   }
   getFormDataById(id: number): void {
@@ -116,11 +121,13 @@ this.getUserNameList();
       
     })
   }
-  getUserNameList(){
+  getLinkList(){
     
     this.adminService.linkList(this.formID).subscribe((res:any)=>{
     console.log(res);
     this.linkListData=res.rows;
+    this.linkListUserData=this.linkListData[0];
+    this.linkListServiceData=this.linkListData[1];
   })
   }
 // createform()
@@ -152,16 +159,13 @@ addField(item: any) {
   dialogRef.afterClosed().subscribe((result:any) => {
     this.getFormDataById(this.formID);
   })
-
-
-
 }
 
   submitForm() {
     
     var match: any = this.dynamicForm.value, error: any = [];
     console.log(match);
-    
+  //  this.url=window.location.pathname.slice(1);
     // this.formFields.forEach((element: any) => {
     //   if(element.mandatory) {
     //     if(!match[element.column_label]) {

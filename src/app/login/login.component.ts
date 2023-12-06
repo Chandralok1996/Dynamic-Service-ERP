@@ -19,15 +19,56 @@ export class LoginComponent {
       const response = JSON.parse(res);
       if(response?.roleName) {
         if(response.roleName == 'developer') {
-          this.router.navigate(['/admin/organization']);
+         // this.router.navigate(['/admin/organization']);
+         this.router.navigate(['/home']);
         } else if(response.roleName=='enduser') {
           console.log(response)
           this.router.navigate(['/it-sm']);
         }
-        else if(response.roleName=='Administrator')
+        else if(response.roleName=='Housekeeping') {
+          console.log(response)
+          this.router.navigate(['/it-sm']);
+        }
+        else if(response.roleName == 'Administrator')
+        {
+          this.router.navigate(['/it-sm/allTickets']);
+          //this.router.navigate(['/it-sm/dashboard-card']);
+        }
+        else if(response.roleName=='HR')
+        {
+          this.router.navigate(['/it-sm']);
+          //this.router.navigate(['/it-sm/dashboard-card']);
+        }
+        else if(response.roleName=='IT Engineer')
+        {
+          this.router.navigate(['/it-sm']);
+          //this.router.navigate(['/it-sm/dashboard-card']);
+        }
+        else if(response.roleName=='Accountant')
+        {
+          this.router.navigate(['/it-sm']);
+          //this.router.navigate(['/it-sm/dashboard-card']);
+        }
+     
+        else if(response.roleName=='Procurement')
+        {
+          this.router.navigate(['/it-sm']);
+          //this.router.navigate(['/it-sm/dashboard-card']);
+        }
+        else if(response.roleName=='Guest')
+        {
+          this.router.navigate(['/it-sm']);
+          //this.router.navigate(['/it-sm/dashboard-card']);
+        }
+        else if(response.roleName=='Helpdesk')
         {
           this.router.navigate(['/it-sm/dashboard-card']);
-
+          //this.router.navigate(['/it-sm/dashboard-card']);
+        }
+        else if(response.roleName=='Manager')
+        {
+          this.router.navigate(['/it-sm/dashboard-card']);
+          //this.router.navigate(['/it-sm/dashboard-card']);
         }
         else{
           this.router.navigate(['/home']);

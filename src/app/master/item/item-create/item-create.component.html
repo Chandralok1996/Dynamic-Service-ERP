@@ -13,7 +13,7 @@
                 <mat-option>Select User Name</mat-option>
                 <mat-option
                   [value]="data.user_id"
-                  *ngFor="let data of linkListData['User Name']"
+                  *ngFor="let data of linkListUserData['User Name']"
                   (click)="getIDBasedLinkingByUser(data.user_id)"
                   >{{ data["User Name"] }}</mat-option
                 >

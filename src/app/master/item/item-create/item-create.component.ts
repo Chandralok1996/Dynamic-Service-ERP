@@ -22,6 +22,7 @@ export class ItemCreateComponent {
   subformdata:any=[];
   nosubform: any=[];
   linkListData: any;
+  linkListUserData:any;
   fmls_id:any;
   itemlistdata:any;
   constructor(private toaster: ToasterService,public dialog: MatDialog, private adminService: AdminService, private router: Router, private formBuilder: FormBuilder) {
@@ -62,9 +63,9 @@ export class ItemCreateComponent {
           // });
           this.formFields.forEach((value: any) => {
             if(value.mandatory) {
-              this.dynamicForm.addControl(`${value.column_label}`, this.formBuilder.control(null, Validators.required));
+              this.dynamicForm.addControl(`${value.column_label}`, this.formBuilder.control('', Validators.required));
             } else {
-              this.dynamicForm.addControl(`${value.column_label}`, this.formBuilder.control(null));
+              this.dynamicForm.addControl(`${value.column_label}`, this.formBuilder.control(''));
             }
           });
           this.toaster.success(res.message);
@@ -152,6 +153,7 @@ export class ItemCreateComponent {
       this.adminService.linkList(this.formID).subscribe((res:any)=>{
       console.log(res);
       this.linkListData=res.rows;
+      this.linkListUserData=this.linkListData[0];
     })
   }
 

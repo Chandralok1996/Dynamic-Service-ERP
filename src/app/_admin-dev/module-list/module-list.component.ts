@@ -27,7 +27,7 @@ export class ModuleListComponent {
     this.form = new FormGroup({
       module_name: new FormControl('', [Validators.required])
     });
-    this. getFormList();
+    this.getFormList();
   }
 
   get formCtrl() {

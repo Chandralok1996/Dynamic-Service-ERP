@@ -1,0 +1,245 @@
+<!-- For feedback form star rating
+  1) add the package for angular-star-rating 
+2) add the svg file in assets/images folder
+3)add the import in styles.css form star styles-->
+<div class="container-fluid">
+  <div class="row py-3">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+      <div class="row p-2">
+        <div class="card p-3 shadow float-right">
+          <div class="text-center">
+            <h1
+              style="
+                font-weight: 600;
+                font-family: 'Gill Sans', 'Gill Sans MT', Calibri,
+                  'Trebuchet MS', sans-serif;
+              "
+            >
+              <u>Event&nbsp;&nbsp;Feedback&nbsp;&nbsp;Form</u>
+            </h1>
+          </div>
+
+          <div class="row py-3">
+            <form [formGroup]="form">
+              <div class="row">
+                <div class="col-md-4">
+                  <mat-form-field class="fieldInput" appearance="outline">
+                    <mat-label>Customer Name</mat-label>
+                    <input
+                      matInput
+                      placeholder="Enter customer name"
+                      formControlName="customer_nm"
+                      type="text"
+                    />
+                    <mat-error
+                      class="mb-4"
+                      *ngIf="formCtrl.customer_nm.errors?.required"
+                      >Customer name is required</mat-error
+                    >
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field class="fieldInput" appearance="outline">
+                    <mat-label>Mobile Number</mat-label>
+                    <input
+                      matInput
+                      placeholder="Enter mobile number"
+                      formControlName="mobile_no"
+                      type="text"
+                    />
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field class="fieldInput" appearance="outline">
+                    <mat-label>Email ID</mat-label>
+                    <input
+                      matInput
+                      placeholder="Enter email id"
+                      formControlName="email_id"
+                      type="text"
+                    />
+                  </mat-form-field>
+                </div>
+                <!-- <div class="col-md-4" class="fieldInput"> -->
+                <!-- <button class="f style="align-items: end;" ieldInput"
+                  class="btn btn-primary"
+                  (click)="openApproverCreateDialog()"
+                >
+                <strong style="padding-bottom:25px;">Add Approver<mat-icon>add_box</mat-icon></strong></button
+                > -->
+                <!-- </div> -->
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <mat-label><strong>Overall Rating:</strong></mat-label>
+                  <star-rating [starType]="'svg'" [rating]="0"></star-rating>
+                </div>
+                <div class="col-md-6">
+                  <mat-label><strong>Liklihood to Recommend:</strong></mat-label>           
+              <star-rating [starType]="'svg'" [rating]="2.63"></star-rating>
+                </div>
+              </div>
+              <!-- <div class="row">
+                <div class="col-md-12">
+                  <mat-label><strong>Liklihood to Recommend:</strong></mat-label>
+
+                  <ul class="list-inline rating-list" 
+                  *ngFor="let star of stars" style="display: inline-block" >
+                    <li (click)="countStar(star)"
+                        [ngClass]="{'selected': (star <= selectedValue)}">
+                      <i class="fa fa-star"></i>
+                    </li> 
+              </ul>
+                </div>
+                </div> -->
+                <div class="row mt-4">
+                  <div class="col-md-6">
+                    <mat-form-field class="fieldInput1" appearance="outline">
+                      <mat-label>Best Aspect</mat-label>
+                      <input
+                        matInput
+                        placeholder="Enter best aspect of the event"
+                        formControlName="aspect"
+                        type="text"
+                      />
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field class="fieldInput1" appearance="outline">
+                      <mat-label>Areas of improvment</mat-label>
+                      <input
+                        matInput
+                        placeholder="Enter areas for improvment"
+                        formControlName="areaOfImprovement"
+                        type="text"
+                      />
+                    </mat-form-field>
+                  </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-8">
+                      <mat-form-field class="fieldInput2" appearance="outline">
+                        <mat-label>Comments or Suggestions</mat-label>
+                        <textarea matInput placeholder="Enter comments or any suggestions"
+                        formControlName="comments" rows="3"></textarea>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-md-1"></div>
+                    </div>
+              <div class="row">
+                <div class="col-md-12 px-2 py-1">
+                  <div *ngFor="let selected of listOfFiles; let index = index">
+                    <div class="panel panel-default mt-2">
+                      <div class="panel-body">
+                        <h3 class="f-attach">
+                          {{ selected }}
+                          <button
+                            (click)="removeSelectedFile(index)"
+                            class="remove-btn pull-right"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="16"
+                              height="16"
+                              fill="currentColor"
+                              class="bi bi-x-circle-fill"
+                              viewBox="0 0 16 16"
+                            >
+                              <path
+                                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"
+                              />
+                            </svg>
+                          </button>
+                        </h3>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="" [innerHTML]="result" style="cursor: pointer">
+                    <input
+                      style="display: none"
+                      formControlName="attachment"
+                      #attachments
+                      type="file"
+                      (change)="onFileChanged($event)"
+                      #fileInput
+                      multiple="true"
+                      accept="image/x-png,image/gif,image/jpeg,pdf"
+                    />
+                  </div>
+                  <hr />
+                  <label id="label" class="mb-2">
+                    Attach File (Optional)
+                    <button
+                      type="button"
+                      (click)="fileInput.click()"
+                      class="attach-do mt-2"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        class="bi bi-paperclip attach-icon"
+                        viewBox="0 0 16 16"
+                      >
+                        <path
+                          d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z"
+                        />
+                      </svg>
+                      <!-- <b class="attach-font"> Attach a file</b> -->
+                    </button></label
+                  ><br />
+                </div>
+              </div>
+
+            
+
+              <div class="row mt-2">
+                <div class="col-md-6"></div>
+                <div class="col-md-6">
+                  <button
+                    class="btn btn-outline-secondary"
+                    style="margin-left: 200px"
+                  >
+                    Cancel</button
+                  >
+                  <button
+                    class="btn btn-primary"
+                    (click)="submitForm()"
+                    style="float: right"
+                  >
+                    Send Feedback
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+          <!-- <div class="row">
+                <div class="col-4"></div>
+                <div class="col-6">
+                  <a
+                    [routerLink]="['/admin/createOrganization']"
+                    routerLinkActive="router-link-active"
+                    >Create Organization</a
+                  >
+                </div>
+                <div class="col-2"></div>
+              </div> -->
+          <br />
+          <!-- <div class="text-center mt-1">
+                <span style="color: brown">Powered by :</span>
+                <a href="https://augtrans.com/"> Augmented Transformations</a>
+              </div> -->
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <!-- <img src="../../assets/ass.avif"> -->
+    </div>
+  </div>
+</div>
+
+<!-- <app-item-detail [item]="currentItem"></app-item-detail> -->

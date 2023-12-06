@@ -1,38 +1,63 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { ThemePalette } from '@angular/material/core';
-import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
-import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatSort } from '@angular/material/sort';
-import { MatPaginator } from '@angular/material/paginator';
-import { SelectionModel } from '@angular/cdk/collections';
-import { HttpParams } from '@angular/common/http';
+import { Component, ElementRef, Input, OnInit, ViewChild } from "@angular/core";
+import { ThemePalette } from "@angular/material/core";
+import { ProgressSpinnerMode } from "@angular/material/progress-spinner";
+import { Router } from "@angular/router";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { MatTableDataSource } from "@angular/material/table";
+import { MatSort } from "@angular/material/sort";
+import { MatPaginator } from "@angular/material/paginator";
+import { SelectionModel } from "@angular/cdk/collections";
+import { HttpParams } from "@angular/common/http";
 import {
-  Chart, BarElement, BarController, CategoryScale, Decimation, Filler, Legend, Title, Tooltip, registerables
-} from 'chart.js';
-import ChartDataLabels from 'chartjs-plugin-datalabels';
+  Chart,
+  BarElement,
+  BarController,
+  CategoryScale,
+  Decimation,
+  Filler,
+  Legend,
+  Title,
+  Tooltip,
+  registerables,
+} from "chart.js";
+import ChartDataLabels from "chartjs-plugin-datalabels";
+
+import { MatDialog } from "@angular/material/dialog";
+import { AdminService, AppService, ToasterService } from "src/app/_services";
 
 @Component({
-  selector: 'app-dashboard-card',
-  templateUrl: './dashboard-card.component.html',
-  styleUrls: ['./dashboard-card.component.css']
+  selector: "app-dashboard-card",
+  templateUrl: "./dashboard-card.component.html",
+  styleUrls: ["./dashboard-card.component.css"],
 })
 export class DashboardCardComponent {
-  @ViewChild('assetTypeChart1', { static: true }) assetTypeChart1: any;
-  @ViewChild('mychart', { static: true }) mychart: any;
-  @ViewChild('callTypeChart1', { static: true }) callTypeChart1: any;
-  @ViewChild('requestSupportModelChart1', { static: true }) requestSupportModelChart1: any;
-  @ViewChild('assetAssignedUnassigned1', { static: true }) assetAssignedUnassigned1: any;
-  @ViewChild('top5hardwareIncident1', { static: true }) top5hardwareIncident1: any;
-  @ViewChild('orbitSLAChart1', { static: true }) orbitSLAChart1: any;
-  @ViewChild('modeOfLocationChart1', { static: true }) modeOfLocationChart1: any;
-
+  @ViewChild("housekeepingChart1", { static: true }) housekeepingChart1: any;
+  @ViewChild("mychart", { static: true }) mychart: any;
+  @ViewChild("HRChart1", { static: true }) HRChart1: any;
+  // @ViewChild('requestSupportModelChart1', { static: true }) requestSupportModelChart1: any;
+  // @ViewChild('assetAssignedUnassigned1', { static: true }) assetAssignedUnassigned1: any;
+  // @ViewChild('top5hardwareIncident1', { static: true }) top5hardwareIncident1: any;
+  // @ViewChild('orbitSLAChart1', { static: true }) orbitSLAChart1: any;
+  // @ViewChild('modeOfLocationChart1', { static: true }) modeOfLocationChart1: any;
+  links = [
+    { type: "IT", value: "it" },
+    { type: "Housekeeping", value: "hk" },
+    { type: "HR", value: "hr" },
+  ];
+  activeLink = "it";
+  background: any = "";
+  hkBarChart:boolean=false;
   //for ngx charts
-  name = 'Angular';
+  name = "Angular";
   single: any = [];
   multi: any = [];
-  pensingStatus: any = [{ status: 'Assigned', count: 2 }, { status: 'New', count: 2 }, { status: 'Resolved', count: 3 }];
+  opacityHousekeeping = 0;
+  opacityHR = 0;
+  pensingStatus: any = [
+    { status: "Assigned", count: 2 },
+    { status: "New", count: 2 },
+    { status: "Resolved", count: 3 },
+  ];
   view: any = [700, 400];
 
   // options
@@ -41,19 +66,18 @@ export class DashboardCardComponent {
   gradient = false;
   showLegend = true;
   showXAxisLabel = true;
-  xAxisLabel = 'Country';
+  xAxisLabel = "Country";
   showYAxisLabel = true;
-  yAxisLabel = 'Population';
+  yAxisLabel = "Population";
 
   colorScheme: any = {
-    domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
+    domain: ["#5AA454", "#A10A28", "#C7B42C", "#AAAAAA"],
   };
 
   allUser: any = [];
   dataSource!: MatTableDataSource<any>;
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  displayedColumns: string[] = ['engineer', 'count'];
 
   selection = new SelectionModel<any>(true, []);
   tabledata: any;
@@ -68,8 +92,8 @@ export class DashboardCardComponent {
   form1: any;
   form2: any;
   form3: any;
-  form4: any;
-  form5: any;
+  form4!: FormGroup;
+  form5!: FormGroup;
   form6: any;
   formLoc: any;
   loading = false;
@@ -79,31 +103,12 @@ export class DashboardCardComponent {
   currentMonthString = Math.floor(this.currentDate.getMonth() / 3) + 1;
   currentYearString = this.currentDate.getFullYear();
   callType: any;
+  event: any;
   //pensingStatus: any;
   resStatus: any;
-  hardwareinci: any;
-  desktopinc: any;
-  laptopinc: any;
-  networkinc: any;
-  serverinc: any;
-  printerinc: any;
-  desktopinccount: any;
-  desktopinc1: any;
-  laptopinc1: any;
-  laptopinccount: any;
-  networkinc1: any;
-  networkinccount: any;
-  serverinc1: any;
-  serverinccount: any;
-  printerinc1: any;
-  printerinccount: any;
-  sla: any;
-  slaout: any;
-  slawith: any;
-  totalsla: any;
-  quater: any;
-  sDate: any;
-  eDate: any;
+
+  sDate = "";
+  eDate = "";
   error: any;
   isShow: boolean = false;
   count: any;
@@ -141,769 +146,557 @@ export class DashboardCardComponent {
   myProjectStatusChart: any;
   canvas: any;
   ctx: any;
-  assetLocData: any;
-  assetLoc1Data: any;
-  assetLoc2Data: any;
-  assetLocLabel: any = ['ISpace Third', 'Shivaneri First'];
-  assetLocCount: any = [8, 2];
-  assetLocTableList: any;
+  showForIT:boolean=false;
   showAssetLocTable: boolean = false;
   assetGroup: any = [];
-  assetTypeChart: any;
+  housekeepingChart: any;
+  HRChart: any;
   callTypeChart: any;
-  requestSupportModelChart: any;
-  modeOfLocationChart: any;
-  assetLocationChart: any;
-  assignedUnassignedChart: any;
-  topFiveHardwareIncidentChart: any;
-  orbitSLALabel: any = ['Within SLA', 'Out of SLA'];
-  orbitSLACount: any = [2, 1];
-  orbitSLAChart: any;
-  assetTypeLabel: any = ['DESKTOP', 'LAPTOP', 'MONITOR', 'ACCESSORIES', 'SERVER'];
-  assetTypeCount: any = [2, 3, 1, 1, 1];
-  assetAssignedUnassignedData: any;
-  assetAssignedUnassignedCount: any = [7, 2];
-  topFiveHardwareIncidentLabel: any = ['LAPTOP', 'ACCESSORIES', 'DESKTOP', 'MONITOR', 'SERVER'];
-  topFiveHardwareIncidentCount: any = [5, 2, 5, 2, 14];
-  assetAssignedUnassigned: any;
-  assetAssignedUnassignedLabel: any = ['Assigned Assets', 'Unassigned Assets'];
-  orbitWithinSLACount: any;
-  orbitOutofSLACount: any;
-  orbitLabel1: any;
-  orbitLabel2: any;
-  modeOfLocationCallLabel: any = ['Mail', 'Web'];
-  modeOfLocationCallCount: any = [3, 2];
-  callTypeLabel: any = ['INCIDENT', 'REQUEST'];
-  callTypeCount: any = [3, 2];
-  requestSupportLabel: any = ['E-mail', 'Remote Session of Requestors Device'];
-  requestSupportCount: any = [3, 1];
-
-
-  constructor(private router: Router, private formBuilder: FormBuilder) {
-    Chart.register(...registerables, BarElement, BarController, CategoryScale, Decimation, Filler, Legend, Title, Tooltip);
+  dataset1: any;
+  housekeepingChartLabel: any = ["Opened", "Closed", "In Progress"];
+  houseKeepingCount: any = [];
+  houseKeepingData: any = [];
+  houseKeepingOpenedData: any = [];
+  houseKeepingClosedData: any = [];
+  houseKeepingInProgressData: any = [];
+  HRChartLabel: any = ["Opened", "Closed", "In Progress"];
+  HRCount: any = [];
+  HRData: any = [];
+  HROpenedData: any = [];
+  HRClosedData: any = [];
+  HRInProgressData: any = [];
+  showHousekeeping: boolean = false;
+  showHR: boolean = false;
+  reportData: any;
+  dataset2: any;
+  dataset3:any=[];
+  ITCount:any=[];
+  ITOpenedData:any=[];
+  ITClosedData:any=[];
+  ITInProgressData:any=[];
+  currentDataset: any;
+  requestName="";
+  type: any = "it";
+  selected = "7";
+  selected1 = "7";
+  selected2 = "7";
+  showdate7:boolean=false;
+  ITData:any;
+  showForHK:boolean=false;
+  showForHR:boolean=false;
+  daysData = [
+    { value: "7", name: "Last 7 Days" },
+    { value: "14", name: "Last 14 Days" },
+    { value: "", name: "Select Date" },
+  ];
+  constructor(
+    private router: Router,
+    private formBuilder: FormBuilder,
+    private adminService: AdminService
+  ) {
+    Chart.register(
+      ...registerables,
+      BarElement,
+      BarController,
+      CategoryScale,
+      Decimation,
+      Filler,
+      Legend,
+      Title,
+      Tooltip
+    );
   }
 
   ngOnInit(): void {
-    this.barChartModeofLocationCallwise();
-    this.getunassignedTicket();
-    this.bar();
-    this.bar1();
-    // this.bar2();
-    this.bar3();
-    this.engineerData();
-    this.orbitSLA();
-    this.assetLocation();
-    this.getBarWithAssetGroup();
-    this.getBarchartAssetTypewise();
-    this.getAssignedUnassignedAssetData();
-    this.pieChartTopFiveHardwareIncidentWise();
-    this.chartAssetLocationwise();
-    this.pieChartAssetAssignedUnassignedWise();
-    this.statucount();
-    // this.hardware(this.currentMonthString);
-    if (this.currentMonthString == 1) {
-      setTimeout(() => {
-        this.form.patchValue({
-          quater: 'Quarter 1'
-        })
-        console.log(this.form.value.quarter);
-      }, 1000);
+    this.form5 = this.formBuilder.group({
+      sDate: ["", Validators.required],
+      eDate: ["", Validators.required],
+    });
+    this.form4 = this.formBuilder.group({
+      sDate: ["", Validators.required],
+      eDate: ["", Validators.required],
+    });
+    this.getReportData(this.type, this.selected, this.sDate, this.eDate);
+  }
 
-    } else if (this.currentMonthString == 2) {
-      setTimeout(() => {
-        this.form.patchValue({
-          quater: 'Quarter 2'
-        })
-        console.log(this.form.value.quarter);
-      }, 1000);
+  getunassignedTicket() {}
+  statucount() {}
+  getAssignedUnassignedAssetData() {}
+  getBarWithAssetGroup() {}
 
-    } else if (this.currentMonthString == 3) {
-      setTimeout(() => {
-        this.form.patchValue({
-          quater: 'Quarter 3'
-        })
-        console.log(this.form.value.quarter);
-      }, 1000);
-
-    } else if (this.currentMonthString == 4) {
-      setTimeout(() => {
-        this.form.patchValue({
-          quater: 'Quarter 4'
-        })
-        console.log(this.form.value.quarter);
-      }, 1000);
+  getReportData(data: any, days: any, sDate: any, eDate: any) {
+    ;
+    this.reportData = [];
+    this.requestName="";
+    if (data == "it") {
+      this.showForIT=true;
+      this.showForHK=false;
+      this.showForHR=false;
+      this.ITData = [];
+      this.ITCount = [];
+      this.adminService
+        .getReportData(data, days, sDate, eDate)
+        .subscribe((res: any) => {
+          console.log(res);
+          this.reportData = res.result;
+          if (this.reportData.length != 0) {
+           
+            this.requestName = "IT Requests";
+           
+           
+            this.ITData = this.reportData[0].incidentStatus;
+            this.ITOpenedData = this.ITData[0].opened;
+            this.ITClosedData = this.ITData[1].closed;
+            this.ITInProgressData =
+              this.ITData[2].inprogress;
+            this.ITCount.push(
+              this.ITOpenedData,
+              this.ITClosedData,
+              this.ITInProgressData
+            );
+          }
+          this.getBarchartForHouseKeeping();
+        });
+    } else if (data == "hk") {
+      this.showForIT=false;
+      this.showForHK=true;
+      this.showForHR=false;
+      this.houseKeepingData = [];
+      this.houseKeepingCount = [];
+      this.adminService
+        .getReportData(data, days, sDate, eDate)
+        .subscribe((res: any) => {
+          console.log(res);
+          this.reportData = res.result;
+          if (this.reportData.length != 0) {
+            // this.showHousekeeping = true;
+            // this.showHR = false;
+            this.requestName = "Housekeeping Requests";
+          
+            // this.opacityHousekeeping = 1;
+            // this.opacityHR = 0;
+            this.houseKeepingData = this.reportData[0].houseKeepingStatus;
+            this.houseKeepingOpenedData = this.houseKeepingData[0].opened;
+            this.houseKeepingClosedData = this.houseKeepingData[1].closed;
+            this.houseKeepingInProgressData =
+              this.houseKeepingData[2].inprogress;
+            this.houseKeepingCount.push(
+              this.houseKeepingOpenedData,
+              this.houseKeepingClosedData,
+              this.houseKeepingInProgressData
+            );
+          }
+         
+          //this.housekeepingChart.data.datasets = this.currentDataset;
+          //this.housekeepingChart.update();
+          this.getBarchartForHouseKeeping();
+        });
+    } else if (data == "hr") {
+      this.showForIT=false;
+      this.showForHK=false;
+      this.showForHR=true;
+      this.HRData = [];
+      this.HRCount = [];
+      this.adminService
+        .getReportData(data, days, sDate, eDate)
+        .subscribe((res: any) => {
+          console.log(res);
+          this.reportData = res.result;
+          if (this.reportData.length != 0) {
+            this.requestName = "HR Requests"
+            // this.showHousekeeping = false;
+            // this.showHR = true;
+            // this.opacityHR = 1;
+            // this.opacityHousekeeping = 0;
+            this.HRData = this.reportData[0].hrStatus;
+            this.HROpenedData = this.HRData[0].opened;
+            this.HRClosedData = this.HRData[1].closed;
+            this.HRInProgressData = this.HRData[2].inprogress;
+            this.HRCount.push(
+              this.HROpenedData,
+              this.HRClosedData,
+              this.HRInProgressData
+            );
+          }
+        //  this.currentDataset = this.dataset2;
+        //  this.housekeepingChart.data.datasets = [this.currentDataset];
+      //    this.housekeepingChart.update();
+          this.getBarchartForHouseKeeping();
+        });
     }
   }
 
-  getunassignedTicket() { }
-  statucount() { }
-  getAssignedUnassignedAssetData() { }
-  getBarWithAssetGroup() { }
-  barChartModeofLocationCallwise() {
+  getTicketCountForIT(data: any) {
+    
+    //for it
+    if (data.value == "") {
+      this.showdate5 = true; 
+    } else {
+      this.showdate5 = false;
+      this.getReportData(this.type, data, this.sDate, this.eDate);
+    }
 
-  };
-  assetLocation() { }
-  orbitSLA() {
-    //this line of code is for destroy the previously loaded chart instance and data
-    if (this.orbitSLAChart) this.orbitSLAChart.destroy();
-    this.canvas = this.orbitSLAChart1.nativeElement;
-    this.ctx = this.canvas.getContext('2d');
-    this.orbitSLAChart = new Chart(this.ctx, {
-      type: 'pie',
-      data: {
-        labels: this.orbitSLALabel,
-        datasets: [{
-          data: this.orbitSLACount,
-          backgroundColor: [
-            'rgb(0, 180, 216)',
-            'rgb(0, 119, 182)'
-
-          ],
-        }]
-      },
-
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        onClick: (event: any, activeEls: any) => {
-
-          var datasetIndex = activeEls[0].datasetIndex;
-
-          let dataIndex = activeEls[0].index;
-
-          let datasetLabel = event.chart.data.datasets[datasetIndex].label;
-
-          let value = event.chart.data.datasets[datasetIndex].data[dataIndex];
-
-          let label = event.chart.data.labels[dataIndex];
-
-          var x = {
-            "title": label,
-          }
-          var y = JSON.stringify(x)
-          this.router.navigate(['/it-sm/sla-details', x]);
-        },
-        plugins: {
-          datalabels: {
-            display: true,
-            anchor: 'center',
-            align: 'center',
-            color: '#ffffff',
-            borderRadius: 3,
-            font: {
-              size: 18,
-            },
-          },
-        }
-      },
-    });
   }
-  engineerData() { }
-  bar3() {
-    // const data = event.target ? (event.target as HTMLInputElement).value : event;
-    // this.initvalsla = data;
-    // (this.initvalsla == 'Current day') ? this.callmdays = '' :
-    //   (this.initvalsla == 'Last 7 days') ? this.callmdays = 7 :
-    //     (this.initvalsla == 'Last 30 days') ? this.callmdays = 30 : null;
-    // (this.initvalsla == 'Select date') ? this.showdate5 = true : this.showdate5 = false; this.form5.reset();
-    // const params = new HttpParams().set('days', this.callmdays)
-    //this line of code is for destroy the previously loaded chart instance and data
-    if (this.requestSupportModelChart) this.requestSupportModelChart.destroy();
-    this.canvas = this.requestSupportModelChart1.nativeElement;
-    this.ctx = this.canvas.getContext('2d');
-    this.requestSupportModelChart = new Chart(this.ctx, {
-      type: 'bar',
-      data: {
-        labels: this.requestSupportLabel,
-        datasets: [{
-          label: 'Request Support Model',
-          data: this.requestSupportCount,
-          backgroundColor: [
-            'rgb(0, 180, 216)',
-            'rgb(0, 119, 182)',
-            'rgb(202, 240, 248)',
-            'rgb(144, 224, 239)',
-            'rgb(3, 4, 94)'
-          ],
-          hoverBackgroundColor: [
-            'rgb(0, 180, 216)',
-            'rgb(0, 119, 182)',
-            'rgb(202, 240, 248)',
-            'rgb(144, 224, 239)',
-            'rgb(3, 4, 94)'
-          ],
-          borderColor: [
-            'rgb(0, 180, 216)',
-            'rgb(0, 119, 182)',
-            'rgb(202, 240, 248)',
-            'rgb(144, 224, 239)',
-            'rgb(3, 4, 94)'
-          ],
-          borderWidth: 1,
-          borderRadius: 10,
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        onClick: (event: any, activeEls: any) => {
 
-          var datasetIndex = activeEls[0].datasetIndex;
-
-          let dataIndex = activeEls[0].index;
-
-          let datasetLabel = event.chart.data.datasets[datasetIndex].label;
-
-          let value = event.chart.data.datasets[datasetIndex].data[dataIndex];
-
-          let label = event.chart.data.labels[dataIndex];
-          var x = {
-            "responseMode": label,
-          }
-          var y = JSON.stringify(x)
-
-          this.router.navigate([`/it-sm/call-response/`, x]);
-        },
-        plugins: {
-          datalabels: {
-            display: true,
-
-            anchor: 'center',
-
-            align: 'center',
-
-            // backgroundColor: '#ccc',
-
-            color: '#ffffff',
-
-            borderRadius: 3,
-
-            font: {
-
-              size: 18,
-
-            },
-          },
-          legend: {
-            position: 'top',
-          },
-        },
-        animation: {
-          easing: 'easeOutBack',
-          delay: 600,
-        },
-        scales: {
-          y: {
-            beginAtZero: true
-          },
-        },
-      }
-    });
+  getTicketCountForHK(data:any){
+    if (data.value == "") {
+      this.showdate6 = true; 
+    } else {
+      this.showdate6 = false;
+      this.getReportData(this.type, data, this.sDate, this.eDate);
+    }
   }
-  bar1() {
-    // const data = event.target ? (event.target as HTMLInputElement).value : event;
-    // this.initvalsla = data;
-    // (this.initvalsla == 'Current day') ? this.callmdays = '' :
-    //   (this.initvalsla == 'Last 7 days') ? this.callmdays = 7 :
-    //     (this.initvalsla == 'Last 30 days') ? this.callmdays = 30 : null;
-    // (this.initvalsla == 'Select date') ? this.showdate5 = true : this.showdate5 = false; this.form5.reset();
-    // const params = new HttpParams().set('days', this.callmdays)
-    //this line of code is for destroy the previously loaded chart instance and data
-    if (this.callTypeChart) this.callTypeChart.destroy();
-    this.canvas = this.callTypeChart1.nativeElement;
-    this.ctx = this.canvas.getContext('2d');
-    this.callTypeChart = new Chart(this.ctx, {
-      type: 'bar',
-      data: {
-        labels: this.callTypeLabel,
-        datasets: [{
-          label: 'Call Type',
-          data: this.callTypeCount,
-          backgroundColor: [
-            'rgb(0, 180, 216)',
-            'rgb(0, 119, 182)',
-            'rgb(202, 240, 248)',
-            'rgb(144, 224, 239)',
-            'rgb(3, 4, 94)'
-          ],
-          hoverBackgroundColor: [
-            'rgb(0, 180, 216)',
-            'rgb(0, 119, 182)',
-            'rgb(202, 240, 248)',
-            'rgb(144, 224, 239)',
-            'rgb(3, 4, 94)'
-          ],
-          borderColor: [
-            'rgb(0, 180, 216)',
-            'rgb(0, 119, 182)',
-            'rgb(202, 240, 248)',
-            'rgb(144, 224, 239)',
-            'rgb(3, 4, 94)'
-          ],
-          borderWidth: 1,
-          borderRadius: 10,
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        onClick: (event: any, activeEls: any) => {
 
-          var datasetIndex = activeEls[0].datasetIndex;
-
-          let dataIndex = activeEls[0].index;
-
-          let datasetLabel = event.chart.data.datasets[datasetIndex].label;
-
-          let value = event.chart.data.datasets[datasetIndex].data[dataIndex];
-
-          let label = event.chart.data.labels[dataIndex];
-          var x = {
-            "category": label,
-          }
-          var y = JSON.stringify(x)
-          this.router.navigate([`/it-sm/call-type/`, x]);
-        },
-        plugins: {
-          datalabels: {
-            display: true,
-
-            anchor: 'center',
-
-            align: 'center',
-
-            // backgroundColor: '#ccc',
-
-            color: '#ffffff',
-
-            borderRadius: 3,
-
-            font: {
-
-              size: 18,
-
-            },
-          },
-          legend: {
-            position: 'top',
-          },
-        },
-        animation: {
-          easing: 'easeOutBack',
-          delay: 600,
-        },
-        scales: {
-          y: {
-            beginAtZero: true
-          },
-        },
-      }
-    });
-  }
-  bar() {
-    // const data = event.target ? (event.target as HTMLInputElement).value : event;
-    // this.initvalsla = data;
-    // (this.initvalsla == 'Current day') ? this.callmdays = '' :
-    //   (this.initvalsla == 'Last 7 days') ? this.callmdays = 7 :
-    //     (this.initvalsla == 'Last 30 days') ? this.callmdays = 30 : null;
-    // (this.initvalsla == 'Select date') ? this.showdate5 = true : this.showdate5 = false; this.form5.reset();
-    // const params = new HttpParams().set('days', this.callmdays)
-    //this line of code is for destroy the previously loaded chart instance and data
-    if (this.modeOfLocationChart) this.modeOfLocationChart.destroy();
-    this.canvas = this.modeOfLocationChart1.nativeElement;
-    this.ctx = this.canvas.getContext('2d');
-    this.modeOfLocationChart = new Chart(this.ctx, {
-      type: 'bar',
-      data: {
-        labels: this.modeOfLocationCallLabel,
-        datasets: [{
-          label: 'Mode of Location Call',
-          data: this.modeOfLocationCallCount,
-          backgroundColor: [
-            // 'rgb(23, 56, 211)',
-            // 'rgb(245, 125, 12)',
-            // 'rgb(109, 214, 214)',
-            // 'rgb(235, 101, 152)',
-            // 'rgb(240, 158, 17)
-            // 'rgb(202, 240, 248)',
-            // 'rgb(144, 224, 239)',
-            // 'rgb(0, 180, 216)',
-            // 'rgb(0, 119, 182)',
-            // 'rgb(3, 4, 94)',
-            'rgb(0, 180, 216)',
-            'rgb(0, 119, 182)',
-            'rgb(202, 240, 248)',
-            'rgb(144, 224, 239)',
-            'rgb(3, 4, 94)'
-          ],
-          hoverBackgroundColor: [
-            'rgb(0, 180, 216)',
-            'rgb(0, 119, 182)',
-            'rgb(202, 240, 248)',
-            'rgb(144, 224, 239)',
-            'rgb(3, 4, 94)'
-          ],
-          borderColor: [
-            'rgb(0, 180, 216)',
-            'rgb(0, 119, 182)',
-            'rgb(202, 240, 248)',
-            'rgb(144, 224, 239)',
-            'rgb(3, 4, 94)'
-          ],
-          borderWidth: 1,
-          borderRadius: 10,
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        onClick: (event: any, activeEls: any) => {
-
-          var datasetIndex = activeEls[0].datasetIndex;
-
-          let dataIndex = activeEls[0].index;
-
-          let datasetLabel = event.chart.data.datasets[datasetIndex].label;
-
-          let value = event.chart.data.datasets[datasetIndex].data[dataIndex];
-
-          let label = event.chart.data.labels[dataIndex];
-          var x = {
-            "title": label,
-          }
-          var y = JSON.stringify(x)
-          this.router.navigate([`/it-sm/call-mode/`, x]);
-        },
-        plugins: {
-          datalabels: {
-            display: true,
-
-            anchor: 'center',
-
-            align: 'center',
-
-            // backgroundColor: '#ccc',
-
-            color: '#ffffff',
-
-            borderRadius: 3,
-
-            font: {
-
-              size: 18,
-
-            },
-          },
-          legend: {
-            position: 'top',
-          },
-        },
-        animation: {
-          easing: 'easeOutBack',
-          delay: 600,
-        },
-        scales: {
-          y: {
-            beginAtZero: true
-          },
-        },
-      }
-    });
-  }
-  pieChartTopFiveHardwareIncidentWise() {
-    //this line of code is for destroy the previously loaded chart instance and data
-    if (this.topFiveHardwareIncidentChart) this.topFiveHardwareIncidentChart.destroy();
-    this.canvas = this.top5hardwareIncident1.nativeElement;
-    this.ctx = this.canvas.getContext('2d');
-    this.topFiveHardwareIncidentChart = new Chart(this.ctx, {
-      type: 'pie',
-      data: {
-        labels: this.topFiveHardwareIncidentLabel,
-        datasets: [{
-          data: this.topFiveHardwareIncidentCount,
-          backgroundColor: [
-            'rgb(0, 180, 216)',
-            'rgb(0, 119, 182)',
-            'rgb(202, 240, 248)',
-            'rgb(144, 224, 239)',
-            'rgb(3, 4, 94)'
-          ],
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          datalabels: {
-            display: true,
-            anchor: 'center',
-            align: 'center',
-            color: '#ffffff',
-            borderRadius: 3,
-            font: {
-              size: 18,
-            },
-          },
-        }
-      },
-    });
-
+  getTicketCountForHR(data:any){
+    if (data.value == "") {
+      this.showdate7 = true; 
+    } else {
+      this.showdate7 = false;
+      this.getReportData(this.type, data, this.sDate, this.eDate);
+    }
   }
   chartAssetLocationwise() {
-    //this line of code is for destroy the previously loaded chart instance and data
-    if (this.myProjectStatusChart) this.myProjectStatusChart.destroy();
-    this.canvas = this.mychart.nativeElement;
-    this.ctx = this.canvas.getContext('2d');
-    this.myProjectStatusChart = new Chart(this.ctx, {
-      type: 'bar',
-      data: {
-        labels: this.assetLocLabel,
-        datasets: [
-          {
-            label: 'Assets location',
-            data: this.assetLocCount,
-            backgroundColor: [
-              'rgb(0, 180, 216)',
-              'rgb(0, 119, 182)',
-              'rgb(202, 240, 248)',
-              'rgb(144, 224, 239)',
-              'rgb(3, 4, 94)'
-            ],
-            hoverBackgroundColor: [
-              'rgb(0, 180, 216)',
-              'rgb(0, 119, 182)',
-              'rgb(202, 240, 248)',
-              'rgb(144, 224, 239)',
-              'rgb(3, 4, 94)'
-            ],
-            borderColor: [
-              'rgb(0, 180, 216)',
-              'rgb(0, 119, 182)',
-              'rgb(202, 240, 248)',
-              'rgb(144, 224, 239)',
-              'rgb(3, 4, 94)'
-            ],
-            borderWidth: 1,
-            borderRadius: 10,
-          }
-        ]
-      },
-      options: {
-        onClick: (event: any, activeEls: any) => {
-
-          var datasetIndex = activeEls[0].datasetIndex;
-
-          let dataIndex = activeEls[0].index;
-
-          let datasetLabel = event.chart.data.datasets[datasetIndex].label;
-
-          let value = event.chart.data.datasets[datasetIndex].data[dataIndex];
-
-          let label = event.chart.data.labels[dataIndex];
-          var x = {
-            "title": label,
-          }
-          var y = JSON.stringify(x)
-          this.router.navigate([`/it-sm/assetLocation_Details/`, x]);
-
-          // if (label == 'ISpace Third') {
-          //   this.showAssetLocTable = true;
-          //   this.assetLocTableList = this.assetLoc1Data.details;
-          // } else if (label == 'Shivaneri First') {
-          //   this.showAssetLocTable = true;
-          //   this.assetLocTableList = this.assetLoc2Data.details;
-          // }
-        },
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          datalabels: {
-            display: true,
-
-            anchor: 'center',
-
-            align: 'center',
-
-            // backgroundColor: '#ccc',
-
-            color: '#ffffff',
-
-            borderRadius: 3,
-
-            font: {
-
-              size: 18,
-
-            },
-          },
-          legend: {
-            position: 'top',
-          },
-        },
-        animation: {
-          easing: 'easeOutBack',
-          delay: 600,
-        },
-        scales: {
-          y: {
-            beginAtZero: true
-          },
-        },
-      }
-    });
+    //  this line of code is for destroy the previously loaded chart instance and data
+    // if (this.myProjectStatusChart) this.myProjectStatusChart.destroy();
+    // this.canvas = this.mychart.nativeElement;
+    // this.ctx = this.canvas.getContext("2d");
+    // this.myProjectStatusChart = new Chart(this.ctx, {
+    //   type: "bar",
+    //   data: {
+    //     labels: this.assetLocLabel,
+    //     datasets: [
+    //       {
+    //         label: "Assets location",
+    //         data: this.assetLocCount,
+    //         backgroundColor: [
+    //           "rgb(0, 180, 216)",
+    //           "rgb(0, 119, 182)",
+    //           "rgb(202, 240, 248)",
+    //           "rgb(144, 224, 239)",
+    //           "rgb(3, 4, 94)",
+    //         ],
+    //         hoverBackgroundColor: [
+    //           "rgb(0, 180, 216)",
+    //           "rgb(0, 119, 182)",
+    //           "rgb(202, 240, 248)",
+    //           "rgb(144, 224, 239)",
+    //           "rgb(3, 4, 94)",
+    //         ],
+    //         borderColor: [
+    //           "rgb(0, 180, 216)",
+    //           "rgb(0, 119, 182)",
+    //           "rgb(202, 240, 248)",
+    //           "rgb(144, 224, 239)",
+    //           "rgb(3, 4, 94)",
+    //         ],
+    //         borderWidth: 1,
+    //         borderRadius: 10,
+    //       },
+    //     ],
+    //   },
+    //   options: {
+    //     onClick: (event: any, activeEls: any) => {
+    //       var datasetIndex = activeEls[0].datasetIndex;
+    //       let dataIndex = activeEls[0].index;
+    //       let datasetLabel = event.chart.data.datasets[datasetIndex].label;
+    //       let value = event.chart.data.datasets[datasetIndex].data[dataIndex];
+    //       let label = event.chart.data.labels[dataIndex];
+    //       var x = {
+    //         title: label,
+    //       };
+    //       var y = JSON.stringify(x);
+    //       this.router.navigate([`/it-sm/assetLocation_Details/`, x]);
+    //     },
+    //     responsive: true,
+    //     maintainAspectRatio: false,
+    //     plugins: {
+    //       datalabels: {
+    //         display: true,
+    //         anchor: "center",
+    //         align: "center",
+    //         color: "#ffffff",
+    //         borderRadius: 3,
+    //         font: {
+    //           size: 18,
+    //         },
+    //       },
+    //       legend: {
+    //         position: "top",
+    //       },
+    //     },
+    //     animation: {
+    //       easing: "easeOutBack",
+    //       delay: 600,
+    //     },
+    //     scales: {
+    //       y: {
+    //         beginAtZero: true,
+    //       },
+    //     },
+    //   },
+    // });
   }
   pieChartAssetAssignedUnassignedWise() {
     //this line of code is for destroy the previously loaded chart instance and data
-    if (this.assignedUnassignedChart) this.assignedUnassignedChart.destroy();
-    this.canvas = this.assetAssignedUnassigned1.nativeElement;
-    this.ctx = this.canvas.getContext('2d');
-    this.assignedUnassignedChart = new Chart(this.ctx, {
-      type: 'pie',
-      data: {
-        labels: this.assetAssignedUnassignedLabel,
-        datasets: [{
-          data: this.assetAssignedUnassignedCount,
-          backgroundColor: [
-            'rgb(0, 180, 216)',
-            'rgb(0, 119, 182)'
-          ],
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        onClick: (event: any, activeEls: any) => {
-
-          var datasetIndex = activeEls[0].datasetIndex;
-
-          let dataIndex = activeEls[0].index;
-
-          let datasetLabel = event.chart.data.datasets[datasetIndex].label;
-
-          let value = event.chart.data.datasets[datasetIndex].data[dataIndex];
-
-          let label = event.chart.data.labels[dataIndex];
-          var x = {
-            "title": label,
-          }
-          var y = JSON.stringify(x)
-          this.router.navigate([`/it-sm/assignedUnassignedDetails/`, x]);
-        },
-        plugins: {
-          datalabels: {
-            display: true,
-            anchor: 'center',
-            align: 'center',
-            // backgroundColor: '#ccc',
-            color: '#ffffff',
-            borderRadius: 3,
-            font: {
-              size: 18,
-            },
-          },
-        }
-      },
-    });
+    // if (this.assignedUnassignedChart) this.assignedUnassignedChart.destroy();
+    // this.canvas = this.assetAssignedUnassigned1.nativeElement;
+    // this.ctx = this.canvas.getContext('2d');
+    // this.assignedUnassignedChart = new Chart(this.ctx, {
+    //   type: 'pie',
+    //   data: {
+    //     labels: this.assetAssignedUnassignedLabel,
+    //     datasets: [{
+    //       data: this.assetAssignedUnassignedCount,
+    //       backgroundColor: [
+    //         'rgb(0, 180, 216)',
+    //         'rgb(0, 119, 182)'
+    //       ],
+    //     }]
+    //   },
+    //   options: {
+    //     responsive: true,
+    //     maintainAspectRatio: false,
+    //     onClick: (event: any, activeEls: any) => {
+    //       var datasetIndex = activeEls[0].datasetIndex;
+    //       let dataIndex = activeEls[0].index;
+    //       let datasetLabel = event.chart.data.datasets[datasetIndex].label;
+    //       let value = event.chart.data.datasets[datasetIndex].data[dataIndex];
+    //       let label = event.chart.data.labels[dataIndex];
+    //       var x = {
+    //         "title": label,
+    //       }
+    //       var y = JSON.stringify(x)
+    //       this.router.navigate([`/it-sm/assignedUnassignedDetails/`, x]);
+    //     },
+    //     plugins: {
+    //       datalabels: {
+    //         display: true,
+    //         anchor: 'center',
+    //         align: 'center',
+    //         // backgroundColor: '#ccc',
+    //         color: '#ffffff',
+    //         borderRadius: 3,
+    //         font: {
+    //           size: 18,
+    //         },
+    //       },
+    //     }
+    //   },
+    // });
   }
-  getBarchartAssetTypewise() { //this line of code is for destroy the previously loaded chart instance and data
-    if (this.assetTypeChart) this.assetTypeChart.destroy();
-    this.canvas = this.assetTypeChart1.nativeElement;
-    this.ctx = this.canvas.getContext('2d');
-    this.assetTypeChart = new Chart(this.ctx, {
-      type: 'bar',
-      data: {
-        labels: this.assetTypeLabel,
-        datasets: [{
-          label: 'Asset Types',
-          data: this.assetTypeCount,
+
+  getBarchartForHouseKeeping() {
+    
+    if(this.type=='it'){
+    
+        this.dataset1 = {
+          label: "IT Requests",
+          data: this.ITCount,
           backgroundColor: [
-            'rgb(0, 180, 216)',
-            'rgb(0, 119, 182)',
-            'rgb(202, 240, 248)',
-            'rgb(144, 224, 239)',
-            'rgb(3, 4, 94)'
+            "rgb(102, 255, 51)",
+            "rgb(255, 51, 51)",
+            "rgb(128, 191, 255)",
+            "rgb(255, 77, 196)",
+            "rgb(255, 166, 77)",
           ],
           hoverBackgroundColor: [
-            'rgb(0, 180, 216)',
-            'rgb(0, 119, 182)',
-            'rgb(202, 240, 248)',
-            'rgb(144, 224, 239)',
-            'rgb(3, 4, 94)'
+            "rgb(202, 240, 248)",
+            "rgb(255, 51, 51)",
+            "rgb(128, 191, 255)",
+            "rgb(255, 77, 196)",
+            "rgb(255, 166, 77)",
           ],
           borderColor: [
-            'rgb(0, 180, 216)',
-            'rgb(0, 119, 182)',
-            'rgb(202, 240, 248)',
-            'rgb(144, 224, 239)',
-            'rgb(3, 4, 94)'
+            "rgb(202, 240, 248)",
+            "rgb(255, 51, 51)",
+            "rgb(128, 191, 255)",
+            "rgb(255, 77, 196)",
+            "rgb(255, 166, 77)",
           ],
           borderWidth: 1,
           borderRadius: 10,
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        onClick: (event: any, activeEls: any) => {
+        };
+        this.currentDataset = this.dataset1;
+        // this.housekeepingChart.data.datasets = [this.currentDataset];
+        // this.housekeepingChart.update();
+      
+    }
+    else if(this.type == 'hk'){
+      this.dataset2 = {
+        label: "Housekeeping Requests",
+        data: this.houseKeepingCount,
+        backgroundColor: [
+          "rgb(102, 255, 51)",
+          "rgb(255, 51, 51)",
+          "rgb(128, 191, 255)",
+          "rgb(255, 77, 196)",
+          "rgb(255, 166, 77)",
+        ],
+        hoverBackgroundColor: [
+          "rgb(202, 240, 248)",
+          "rgb(255, 51, 51)",
+          "rgb(128, 191, 255)",
+          "rgb(255, 77, 196)",
+          "rgb(255, 166, 77)",
+        ],
+        borderColor: [
+          "rgb(202, 240, 248)",
+          "rgb(255, 51, 51)",
+          "rgb(128, 191, 255)",
+          "rgb(255, 77, 196)",
+          "rgb(255, 166, 77)",
+        ],
+        borderWidth: 1,
+        borderRadius: 10,
+      };
+      this.currentDataset = this.dataset2;
+      // this.housekeepingChart.data.datasets = [this.currentDataset];
+      // this.housekeepingChart.update();
+    }
+    else if(this.type == 'hr'){
+      this.dataset3 = {
+        label: "HR Requests",
+        data: this.HRCount,
+        backgroundColor: [
+          "rgb(102, 255, 51)",
+          "rgb(255, 51, 51)",
+          "rgb(128, 191, 255)",
+          "rgb(255, 77, 196)",
+          "rgb(255, 166, 77)",
+        ],
+        hoverBackgroundColor: [
+          "rgb(202, 240, 248)",
+          "rgb(255, 51, 51)",
+          "rgb(128, 191, 255)",
+          "rgb(255, 77, 196)",
+          "rgb(255, 166, 77)",
+        ],
+        borderColor: [
+          "rgb(202, 240, 248)",
+          "rgb(255, 51, 51)",
+          "rgb(128, 191, 255)",
+          "rgb(255, 77, 196)",
+          "rgb(255, 166, 77)",
+        ],
+        borderWidth: 1,
+        borderRadius: 10,
+      };
+      this.currentDataset = this.dataset3;
+      // this.housekeepingChart.data.datasets = [this.currentDataset];
+      // this.housekeepingChart.update();
+    }
+ 
+  this.getBarChart();
+    //var currentDataset = this.dataset1;
+  
+  }
 
-          var datasetIndex = activeEls[0].datasetIndex;
-
-          let dataIndex = activeEls[0].index;
-
-          let datasetLabel = event.chart.data.datasets[datasetIndex].label;
-
-          let value = event.chart.data.datasets[datasetIndex].data[dataIndex];
-
-          let label = event.chart.data.labels[dataIndex];
-          var x = {
-            "title": label,
-          }
-          var y = JSON.stringify(x)
-          this.router.navigate([`/it-sm/assetTypeDetails/`, x]);
-
+  getBarChart(){
+    debugger
+      // this line of code is for destroy the previously loaded chart instance and data
+      if (this.housekeepingChart) {
+        this.housekeepingChart.destroy();
+      }
+      this.canvas = this.housekeepingChart1.nativeElement;
+      this.ctx = this.canvas.getContext("2d");
+      this.housekeepingChart = new Chart(this.ctx, {
+        type: "bar",
+        data: {
+          labels: this.housekeepingChartLabel,
+          datasets: [this.currentDataset]
         },
-        plugins: {
-          datalabels: {
-            display: true,
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          onClick: (event: any, activeEls: any) => {
+            debugger
+            var datasetIndex = activeEls[0].datasetIndex;
+  
+            let dataIndex = activeEls[0].index;
+  
+            let datasetLabel = event.chart.data.datasets[datasetIndex].label;
+  
+            let value = event.chart.data.datasets[datasetIndex].data[dataIndex];
+  
+            let label = event.chart.data.labels[dataIndex];
 
-            anchor: 'center',
+           if(datasetLabel == 'IT Requests')
+           {
+            this.router.navigate([`/it-sm/ITDetails/`,label,this.selected]);
+           }
+           else if(datasetLabel == 'Housekeeping Requests'){
+            this.router.navigate([`/it-sm/HKDetails/`,label,this.selected]);
+           }
+           else if(datasetLabel == 'HR Requests'){
+            this.router.navigate([`/it-sm/HRDetails/`,label,this.selected]);
 
-            align: 'center',
-
-            // backgroundColor: '#ccc',
-
-            color: '#ffffff',
-
-            borderRadius: 3,
-
-            font: {
-
-              size: 18,
-
+           }
+          },
+          plugins: {
+            datalabels: {
+              display: true,
+  
+              anchor: "center",
+  
+              align: "center",
+  
+              color: "#ffffff",
+  
+              borderRadius: 1,
+  
+              font: {
+                size: 10,
+              },
+            },
+            legend: {
+              position: "top",
             },
           },
-          legend: {
-            position: 'top',
+          animation: {
+            easing: "easeOutBack",
+            delay: 600,
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+            },
+            x: {},
           },
         },
-        animation: {
-          easing: 'easeOutBack',
-          delay: 600,
-        },
-        scales: {
-          y: {
-            beginAtZero: true
-          },
-        },
-      }
-    });
+      });
   }
-  statusDetails(data: any) {
 
-    var paramval = {
-      status: data
-    }
-    this.router.navigate(['/it-sm/pending-status', paramval]);
+ 
+
+  toggleBackground() {
+    this.background = this.background ? "" : "primary";
   }
-  statucountwithdate() { }
+  getActiveLinkType(data1: any) {
+    
+    this.type = data1;
+    if(this.type=='it')
+    {
+    this.getReportData(this.type, this.selected, this.sDate, this.eDate);
+
+    }
+    else if(this.type=='hk')
+    {
+    this.getReportData(this.type, this.selected1, this.sDate, this.eDate);
+
+    }
+    else if(this.type=='hr')
+    {
+    this.getReportData(this.type, this.selected2, this.sDate, this.eDate);
+
+    }
+  }
+  onSubmit() {
+    if (this.form5.invalid) {
+      return;
+    }
+    this.sDate = this.form5.value.sDate;
+    this.eDate = this.form5.value.eDate;
+    this.getReportData(this.type, this.selected, this.sDate, this.eDate);
+  }
+ 
 }

@@ -26,6 +26,7 @@ export class ItemUpdateComponent {
   itemDetails:any=[];
   linkListData:any=[]
   linklistDetail:any;
+  linkListUserData:any;
   userName:any;
   constructor(private toaster: ToasterService, public dialog: MatDialog,private adminService: AdminService, private router: Router, private route: ActivatedRoute, private formBuilder: FormBuilder) 
   {
@@ -103,7 +104,7 @@ export class ItemUpdateComponent {
 
   pachformdata()
   {
-    debugger
+    
     setTimeout(() => {
       for(var i=0;i<this.itemlistdata.length;i++)
       {
@@ -133,10 +134,11 @@ export class ItemUpdateComponent {
     this.adminService.linkList(this.formID).subscribe((res:any)=>{
     console.log(res);
     this.linkListData=res.rows;
+    this.linkListUserData=this.linkListData[0];
   })
 }
   submitForm() {
-    debugger
+    
     if(this.dynamicForm.invalid)
     {
       return;

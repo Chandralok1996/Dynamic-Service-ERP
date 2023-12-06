@@ -1,29 +1,157 @@
-/* .card {
-    width: 100%;
-    background-color: white;
-    border: 1px solid #ccc; 
-} */
-.bg-img {
-    background-image: url('../../../assets/tick.jpg');
-    background-repeat: no-repeat;
-    width: auto;
-    max-width: 100%;
-    height: 89vh;
-    overflow-x: hidden;
-    top: 0 !important;
-    background-size: 100% 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
-}
-
-.head {
-    width: 100%;
-    padding: 12px;
-    border-radius: 6px;
-    background-color: #3f51b5;
-    color: #ffffff;
-    font-size: 20px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+#p2{
+    position: relative;
+    font-family: Raleway;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 24px;
+    line-height: 28px;
+    color: #2A2B2D;
+    text-align: center;
+    
+  }
+  #hr{
+  
+    position: relative;
+   border: 1px solid #c0bdbd;
+  }
+  
+  #p3{
+  
+  position: relative;
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 23px;
+  color: #2A2B2D;
+  
+  }
+  .list{
+    font-family: Raleway;
+    font-style: normal;
     font-weight: 600;
+    font-size: 16px;
+    line-height: 19px;
+    /* identical to box height */
+    
+    
+    color: #2A2B2D;
+    
+  }
+  .listdata{
+    font-family: Raleway;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 19px;
+    /* identical to box height */
+    
+    
+    color: #696969;
+  }
+  
+  .lastactivity{
+    font-family: Raleway;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 21px;
+    text-decoration-line: underline;
+    
+    color: #2A2B2D;
+  }
+  .created{
+    font-family: Raleway;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 19px;
+    color: #2A2B2D;
+  }
+  .createdata{
+    font-family: Raleway;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 19px;
+     color: #696969; 
+  }
+  
+  .back{
+    font-family: Raleway;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 19px;
+  /* identical to box height */
+  
+  text-decoration-line: underline;
+  
+  color: #2A2B2D;
+  }
+  
+  #headp {
+    /* float: right; */
    
-}
+    font-family: Raleway;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 19px;
+    cursor: pointer;
+   
+    /* identical to box height */
+  
+    text-decoration-line: underline;
+  
+    color: #2a2b2d;
+  }
+  
+  .incdetailshead{
+    color: #0097c5;
+  }
+  
+  .verticalLine1 {
+    height: 160px;
+    border-left: 1px solid rgb(192 189 189);
+    position: absolute;
+    left: 25%;
+  }
+  .verticalLine2 {
+    height: 160px;
+    border-left: 1px solid rgb(192 189 189);
+    position: absolute;
+    left: 50%;
+  }
+  .verticalLine3 {
+    height: 160px;
+    border-left: 1px solid rgb(192 189 189);
+    position: absolute;
+    left: 75%;
+  }
+  
+  .btn-back{
+    background-color: #ffffff;
+    color: #dc3545;
+    border: 1px solid #dc3545;
+    margin-bottom: 5px;
+  }
+  
+  .btn-back:hover{
+    background-color: #dc3545;
+    color: #ffffff;
+    /* border-style: outset; */
+  }
+  
+  .btn-back:hover .bi-arrow-return-left{
+    fill: #ffffff !important;
+  }
+  
+  
+  
+  /* 
+  .card-body{
+    height: 70px;
+  } */
+  
+  

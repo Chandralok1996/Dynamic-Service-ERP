@@ -125,7 +125,7 @@ export class ResetPasswordComponent implements OnInit {
       .resetUserPassword(this.resetPasswordDetails)
       .subscribe((res: any) => {
         if (res.status == 200) {
-          this.toaster.success(res.message);
+         
           this.router.navigate(["/home"]);
         } else {
           this.toaster.error(res.message);

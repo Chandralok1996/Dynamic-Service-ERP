@@ -13,8 +13,6 @@ import { ToasterService } from 'src/app/_services/toaster.service';
   styleUrls: ['./mail-action.component.css']
 })
 export class MailActionComponent implements OnInit {
-  openApprove: boolean = true;
-  openReject: boolean = true;
   form: any;
   mailContent!: Editor;
   toolbar: Toolbar = [
@@ -34,15 +32,16 @@ export class MailActionComponent implements OnInit {
   paramData: any;
   approvalListDetailsData: any;
   private subscription: Subscription = new Subscription();
-  approverListDetailsData: any;
-  levelStates: boolean[] = [];
-  levelApprove: boolean[] = [];
-  levelReject: boolean[] = [];
-  varEmail: string = '${{requster}}';
+  approverListDetailsData: any = [];
   lble_id: any;
   apprv_id: any;
   responseDetails: any = [];
   update: boolean = false;
+  filteredData: { [key: string]: string[] } = {};
+  varEmail: string = "${{receiver}}";
+  selectedLabels: string[] = [];
+  formDataLabels: any[] = [];
+  formListData: any = [];
 
   constructor(
     private adminService: AdminService,
@@ -59,9 +58,6 @@ export class MailActionComponent implements OnInit {
     this.mailContent = new Editor();
 
     this.form = new FormGroup({
-      mailby: new FormControl('support@orbitindia.net', [Validators.required]),
-      mailto: new FormControl('${{requester}}', [Validators.required]),
-      cc: new FormControl('', [Validators.email]),
       subject: new FormControl('Approval Request', [Validators.required]),
       body: new FormControl('', [Validators.required])
     });
@@ -69,65 +65,71 @@ export class MailActionComponent implements OnInit {
     this.getApproverListDetails(this.apprID);
   }
 
-  ngAfterViewInit() {
-    // Find and store the backdrop element here
+  onLabelSelectionChange() {
+    ;
+    this.form.get('body').setValue(this.generateBodyContent());
+  }
+
+  generateBodyContent(): string {
+    ;
+    let bodyContent = '';
+    console.log(this.selectedLabels);
+    this.selectedLabels.forEach(label => {
+      bodyContent += `<p>${label}: {{${label}}}</p>`;
+    });
+
+    return bodyContent;
   }
 
   getApproverListDetails(id: any) {
     this.subscription = this.adminService.getApprovaldetails(id).subscribe((res: any) => {
       if (res.status == 200) {
         this.approvalListDetailsData = res.result[0];
+        console.log(JSON.stringify(this.approvalListDetailsData));
         this.approverListDetailsData = this.approvalListDetailsData.approver;
         console.log(JSON.stringify(this.approverListDetailsData));
-        for (let i = 0; i < this.approverListDetailsData.length; i++) {
-          this.levelStates.push(true);
-          this.levelApprove.push(true);
-          this.levelReject.push(true);
-        }
+        this.approverListDetailsData.forEach((item: any) => {
+          const levelName = item.level_name;
+      if (!this.filteredData[levelName]) {
+        this.filteredData[levelName] = [];
+      }
+      this.filteredData[levelName].push(item.name);
+        });
       }
     });
+  }
+
+  getFilteredDataKeys() {
+    return Object.keys(this.filteredData);
   }
 
   get formCtrl() {
     return this.form.controls;
   }
 
-  toggleLevel(index: number) {
-    this.levelStates[index] = !this.levelStates[index];
-  }
-
-  toggleApprove(index: number){
-    this.levelApprove[index] = !this.levelApprove[index]; 
-  }
-
-  toggleReject(index: number){
-    this.levelReject[index] = !this.levelReject[index]; 
-  }
-
-  openEdit(data: any, lble_id: number) {
+  openEdit(lble_id: number) {
     this.form.reset();
     this.lble_id = lble_id;
-    this.apprv_id = data.apprv_id;
-    this.adminService.getApprovalMailTempDetails(data.apprv_id, lble_id).subscribe((res: any)=>{
+    this.adminService.getApprovalMailTempDetails(this.apprID, lble_id).subscribe((res: any)=>{
       this.responseDetails = res.result[0];
       if(this.responseDetails){
         this.update = true;
         this.form.patchValue({
-          mailby: this.responseDetails.mailby,
-          mailto: this.responseDetails.mailto,
-          cc: this.responseDetails.cc,
           subject: this.responseDetails.subject,
           body: this.responseDetails.body
         })
       }else{
         this.update = false;
         this.form.patchValue({
-          mailby: 'support@orbitindia.net',
-          mailto: '${{requester}}',
           subject: 'Approval Request'
         })
       }
     });
+    
+    this.adminService.getFormByID(this.approvalListDetailsData.fmls_id).subscribe((res: any)=> {
+      this.formDataLabels = res.rows;
+    })
+
   }
 
   addResponse() {
@@ -139,7 +141,10 @@ export class MailActionComponent implements OnInit {
     }
     if(!this.update){
       formData.lble_id = this.lble_id;
-      formData.apprv_id = this.apprv_id;
+      formData.appr_id = this.apprID;
+      if(this.lble_id == '5005'){
+        formData.body = formData.body + `<a href="http://172.16.15.22:6715/admin/approvals">Click here to approve</a>`
+      }
       console.log(JSON.stringify(formData));
       this.adminService.addTemplate(formData).subscribe((res: any) => {
         if (res.status == 200) {
@@ -156,12 +161,14 @@ export class MailActionComponent implements OnInit {
             this.toaster.error(errorMessage);
           });
         }
-        // this.toaster.error(error.err[0]);
       })
     }else{
+      formData.appr_id = this.apprID;
       formData.mail_id = this.responseDetails.mail_id;
-      formData.apprv_id = this.responseDetails.apprv_id;
       formData.lble_id = this.responseDetails.lble_id;
+      if(this.lble_id == '5005'){
+        formData.body = formData.body + `<a href="http://172.16.15.22:6715/admin/approvals">Click here to approve</a>`
+      }
       this.adminService.updateTemplate(formData).subscribe((res: any) => {
         if (res.status == 200) {
           this.toaster.success(res.message);

@@ -3,12 +3,13 @@ import { Router, RouterModule } from '@angular/router';
 import { AppService } from 'src/app/_services';
 import { MaterialModule } from 'src/app/material.module';
 
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
   standalone: true,
-  imports: [MaterialModule, RouterModule]
+  imports: [MaterialModule, RouterModule,CommonModule]
 })
 export class HeaderComponent {
   @Output() SideNavToggle = new EventEmitter();  
@@ -16,11 +17,35 @@ export class HeaderComponent {
   user: any;
   userRole: any;
   currentDateTime: any;
- 
+  showHeader:boolean=false;
+  private ignoreURL: string = 'createTicket';
+  private ignoreURL1:string='IncidentList';
+  public ignoreURL2:string='feedback_form';
+  url:any;
+
   constructor(public router: Router, private service: AppService) {
+    
+    this.url=window.location.pathname.slice(1);
+   
     this.service.user.subscribe((res:any)=>{
-      this.user=JSON.parse(res);
-      this.userRole = this.user.roleName;
+      if(res!=null){
+        this.user=JSON.parse(res);
+        this.userRole = this.user.roleName;  
+      }
+    else{
+      if (this.url.includes(this.ignoreURL))
+      {   
+        this.router.navigate([this.url]);
+      }
+      else if(this.url.includes(this.ignoreURL1))
+      {
+        this.router.navigate([this.url]);
+      }
+      else if(this.url.includes(this.ignoreURL2))
+      {
+        this.router.navigate([this.url]);
+      }
+    }
    
       
     }) 
@@ -40,7 +65,6 @@ export class HeaderComponent {
   signOut(): void {
     console.log("sign out");
     this.service.logout();
-    
   }
   openSidenav() {
     this.SideNavToggle.emit();
@@ -54,3 +78,4 @@ export class HeaderComponent {
 }
 
 }
+import { CommonModule } from '@angular/common';

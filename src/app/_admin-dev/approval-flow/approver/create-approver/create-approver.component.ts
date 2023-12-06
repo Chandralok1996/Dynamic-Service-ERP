@@ -58,7 +58,7 @@ export class CreateApproverComponent {
      @Inject(MAT_DIALOG_DATA) public dialogData: DialogData
   ) {}
   ngOnInit(): void {
-    debugger
+    
    // this.approvalDetails=this.dialogData.data;
    
     this.approverForm = new FormGroup({
@@ -122,7 +122,7 @@ export class CreateApproverComponent {
     return this.approverForm.controls;
   }
   addLevel() {
-    debugger
+    
     this.approverArray=null;
     if (this.approverForm.value.role_name.type == "user") {
       this.approverArray = {
@@ -179,7 +179,7 @@ export class CreateApproverComponent {
   }
   // Remove a approver field from the form
   removeLevel(data:any,index: any) {
-    debugger
+    
     if(data.role_name == 'user')
     {
       this.approverListData.forEach((element:any) => {

@@ -1,0 +1,822 @@
+<section>
+  <div class="container">
+    <form [formGroup]="dynamicForm" *ngIf="updateITTicket">
+      <div class="row card p-3">
+        <h2>Update IT Request</h2>
+        <hr />
+
+        <div class="row">
+          <div class="col-md-6 px-2 py-1" *ngFor="let field of nosubform">
+            <mat-form-field
+              class="d-grid gap-2"
+              appearance="outline"
+              *ngIf="field.column_label !== 'Log Notes'"
+            >
+              <mat-label>{{ field?.column_label }}</mat-label>
+              <input
+                *ngIf="
+                  field.type != 'dropdown'
+                    ? field.type != 'assigndropdown'
+                    : false
+                "
+                matInput
+                formControlName="{{ field.column_label }}"
+                type="{{ field?.type }}"
+                [readonly]="field.read_only"
+                (keypress)="OnlyNumbersAllowed($event, field.column_label)"
+              />
+              <mat-select
+                formControlName="{{ field.column_label }}"
+                *ngIf="
+                  field.type == 'dropdown'
+                    ? true
+                    : field.type == 'assigndropdown'
+                    ? true
+                    : false
+                "
+              >
+                <mat-option>Select Column name</mat-option>
+                <mat-option
+                  [value]="options.id"
+                  *ngFor="let options of field.column_value"
+                  >{{ options.value | titlecase }}</mat-option
+                >
+              </mat-select>
+              <mat-icon
+                matSuffix
+                *ngIf="
+                  field.type == 'dropdown' || field.type == 'assigndropdown'
+                "
+                (click)="$event.stopPropagation(); addField(field)"
+                >add_circle</mat-icon
+              >
+              <mat-error *ngIf="checkMandatory"
+                >{{ field.column_label }} is required.</mat-error
+              >
+              <!-- <mat-error *ngIf="checkValid"
+            >{{ field.column_label }} is not valid.</mat-error
+          > -->
+            </mat-form-field>
+            <mat-form-field
+              class="d-grid gap-2"
+              appearance="outline"
+              *ngIf="field.column_label == 'Log Notes'"
+            >
+              <mat-label>{{ field?.column_label }}</mat-label>
+              <textarea
+                matInput
+                placeholder="{{ field?.column_label }}"
+                *ngIf="
+                  field.type != 'dropdown'
+                    ? field.type != 'assigndropdown'
+                    : false
+                "
+                formControlName="{{ field.column_label }}"
+                type="{{ field?.type }}"
+                [readonly]="field.read_only"
+                (keypress)="OnlyNumbersAllowed($event, field.column_label)"
+              >
+              </textarea>
+            </mat-form-field>
+          </div>
+          <div
+          class="col-md-6 px-2 py-1"
+        >
+          <mat-form-field class="d-grid gap-2" appearance="outline">
+            <mat-label>Previous Notes</mat-label>
+            <textarea
+              matInput
+              placeholder="Previous Notes"
+              formControlName="prev_notes"
+              type="text"  
+            >
+            </textarea>
+          </mat-form-field>
+        </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 px-2 py-1">
+            <mat-form-field class="d-grid gap-2" appearance="outline">
+              <mat-label>User Name</mat-label>
+              <mat-select formControlName="user_id">
+                <mat-option>Select User Name</mat-option>
+                <mat-option
+                  [value]="data.user_id"
+                  *ngFor="let data of linkFormuserData['User Name']"
+                  (click)="getIDBasedLinkingByUser(data.user_id)"
+                  >{{ data["User Name"] }}</mat-option
+                >
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6 px-2 py-1" *ngIf="ShowLinkedData">
+            <mat-form-field class="d-grid gap-2" appearance="outline">
+              <mat-label>Affected Product</mat-label>
+              <mat-select formControlName="cicd_id">
+                <mat-option>Select product name</mat-option>
+                <mat-option
+                  [value]="data.cicd_id"
+                  *ngFor="let data of linkedAssetData"
+                  >{{ data.ciname }}</mat-option
+                >
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 px-2 py-1">
+            <mat-form-field class="d-grid gap-2" appearance="outline">
+              <mat-label>Support Group</mat-label>
+              <mat-select formControlName="Support Group">
+                <mat-option>Select Support Group</mat-option>
+                <mat-option
+                  [value]="data.table14_id"
+                  *ngFor="let data of linkFormData['Support Group']"
+                  >{{ data["Support Group"] }}</mat-option
+                >
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6 px-2 py-1">
+            <mat-form-field class="d-grid gap-2" appearance="outline">
+              <mat-label>Assigned to</mat-label>
+              <mat-select formControlName="assignto">
+                <mat-option>Select User Name</mat-option>
+                <mat-option
+                  [value]="data.user_id"
+                  *ngFor="let data of itUserData"
+                  >{{ data["Assign TO"] }}</mat-option
+                >
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 px-2 py-1">
+            <div *ngFor="let selected of listOfFiles; let index = index">
+              <div class="panel panel-default mt-2">
+                <div class="panel-body">
+                  <h3 class="f-attach">
+                    {{ selected }}
+                    <button
+                      (click)="removeSelectedFile(index)"
+                      class="remove-btn pull-right"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        class="bi bi-x-circle-fill"
+                        viewBox="0 0 16 16"
+                      >
+                        <path
+                          d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"
+                        />
+                      </svg>
+                    </button>
+                  </h3>
+                </div>
+              </div>
+            </div>
+
+            <div class="" [innerHTML]="result" style="cursor: pointer">
+              <input
+                style="display: none"
+                formControlName="attachment"
+                #attachments
+                type="file"
+                (change)="onFileChanged($event)"
+                #fileInput
+                multiple="true"
+                accept="image/x-png,image/gif,image/jpeg,pdf"
+              />
+            </div>
+            <hr />
+            <label id="label" class="mb-2">
+              Attach File (Optional)
+              <button
+                type="button"
+                (click)="fileInput.click()"
+                class="attach-do mt-2"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  class="bi bi-paperclip attach-icon"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z"
+                  />
+                </svg>
+                <!-- <b class="attach-font"> Attach a file</b> -->
+              </button></label
+            ><br />
+          </div>
+        </div>
+      </div>
+      <div class="row card p-3 mt-2" *ngIf="subformdata.length != 0">
+        <h2 class="">{{ subformdata[0].module_title }}</h2>
+        <hr />
+        <div class="row">
+          <div class="col-md-6 px-2 py-1" *ngFor="let field of subformdata">
+            <mat-form-field class="d-grid gap-2" appearance="outline">
+              <mat-label>{{ field?.column_label }}</mat-label>
+              <input
+                *ngIf="
+                  field.type != 'dropdown'
+                    ? field.type != 'assigndropdown'
+                    : false
+                "
+                matInput
+                formControlName="{{ field.column_label }}"
+                type="{{ field?.type }}"
+              />
+              <mat-select
+                formControlName="{{ field.column_label }}"
+                *ngIf="
+                  field.type == 'dropdown'
+                    ? true
+                    : field.type == 'assigndropdown'
+                    ? true
+                    : false
+                "
+              >
+                <mat-option>Select Column name</mat-option>
+                <mat-option
+                  [value]="options.id"
+                  *ngFor="let options of field.column_value"
+                  >{{ options.value | titlecase }}</mat-option
+                >
+              </mat-select>
+              <mat-icon
+                matSuffix
+                *ngIf="
+                  field.type == 'dropdown' || field.type == 'assigndropdown'
+                "
+                (click)="$event.stopPropagation(); addField(field)"
+                >add_circle</mat-icon
+              >
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="footer row mt-2 bg-light">
+        <div class="text-center">
+          <button
+            class="me-2"
+            mat-raised-button
+            type="submit"
+            color="secondary"
+            (click)="goBack()"
+          >
+            Cancel
+          </button>
+          <button
+            mat-raised-button
+            type="submit"
+            [disabled]="!dynamicForm.valid"
+            color="primary"
+            (click)="submitForm()"
+          >
+            Update
+          </button>
+        </div>
+      </div>
+      <br />
+    </form>
+    <form
+      [formGroup]="dynamicHouseKeepingForm"
+      *ngIf="updateHouseKeepingTicket"
+    >
+      <div class="row card p-3">
+        <h2>Update Housekeeping Request</h2>
+        <hr />
+
+        <div class="row">
+          <div class="col-md-6 px-2 py-1">
+            <mat-form-field class="d-grid gap-2" appearance="outline">
+              <mat-label>Item</mat-label>
+              <mat-select formControlName="cicd_id">
+                <mat-option>Select Item</mat-option>
+                <mat-option
+                  [value]="data.cicd_id"
+                  *ngFor="let data of linkFormCIData['Config Item']"
+                  >{{ data["Config Item"] }}</mat-option
+                >
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6 px-2 py-1" *ngFor="let field of nosubform">
+            <mat-form-field class="d-grid gap-2" appearance="outline" *ngIf="field.column_label !== 'Log Notes'">
+              <mat-label>{{ field?.column_label }}</mat-label>
+              <input
+                *ngIf="
+                  field.type != 'dropdown'
+                    ? field.type != 'assigndropdown'
+                    : false
+                "
+                matInput
+                formControlName="{{ field.column_label }}"
+                type="{{ field?.type }}"
+                [readonly]="field.read_only"
+                (keypress)="OnlyNumbersAllowed($event, field.column_label)"
+              />
+              <mat-select
+                formControlName="{{ field.column_label }}"
+                *ngIf="
+                  field.type == 'dropdown'
+                    ? true
+                    : field.type == 'assigndropdown'
+                    ? true
+                    : false
+                "
+              >
+                <mat-option>Select Column name</mat-option>
+                <mat-option
+                  [value]="options.id"
+                  *ngFor="let options of field.column_value"
+                  >{{ options.value | titlecase }}</mat-option
+                >
+              </mat-select>
+              <mat-icon
+                matSuffix
+                *ngIf="
+                  field.type == 'dropdown' || field.type == 'assigndropdown'
+                "
+                (click)="$event.stopPropagation(); addField(field)"
+                >add_circle</mat-icon
+              >
+              <mat-error *ngIf="checkMandatory"
+                >{{ field.column_label }} is required.</mat-error
+              >
+              <!-- <mat-error *ngIf="checkValid"
+            >{{ field.column_label }} is not valid.</mat-error
+          > -->
+            </mat-form-field>
+            <mat-form-field
+            class="d-grid gap-2"
+            appearance="outline"
+            *ngIf="field.column_label == 'Log Notes'"
+          >
+            <mat-label>{{ field?.column_label }}</mat-label>
+            <textarea
+              matInput
+              placeholder="{{ field?.column_label }}"
+              *ngIf="
+                field.type != 'dropdown'
+                  ? field.type != 'assigndropdown'
+                  : false
+              "
+              formControlName="{{ field.column_label }}"
+              type="{{ field?.type }}"
+              [readonly]="field.read_only"
+              (keypress)="OnlyNumbersAllowed($event, field.column_label)"
+            >
+            </textarea>
+          </mat-form-field>
+          </div>
+          </div>
+         
+        <div class="row">
+          <div class="col-md-6 px-2 py-1">
+            <mat-form-field class="d-grid gap-2" appearance="outline">
+              <mat-label>Support Group</mat-label>
+              <mat-select formControlName="Support Group">
+                <mat-option>Select Support Group</mat-option>
+                <mat-option
+                  [value]="data.table14_id"
+                  *ngFor="let data of linkFormData['Support Group']"
+                  >{{ data["Support Group"] }}</mat-option
+                >
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div
+          class="col-md-6 px-2 py-1"
+        >
+          <mat-form-field class="d-grid gap-2" appearance="outline">
+            <mat-label>Previous Notes</mat-label>
+            <textarea
+              matInput
+              placeholder="Previous Notes"
+              formControlName="prev_notes"
+              type="text"  
+            >
+            </textarea>
+          </mat-form-field>
+        </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 px-2 py-1">
+            <div *ngFor="let selected of listOfFiles; let index = index">
+              <div class="panel panel-default mt-2">
+                <div class="panel-body">
+                  <h3 class="f-attach">
+                    {{ selected }}
+                    <button
+                      (click)="removeSelectedFile(index)"
+                      class="remove-btn pull-right"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        class="bi bi-x-circle-fill"
+                        viewBox="0 0 16 16"
+                      >
+                        <path
+                          d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"
+                        />
+                      </svg>
+                    </button>
+                  </h3>
+                </div>
+              </div>
+            </div>
+
+            <div class="" [innerHTML]="result" style="cursor: pointer">
+              <input
+                style="display: none"
+                formControlName="attachment"
+                #attachments
+                type="file"
+                (change)="onFileChanged($event)"
+                #fileInput
+                multiple="true"
+                accept="image/x-png,image/gif,image/jpeg,pdf"
+              />
+            </div>
+            <hr />
+            <label id="label" class="mb-2">
+              Attach File (Optional)
+              <button
+                type="button"
+                (click)="fileInput.click()"
+                class="attach-do mt-2"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  class="bi bi-paperclip attach-icon"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z"
+                  />
+                </svg>
+                <!-- <b class="attach-font"> Attach a file</b> -->
+              </button></label
+            ><br />
+          </div>
+        </div>
+      </div>
+
+      <div class="row card p-3 mt-2" *ngIf="subformdata.length != 0">
+        <h2 class="">{{ subformdata[0].module_title }}</h2>
+        <hr />
+        <div class="row">
+          <div class="col-md-6 px-2 py-1" *ngFor="let field of subformdata">
+            <mat-form-field class="d-grid gap-2" appearance="outline">
+              <mat-label>{{ field?.column_label }}</mat-label>
+              <input
+                *ngIf="
+                  field.type != 'dropdown'
+                    ? field.type != 'assigndropdown'
+                    : false
+                "
+                matInput
+                formControlName="{{ field.column_label }}"
+                type="{{ field?.type }}"
+              />
+              <mat-select
+                formControlName="{{ field.column_label }}"
+                *ngIf="
+                  field.type == 'dropdown'
+                    ? true
+                    : field.type == 'assigndropdown'
+                    ? true
+                    : false
+                "
+              >
+                <mat-option>Select Column name</mat-option>
+                <mat-option
+                  [value]="options.id"
+                  *ngFor="let options of field.column_value"
+                  >{{ options.value | titlecase }}</mat-option
+                >
+              </mat-select>
+              <mat-icon
+                matSuffix
+                *ngIf="
+                  field.type == 'dropdown' || field.type == 'assigndropdown'
+                "
+                (click)="$event.stopPropagation(); addField(field)"
+                >add_circle</mat-icon
+              >
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="footer row mt-2 bg-light">
+        <div class="text-center">
+          <button
+            class="me-2"
+            mat-raised-button
+            type="submit"
+            color="secondary"
+            (click)="goBack()"
+          >
+            Cancel
+          </button>
+          <button
+            mat-raised-button
+            type="submit"
+            [disabled]="!dynamicHouseKeepingForm.valid"
+            color="primary"
+            (click)="submitDynamicForm()"
+          >
+            Update
+          </button>
+        </div>
+      </div>
+      <br />
+    </form>
+    <form [formGroup]="dynamicHRForm" *ngIf="updateHRTicket">
+      <div class="row card p-3">
+        <h2>Update HR Request</h2>
+        <hr />
+
+        <div class="row">
+          <div class="col-md-6 px-2 py-1">
+            <mat-form-field class="d-grid gap-2" appearance="outline">
+              <mat-label>Service</mat-label>
+              <mat-select formControlName="cicd_id">
+                <mat-option>Select Service</mat-option>
+                <mat-option
+                  [value]="data.cicd_id"
+                  *ngFor="let data of linkFormCIData['Config Item']"
+                  >{{ data["Config Item"] }}</mat-option
+                >
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6 px-2 py-1" *ngFor="let field of nosubform">
+            <mat-form-field class="d-grid gap-2" appearance="outline" *ngIf="field.column_label !== 'Log Notes'">
+              <mat-label>{{ field?.column_label }}</mat-label>
+              <input
+                *ngIf="
+                  field.type != 'dropdown'
+                    ? field.type != 'assigndropdown'
+                    : false
+                "
+                matInput
+                formControlName="{{ field.column_label }}"
+                type="{{ field?.type }}"
+                [readonly]="field.read_only"
+                (keypress)="OnlyNumbersAllowed($event, field.column_label)"
+              />
+              <mat-select
+                formControlName="{{ field.column_label }}"
+                *ngIf="
+                  field.type == 'dropdown'
+                    ? true
+                    : field.type == 'assigndropdown'
+                    ? true
+                    : false
+                "
+              >
+                <mat-option>Select Column name</mat-option>
+                <mat-option
+                  [value]="options.id"
+                  *ngFor="let options of field.column_value"
+                  >{{ options.value }}</mat-option
+                >
+              </mat-select>
+              <mat-icon
+                matSuffix
+                *ngIf="
+                  field.type == 'dropdown' || field.type == 'assigndropdown'
+                "
+                (click)="$event.stopPropagation(); addField(field)"
+                >add_circle</mat-icon
+              >
+              <mat-error *ngIf="checkMandatory"
+                >{{ field.column_label }} is required.</mat-error
+              >
+              <!-- <mat-error *ngIf="checkValid"
+            >{{ field.column_label }} is not valid.</mat-error
+          > -->
+            </mat-form-field>
+            <mat-form-field
+            class="d-grid gap-2"
+            appearance="outline"
+            *ngIf="field.column_label == 'Log Notes'"
+          >
+            <mat-label>{{ field?.column_label }}</mat-label>
+            <textarea
+              matInput
+              placeholder="{{ field?.column_label }}"
+              *ngIf="
+                field.type != 'dropdown'
+                  ? field.type != 'assigndropdown'
+                  : false
+              "
+              formControlName="{{ field.column_label }}"
+              type="{{ field?.type }}"
+              [readonly]="field.read_only"
+              (keypress)="OnlyNumbersAllowed($event, field.column_label)"
+            >
+            </textarea>
+          </mat-form-field>
+          </div>
+          <div
+          class="col-md-6 px-2 py-1"
+        >
+          <mat-form-field class="d-grid gap-2" appearance="outline">
+            <mat-label>Previous Notes</mat-label>
+            <textarea
+              matInput
+              placeholder="Previous Notes"
+              formControlName="prev_notes"
+              type="text"  
+            >
+            </textarea>
+          </mat-form-field>
+        </div>
+          </div>
+          <div class="row">
+          <div class="col-md-6 px-2 py-1">
+            <mat-form-field class="d-grid gap-2" appearance="outline">
+              <mat-label>Support Group</mat-label>
+              <mat-select formControlName="Support Group">
+                <mat-option>Select Support Group</mat-option>
+                <mat-option
+                  [value]="data.table14_id"
+                  *ngFor="let data of linkFormData['Support Group']"
+                  >{{ data["Support Group"] }}</mat-option
+                >
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6 px-2 py-1">
+            <mat-form-field class="d-grid gap-2" appearance="outline">
+              <mat-label>Assigned to</mat-label>
+              <mat-select formControlName="assignto">
+                <mat-option>Select User Name</mat-option>
+                <mat-option
+                  [value]="data.user_id"
+                  *ngFor="let data of HRUserData"
+                  >{{ data["Assign TO"] }}</mat-option
+                >
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 px-2 py-1">
+            <div *ngFor="let selected of listOfFiles; let index = index">
+              <div class="panel panel-default mt-2">
+                <div class="panel-body">
+                  <h3 class="f-attach">
+                    {{ selected }}
+                    <button
+                      (click)="removeSelectedFile(index)"
+                      class="remove-btn pull-right"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        class="bi bi-x-circle-fill"
+                        viewBox="0 0 16 16"
+                      >
+                        <path
+                          d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"
+                        />
+                      </svg>
+                    </button>
+                  </h3>
+                </div>
+              </div>
+            </div>
+
+            <div class="" [innerHTML]="result" style="cursor: pointer">
+              <input
+                style="display: none"
+                formControlName="attachment"
+                #attachments
+                type="file"
+                (change)="onFileChanged($event)"
+                #fileInput
+                multiple="true"
+                accept="image/x-png,image/gif,image/jpeg,pdf"
+              />
+            </div>
+            <hr />
+            <label id="label" class="mb-2">
+              Attach File (Optional)
+              <button
+                type="button"
+                (click)="fileInput.click()"
+                class="attach-do mt-2"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  class="bi bi-paperclip attach-icon"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z"
+                  />
+                </svg>
+                <!-- <b class="attach-font"> Attach a file</b> -->
+              </button></label
+            ><br />
+          </div>
+        </div>
+      </div>
+
+      <div class="row card p-3 mt-2" *ngIf="subformdata.length != 0">
+        <h2 class="">{{ subformdata[0].module_title }}</h2>
+        <hr />
+        <div class="row">
+          <div class="col-md-6 px-2 py-1" *ngFor="let field of subformdata">
+            <mat-form-field class="d-grid gap-2" appearance="outline">
+              <mat-label>{{ field?.column_label }}</mat-label>
+              <input
+                *ngIf="
+                  field.type != 'dropdown'
+                    ? field.type != 'assigndropdown'
+                    : false
+                "
+                matInput
+                formControlName="{{ field.column_label }}"
+                type="{{ field?.type }}"
+              />
+              <mat-select
+                formControlName="{{ field.column_label }}"
+                *ngIf="
+                  field.type == 'dropdown'
+                    ? true
+                    : field.type == 'assigndropdown'
+                    ? true
+                    : false
+                "
+              >
+                <mat-option>Select Column name</mat-option>
+                <mat-option
+                  [value]="options.id"
+                  *ngFor="let options of field.column_value"
+                  >{{ options.value | titlecase }}</mat-option
+                >
+              </mat-select>
+              <mat-icon
+                matSuffix
+                *ngIf="
+                  field.type == 'dropdown' || field.type == 'assigndropdown'
+                "
+                (click)="$event.stopPropagation(); addField(field)"
+                >add_circle</mat-icon
+              >
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="footer row mt-2 bg-light">
+        <div class="text-center">
+          <button
+            class="me-2"
+            mat-raised-button
+            type="submit"
+            color="secondary"
+            (click)="goBack()"
+          >
+            Cancel
+          </button>
+          <button
+            mat-raised-button
+            type="submit"
+            [disabled]="!dynamicHRForm.valid"
+            color="primary"
+            (click)="submitDynamicHRForm()"
+          >
+            Update
+          </button>
+        </div>
+      </div>
+      <br />
+    </form>
+  </div>
+</section>
+<router-outlet></router-outlet>
