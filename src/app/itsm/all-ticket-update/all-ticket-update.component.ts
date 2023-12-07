@@ -80,7 +80,7 @@ export class AllTicketUpdateComponent {
       user_id: this.formBuilder.control("", [Validators.required]),
       attachment: new FormControl(""),
       ["Support Group"]: this.formBuilder.control("", [Validators.required]),
-      assignto: new FormControl(""),
+      assignto: new FormControl(null),
       prev_notes:new FormControl({value:'',disabled:true})
     });
     this.dynamicHouseKeepingForm = this.formBuilder.group({
@@ -92,7 +92,7 @@ export class AllTicketUpdateComponent {
     this.dynamicHRForm = this.formBuilder.group({
       ["Support Group"]: this.formBuilder.control("", [Validators.required]),
       cicd_id: new FormControl("", [Validators.required]),
-      assignto: new FormControl(""),
+      assignto: new FormControl(null),
       attachment: new FormControl(""),
       prev_notes:new FormControl({value:'',disabled:true})
     });

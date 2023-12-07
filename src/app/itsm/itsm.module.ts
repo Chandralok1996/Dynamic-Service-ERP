@@ -11,7 +11,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule,Routes } from '@angular/router';
 import { MaterialModule } from '../material.module';
 import { DashboardCardComponent } from './dashboard-card/dashboard-card.component';
-import { CallTypeStatusDetailsComponent } from './dashboard-card/call-type-status-details/call-type-status-details.component';
 import { CreateTicketComponent } from './create-ticket/create-ticket.component';
 import { UpdateTicketComponent } from './update-ticket/update-ticket.component';
 import { DetailsTicketComponent } from './details-ticket/details-ticket.component';
@@ -25,7 +24,6 @@ import { ItRequestDetailsComponent } from './dashboard-card/it-request-details/i
 const routes: Routes = [
   { path: '', component: ItsmComponent },
   { path: 'dashboard-card', component: DashboardCardComponent },
-  { path: 'call-type', component: CallTypeStatusDetailsComponent },
   { path: 'HKDetails/:label/:days', component:HousekeepingRequestDetailsComponent  },
   { path: 'ITDetails/:label/:days', component:ItRequestDetailsComponent  },
   { path: 'HRDetails/:label/:days', component:HrRequestDetailsComponent  },
@@ -47,7 +45,6 @@ const routes: Routes = [
     AccessoriesManagementComponent,
     HistoryManagementComponent,
     DashboardCardComponent,
-    CallTypeStatusDetailsComponent,
     CreateTicketComponent,
     UpdateTicketComponent,
     DetailsTicketComponent,

@@ -69,6 +69,10 @@ export class HousekeepingRequestDetailsComponent {
             else if(this.status == 'Opened'){
               this.reportStatusData = this.reportData[1].hkListOpened;
             }
+            else if(this.status == 'inprogress'){
+              this.reportStatusData = this.reportData[1].hkListInProgress;
+            }
+            
             this.dataSource = new MatTableDataSource(this.reportStatusData);
             this.excel = this.reportStatusData;
             this.dataSource.sort = this.sort;

@@ -92,7 +92,7 @@ export class CreateTicketComponent {
       user_id: new FormControl("", [Validators.required]),
       attachment: new FormControl(""),
       ["Support Group"]: new FormControl({ value: "1001", disabled: true }),
-      assignto: new FormControl(""),
+      assignto: new FormControl(null),
     });
     this.dynamicHouseKeepingForm = this.formBuilder.group({
       cicd_id: new FormControl("", [Validators.required]),
@@ -106,7 +106,7 @@ export class CreateTicketComponent {
         value: this.defaultValue3,
         disabled: true,
       }),
-      assignto: new FormControl(""),
+      assignto: new FormControl(null),
     });
     if (!this.userCreated) {
       this.userCreated = [];

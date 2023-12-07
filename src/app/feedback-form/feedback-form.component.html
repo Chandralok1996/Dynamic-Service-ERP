@@ -2,7 +2,7 @@
   1) add the package for angular-star-rating 
 2) add the svg file in assets/images folder
 3)add the import in styles.css form star styles-->
-<div class="container-fluid">
+<div class="container-fluid" style="background-color:#8080ff;">
   <div class="row py-3">
     <div class="col-md-2"></div>
     <div class="col-md-8">
@@ -16,7 +16,7 @@
                   'Trebuchet MS', sans-serif;
               "
             >
-              <u>Event&nbsp;&nbsp;Feedback&nbsp;&nbsp;Form</u>
+              <u>Feedback&nbsp;&nbsp;Form</u>
             </h1>
           </div>
 
@@ -71,28 +71,19 @@
                 <!-- </div> -->
               </div>
               <div class="row">
-                <div class="col-md-6">
-                  <mat-label><strong>Overall Rating:</strong></mat-label>
+                <div class="col-md-1">
+                  </div>
+                <div class="col-md-5" style="display: flex;">
+                  <mat-label class="labelClass"><strong>Overall Rating : </strong></mat-label>
                   <star-rating [starType]="'svg'" [rating]="0"></star-rating>
                 </div>
-                <div class="col-md-6">
-                  <mat-label><strong>Liklihood to Recommend:</strong></mat-label>           
+                <div class="col-md-5" style="display: flex;">
+                  <mat-label class="labelClass"><strong>Liklihood to Recommend : </strong></mat-label>           
               <star-rating [starType]="'svg'" [rating]="2.63"></star-rating>
                 </div>
-              </div>
-              <!-- <div class="row">
-                <div class="col-md-12">
-                  <mat-label><strong>Liklihood to Recommend:</strong></mat-label>
-
-                  <ul class="list-inline rating-list" 
-                  *ngFor="let star of stars" style="display: inline-block" >
-                    <li (click)="countStar(star)"
-                        [ngClass]="{'selected': (star <= selectedValue)}">
-                      <i class="fa fa-star"></i>
-                    </li> 
-              </ul>
+                <div class="col-md-1">
                 </div>
-                </div> -->
+              </div>
                 <div class="row mt-4">
                   <div class="col-md-6">
                     <mat-form-field class="fieldInput1" appearance="outline">
@@ -202,10 +193,10 @@
                 <div class="col-md-6">
                   <button
                     class="btn btn-outline-secondary"
-                    style="margin-left: 200px"
+                    style="margin-left: 180px"
                   >
                     Cancel</button
-                  >
+                  >&nbsp;&nbsp;
                   <button
                     class="btn btn-primary"
                     (click)="submitForm()"

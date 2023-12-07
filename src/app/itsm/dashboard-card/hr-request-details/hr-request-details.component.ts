@@ -69,6 +69,9 @@ export class HrRequestDetailsComponent {
             else if(this.status == 'Opened'){
               this.reportStatusData = this.reportData[1].hrListOpened;
             }
+            else if(this.status == 'inprogress'){
+              this.reportStatusData = this.reportData[3].hrListInProgress;
+            }
             this.dataSource = new MatTableDataSource(this.reportStatusData);
             this.excel = this.reportStatusData;
             this.dataSource.sort = this.sort;
@@ -110,7 +113,7 @@ export class HrRequestDetailsComponent {
     var ws = XLSX.utils.json_to_sheet(this.excel);
     var wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "data");
-    XLSX.writeFile(wb, "Statuswise_HousekeepingTicket_Report.xlsx");
+    XLSX.writeFile(wb, "Statuswise_HRTicket_Report.xlsx");
   }
 
 

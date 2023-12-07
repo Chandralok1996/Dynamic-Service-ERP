@@ -41,7 +41,7 @@
               <mat-icon
                 matSuffix
                 *ngIf="
-                  field.type == 'dropdown' || field.type == 'assigndropdown'
+                  (field.type == 'dropdown' || field.type == 'assigndropdown') && field.column_label != 'Status'
                 "
                 (click)="$event.stopPropagation(); addField(field)"
                 >add_circle</mat-icon
@@ -315,7 +315,7 @@
                 *ngIf="
                   (field.type == 'dropdown' ||
                     field.type == 'assigndropdown') &&
-                  field.column_label != 'Status'
+                  (field.column_label != 'Status' && field.column_label != 'Location') && field.column_label != 'Call Type'
                 "
                 (click)="$event.stopPropagation(); addField(field)"
                 >add_circle</mat-icon

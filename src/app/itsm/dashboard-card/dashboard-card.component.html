@@ -14,10 +14,9 @@
   </nav>
 </div>
 <div class="container-fluid">
- <div class="row mt-2" style="padding: 15px;">
+ <div class="row mt-2">
    
   </div>
-  
  
     <div class="mt-1">
       <!-- <ng-container *ngIf="showHousekeeping"> -->
@@ -164,7 +163,61 @@
           </div>
         </div> -->
       </div> 
+      <div class="row mt-2">
+        <div class="col-md-4" [style.opacity]="opacityCategory">
+          <div class="card cb">
+            <div class="card-body">
+              <div class="card-title">
+                <div class="row">
+                  <div class="col-md-8">
+                    <span class="cst">Call Category</span>
+                  </div>
+                  <div class="col-md-4"></div>
+                </div>
+                <div class="chart-container-pie">
+                  <canvas #assetCategoryWise1 style="cursor:pointer;"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4" [style.opacity]="opacityCallType">
+          <div class="card cb">
+            <div class="card-body">
+              <div class="card-title">
+                <div class="row">
+                  <div class="col-md-8">
+                    <span class="cst">Call Type</span>
+                  </div>
+                  <div class="col-md-4"></div>
+                </div>
+                <div class="chart-container-pie">
+                  <canvas #assetCallType1 style="cursor:pointer;"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4" [style.opacity]="opacityCallMode">
+          <div class="card cb">
+            <div class="card-body">
+              <div class="card-title">
+                <div class="row">
+                  <div class="col-md-8">
+                    <span class="cst">Call Mode</span>
+                  </div>
+                  <div class="col-md-4"></div>
+                </div>
+                <div class="chart-container-pie">
+                  <canvas #assetCallMode1 style="cursor:pointer;"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
       <!-- </ng-container> -->        
     </div>
 
   </div>
+  

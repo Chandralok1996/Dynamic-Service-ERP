@@ -33,7 +33,7 @@
     </mat-form-field>
     </div>
     <div class="col-md-3">
-      <!-- <div class="search-box">
+      <div class="search-box">
         <input
           class="search-input"
           type="text"
@@ -41,7 +41,7 @@
           [(ngModel)]="searchTerm"
           (keyup)="applyFilter()"
         />
-      </div> -->
+      </div>
     </div>
 
     <div class="col-md-3">
@@ -107,7 +107,7 @@
               <p id="description1">Item: {{ data["Item"] }}</p>
             </div>
             <div class="col-md-4 col-sm-4">
-              <p id="group">Category: {{ data["Call Category"] }}</p>
+              <p id="group">Category: {{ data["Category"] }}</p>
             </div>
             <div class="col-md-4 col-sm-4">
               <p id="group">Issue Description: {{ data["Issue Description"] }}</p>
@@ -163,7 +163,7 @@
             <p id="description1">Item: {{ data["Item"] }}</p>
           </div>
           <div class="col-md-4 col-sm-4">
-            <p id="group">Category: {{ data["Call Category"] }}</p>
+            <p id="group">Category: {{ data.Category}}</p>
           </div>
           <div class="col-md-4 col-sm-4">
             <p id="group">Issue Description: {{ data["Issue Description"] }}</p>
@@ -219,7 +219,7 @@
             <p id="description1">Item: {{ data.Item }}</p>
           </div>
           <div class="col-md-4 col-sm-4">
-            <p id="group">Category: {{ data["Call Category"] }}</p>
+            <p id="group">Category: {{ data.Category}}</p>
           </div>
           <div class="col-md-4 col-sm-4">
             <p id="group">Issue Description: {{ data["Issue Description"] }}</p>
@@ -262,7 +262,7 @@
             <p id="description1">Item: {{ data.Item }}</p>
           </div>
           <div class="col-md-4 col-sm-4">
-            <p id="group">Category: {{ data["Call Category"] }}</p>
+            <p id="group">Category: {{ data.Category}}</p>
           </div>
           <div class="col-md-4 col-sm-4">
             <p id="group">Issue Description: {{ data["Issue Description"] }}</p>

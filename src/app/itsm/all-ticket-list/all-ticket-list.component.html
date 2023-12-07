@@ -3,7 +3,7 @@
     <a
       mat-tab-link
       *ngFor="let link of links"
-      (click)="getActiveLinkStatus(activeLink=link.status)"
+      (click)="getActiveLinkStatus((activeLink = link.status))"
       [active]="activeLink == link.status"
     >
       {{ link.value }}
@@ -14,7 +14,6 @@
   <div class="row mt-3">
     <div class="col-md-3">
       <mat-form-field class="col-12">
-   
         <mat-select [(ngModel)]="type" (selectionChange)="getType()">
           <mat-option *ngFor="let ele of types" [value]="ele.id">
             {{ ele.name }}
@@ -23,7 +22,7 @@
       </mat-form-field>
     </div>
     <div class="col-md-3">
-      <!-- <div class="search-box">
+      <div class="search-box">
         <input
           class="search-input"
           type="text"
@@ -31,7 +30,7 @@
           [(ngModel)]="searchTerm"
           (keyup)="applyFilter()"
         />
-      </div> -->
+      </div>
     </div>
 
     <div class="col-md-3">
@@ -47,18 +46,16 @@
     </div>
     <div class="col-md-3">
       <mat-form-field class="col-12">
-        <!-- <mat-select placeholder="Status Based Filter" #singleSelect>
-         
-          <mat-option value="Opened"> Opened</mat-option>
-          <mat-option value="inprogress"> In Progress</mat-option>
-          <mat-option value="Closed"> Closed</mat-option>
-        </mat-select> -->
         <mat-label>Select Status</mat-label>
         <mat-select matInput [ngModel]="statusData">
-          <mat-option *ngFor="let st of status" [value]="st.value" (click)="getStatusWiseTicketData(st.value)">
-              {{st.name}}
+          <mat-option
+            *ngFor="let st of status"
+            [value]="st.value"
+            (click)="getStatusWiseTicketData(st.value)"
+          >
+            {{ st.name }}
           </mat-option>
-          </mat-select>
+        </mat-select>
       </mat-form-field>
       <!-- <button
           class="btn btn-primary float-right"
@@ -113,16 +110,18 @@
           *ngIf="data.Priority === 'High'"
           (click)="gotoincdetails(data.inid_id)"
         >
-        <div class="row">
+          <div class="row">
             <div class="col-md-4 col-sm-4">
               <!-- <p id="description">{{data.short_desc}}</p> -->
               <p id="description1">Item: {{ data.Item }}</p>
             </div>
             <div class="col-md-4 col-sm-4">
-              <p id="group">Category: {{ data["Call Category"] }}</p>
+              <p id="group">Category: {{ data["Category"] }}</p>
             </div>
             <div class="col-md-4 col-sm-4">
-              <p id="group">Issue Description: {{ data["Issue Description"] }}</p>
+              <p id="group">
+                Issue Description: {{ data["Issue Description"] }}
+              </p>
             </div>
           </div>
           <div class="row">
@@ -143,11 +142,11 @@
 
           <div class="row">
             <div class="col-md-4 col-sm-4">
-              <p id="from">Last Updated: {{data["Last Updated"]}}</p>
+              <p id="from">Last Updated: {{ data["Last Updated"] }}</p>
             </div>
 
             <div class="col-md-4 col-sm-4">
-              <p id="created">Assigned To: {{data.assignto}}</p>
+              <p id="created">Assigned To: {{ data.assignto }}</p>
             </div>
           </div>
 
@@ -169,43 +168,45 @@
           *ngIf="data.Priority === 'Medium'"
           (click)="gotoincdetails(data.inid_id)"
         >
-        <div class="row">
-          <div class="col-md-4 col-sm-4">
-            <!-- <p id="description">{{data.short_desc}}</p> -->
-            <p id="description1">Item: {{ data.Item }}</p>
+          <div class="row">
+            <div class="col-md-4 col-sm-4">
+              <!-- <p id="description">{{data.short_desc}}</p> -->
+              <p id="description1">Item: {{ data.Item }}</p>
+            </div>
+            <div class="col-md-4 col-sm-4">
+              <p id="group">Category: {{ data["Category"] }}</p>
+            </div>
+            <div class="col-md-4 col-sm-4">
+              <p id="group">
+                Issue Description: {{ data["Issue Description"] }}
+              </p>
+            </div>
           </div>
-          <div class="col-md-4 col-sm-4">
-            <p id="group">Category: {{ data["Call Category"] }}</p>
-          </div>
-          <div class="col-md-4 col-sm-4">
-            <p id="group">Issue Description: {{ data["Issue Description"] }}</p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-4 col-sm-4">
-            <a style="text-align: left">
-              <span id="incid" class="la la-trash">
-                Ticket ID: {{ data.inid_id }}</span
-              ></a
-            >
-          </div>
-          <div class="col-md-4 col-sm-4">
-            <p id="from">Call Mode: {{ data["Call Mode"] }}</p>
-          </div>
-          <div class="col-md-4 col-sm-4">
-            <p id="from">Call Type: {{ data["Call Type"] }}</p>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-md-4 col-sm-4">
-            <p id="from">Last Updated: {{data["Last Updated"]}}</p>
+          <div class="row">
+            <div class="col-md-4 col-sm-4">
+              <a style="text-align: left">
+                <span id="incid" class="la la-trash">
+                  Ticket ID: {{ data.inid_id }}</span
+                ></a
+              >
+            </div>
+            <div class="col-md-4 col-sm-4">
+              <p id="from">Call Mode: {{ data["Call Mode"] }}</p>
+            </div>
+            <div class="col-md-4 col-sm-4">
+              <p id="from">Call Type: {{ data["Call Type"] }}</p>
+            </div>
           </div>
 
-          <div class="col-md-4 col-sm-4">
-            <p id="created">Assigned To: {{data.assignto}}</p>
+          <div class="row">
+            <div class="col-md-4 col-sm-4">
+              <p id="from">Last Updated: {{ data["Last Updated"] }}</p>
+            </div>
+
+            <div class="col-md-4 col-sm-4">
+              <p id="created">Assigned To: {{ data.assignto }}</p>
+            </div>
           </div>
-        </div>
 
           <!--  
                     <div class="row">
@@ -225,86 +226,90 @@
           *ngIf="data.Priority === 'Critical'"
           (click)="gotoincdetails(data.inid_id)"
         >
-        <div class="row">
-          <div class="col-md-4 col-sm-4">
-            <!-- <p id="description">{{data.short_desc}}</p> -->
-            <p id="description1">Item: {{ data.Item }}</p>
+          <div class="row">
+            <div class="col-md-4 col-sm-4">
+              <!-- <p id="description">{{data.short_desc}}</p> -->
+              <p id="description1">Item: {{ data.Item }}</p>
+            </div>
+            <div class="col-md-4 col-sm-4">
+              <p id="group">Category: {{ data["Category"] }}</p>
+            </div>
+            <div class="col-md-4 col-sm-4">
+              <p id="group">
+                Issue Description: {{ data["Issue Description"] }}
+              </p>
+            </div>
           </div>
-          <div class="col-md-4 col-sm-4">
-            <p id="group">Category: {{ data["Call Category"] }}</p>
-          </div>
-          <div class="col-md-4 col-sm-4">
-            <p id="group">Issue Description: {{ data["Issue Description"] }}</p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-4 col-sm-4">
-            <a style="text-align: left">
-              <span id="incid" class="la la-trash">
-                Ticket ID: {{ data.inid_id }}</span
-              ></a
-            >
-          </div>
-          <div class="col-md-4 col-sm-4">
-            <p id="from">Call Mode: {{ data["Call Mode"] }}</p>
-          </div>
-          <div class="col-md-4 col-sm-4">
-            <p id="from">Call Type: {{ data["Call Type"] }}</p>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-md-4 col-sm-4">
-            <p id="from">Last Updated: {{data["Last Updated"]}}</p>
+          <div class="row">
+            <div class="col-md-4 col-sm-4">
+              <a style="text-align: left">
+                <span id="incid" class="la la-trash">
+                  Ticket ID: {{ data.inid_id }}</span
+                ></a
+              >
+            </div>
+            <div class="col-md-4 col-sm-4">
+              <p id="from">Call Mode: {{ data["Call Mode"] }}</p>
+            </div>
+            <div class="col-md-4 col-sm-4">
+              <p id="from">Call Type: {{ data["Call Type"] }}</p>
+            </div>
           </div>
 
-          <div class="col-md-4 col-sm-4">
-            <p id="created">Assigned To: {{data.assignto}}</p>
+          <div class="row">
+            <div class="col-md-4 col-sm-4">
+              <p id="from">Last Updated: {{ data["Last Updated"] }}</p>
+            </div>
+
+            <div class="col-md-4 col-sm-4">
+              <p id="created">Assigned To: {{ data.assignto }}</p>
+            </div>
           </div>
-        </div>
         </div>
         <div
           class="card mt-2"
           *ngIf="data.Priority === 'Low'"
           (click)="gotoincdetails(data.inid_id)"
         >
-        <div class="row">
-          <div class="col-md-4 col-sm-4">
-            <!-- <p id="description">{{data.short_desc}}</p> -->
-            <p id="description1">Item: {{ data.Item }}</p>
+          <div class="row">
+            <div class="col-md-4 col-sm-4">
+              <!-- <p id="description">{{data.short_desc}}</p> -->
+              <p id="description1">Item: {{ data.Item }}</p>
+            </div>
+            <div class="col-md-4 col-sm-4">
+              <p id="group">Category: {{ data["Category"] }}</p>
+            </div>
+            <div class="col-md-4 col-sm-4">
+              <p id="group">
+                Issue Description: {{ data["Issue Description"] }}
+              </p>
+            </div>
           </div>
-          <div class="col-md-4 col-sm-4">
-            <p id="group">Category: {{ data["Call Category"] }}</p>
-          </div>
-          <div class="col-md-4 col-sm-4">
-            <p id="group">Issue Description: {{ data["Issue Description"] }}</p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-4 col-sm-4">
-            <a style="text-align: left">
-              <span id="incid" class="la la-trash">
-                Ticket ID: {{ data.inid_id }}</span
-              ></a
-            >
-          </div>
-          <div class="col-md-4 col-sm-4">
-            <p id="from">Call Mode: {{ data["Call Mode"] }}</p>
-          </div>
-          <div class="col-md-4 col-sm-4">
-            <p id="from">Call Type: {{ data["Call Type"] }}</p>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-md-4 col-sm-4">
-            <p id="from">Last Updated: {{data["Last Updated"]}}</p>
+          <div class="row">
+            <div class="col-md-4 col-sm-4">
+              <a style="text-align: left">
+                <span id="incid" class="la la-trash">
+                  Ticket ID: {{ data.inid_id }}</span
+                ></a
+              >
+            </div>
+            <div class="col-md-4 col-sm-4">
+              <p id="from">Call Mode: {{ data["Call Mode"] }}</p>
+            </div>
+            <div class="col-md-4 col-sm-4">
+              <p id="from">Call Type: {{ data["Call Type"] }}</p>
+            </div>
           </div>
 
-          <div class="col-md-4 col-sm-4">
-            <p id="created">Assigned To: {{data.assignto}}</p>
+          <div class="row">
+            <div class="col-md-4 col-sm-4">
+              <p id="from">Last Updated: {{ data["Last Updated"] }}</p>
+            </div>
+
+            <div class="col-md-4 col-sm-4">
+              <p id="created">Assigned To: {{ data.assignto }}</p>
+            </div>
           </div>
-        </div>
         </div>
       </div>
     </div>
@@ -312,7 +317,10 @@
   <div class="scroll p-2" *ngIf="showHousekeepingIncident">
     <div class="row" *ngFor="let data of incidentlistdata">
       <div class="col-md-12">
-        <div class="card1 mt-2 m-fs m-d-flex m-graph" (click)="gotoincHouseKeepingdetails(data.hksd_id)">
+        <div
+          class="card1 mt-2 m-fs m-d-flex m-graph"
+          (click)="gotoincHouseKeepingdetails(data.hksd_id)"
+        >
           <div class="row">
             <div class="col-md-4 col-sm-4">
               <!-- <p id="description">{{data.short_desc}}</p> -->
@@ -531,7 +539,7 @@
           <div class="row">
             <div class="col-md-4 col-sm-4">
               <!-- <p id="description">{{data.short_desc}}</p> -->
-              <p id="description1">Service: {{data.Item}}</p>
+              <p id="description1">Service: {{ data.Item }}</p>
             </div>
             <div class="col-md-4 col-sm-4">
               <!-- <p id="description">{{data.short_desc}}</p> -->
@@ -564,17 +572,14 @@
 
           <div class="row">
             <div class="col-md-4 col-sm-4">
-                     
-                      <p id="from">Assigned To: {{data.assignto}}</p>
-                    </div>
+              <p id="from">Assigned To: {{ data.assignto }}</p>
+            </div>
 
             <div class="col-md-4 col-sm-4">
               <!-- <p id="created">Created :{{data.createddate}}</p> -->
-             
             </div>
             <div class="col-md-4 col-sm-4">
               <!-- <p id="created">Created :{{data.createddate}}</p> -->
-             
             </div>
           </div>
         </div>
@@ -583,165 +588,156 @@
           *ngIf="data.Priority === 'Medium'"
           (click)="gotoincHRdetails(data.hrsd_id)"
         >
-        <div class="row">
-          <div class="col-md-4 col-sm-4">
-            <!-- <p id="description">{{data.short_desc}}</p> -->
-            <p id="description1">Service: {{ data.Item}}</p>
+          <div class="row">
+            <div class="col-md-4 col-sm-4">
+              <!-- <p id="description">{{data.short_desc}}</p> -->
+              <p id="description1">Service: {{ data.Item }}</p>
+            </div>
+            <div class="col-md-4 col-sm-4">
+              <!-- <p id="description">{{data.short_desc}}</p> -->
+              <p id="description1">
+                Issue Description: {{ data["Issue Description"] }}
+              </p>
+            </div>
+            <div class="col-md-4 col-sm-4">
+              <!-- <p id="description">{{data.short_desc}}</p> -->
+              <p id="description1">Status: {{ data["Status"] }}</p>
+            </div>
           </div>
-          <div class="col-md-4 col-sm-4">
-            <!-- <p id="description">{{data.short_desc}}</p> -->
-            <p id="description1">
-              Issue Description: {{ data["Issue Description"] }}
-            </p>
-          </div>
-          <div class="col-md-4 col-sm-4">
-            <!-- <p id="description">{{data.short_desc}}</p> -->
-            <p id="description1">Status: {{ data["Status"] }}</p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-4 col-sm-4">
-            <a style="text-align: left">
-              <span id="incid" class="la la-trash">
-                Ticket ID: {{ data.hrsd_id }}</span
-              ></a
-            >
+          <div class="row">
+            <div class="col-md-4 col-sm-4">
+              <a style="text-align: left">
+                <span id="incid" class="la la-trash">
+                  Ticket ID: {{ data.hrsd_id }}</span
+                ></a
+              >
+            </div>
+
+            <div class="col-md-4 col-sm-4">
+              <!-- <p id="created">Created :{{data.createddate}}</p> -->
+              <p id="from">Call Type: {{ data["Call Type"] }}</p>
+            </div>
+            <div class="col-md-4 col-sm-4">
+              <p id="from">Department: {{ data.Department }}</p>
+            </div>
           </div>
 
-          <div class="col-md-4 col-sm-4">
-            <!-- <p id="created">Created :{{data.createddate}}</p> -->
-            <p id="from">Call Type: {{ data["Call Type"] }}</p>
-          </div>
-          <div class="col-md-4 col-sm-4">
-            <p id="from">Department: {{ data.Department }}</p>
-          </div>
-        </div>
+          <div class="row">
+            <div class="col-md-4 col-sm-4">
+              <p id="from">Assigned To: {{ data.assignto }}</p>
+            </div>
 
-        <div class="row">
-          <div class="col-md-4 col-sm-4">
-                   
-                    <p id="from">Assigned To: {{data.assignto}}</p>
-                  </div>
-
-          <div class="col-md-4 col-sm-4">
-            <!-- <p id="created">Created :{{data.createddate}}</p> -->
-           
+            <div class="col-md-4 col-sm-4">
+              <!-- <p id="created">Created :{{data.createddate}}</p> -->
+            </div>
+            <div class="col-md-4 col-sm-4">
+              <!-- <p id="created">Created :{{data.createddate}}</p> -->
+            </div>
           </div>
-          <div class="col-md-4 col-sm-4">
-            <!-- <p id="created">Created :{{data.createddate}}</p> -->
-           
-          </div>
-        </div>
         </div>
         <div
           class="card3 mt-2"
           *ngIf="data.Priority === 'Critical'"
           (click)="gotoincHRdetails(data.hrsd_id)"
         >
-        <div class="row">
-          <div class="col-md-4 col-sm-4">
-            <!-- <p id="description">{{data.short_desc}}</p> -->
-            <p id="description1">Service: {{ data.Item}}</p>
+          <div class="row">
+            <div class="col-md-4 col-sm-4">
+              <!-- <p id="description">{{data.short_desc}}</p> -->
+              <p id="description1">Service: {{ data.Item }}</p>
+            </div>
+            <div class="col-md-4 col-sm-4">
+              <!-- <p id="description">{{data.short_desc}}</p> -->
+              <p id="description1">
+                Issue Description: {{ data["Issue Description"] }}
+              </p>
+            </div>
+            <div class="col-md-4 col-sm-4">
+              <!-- <p id="description">{{data.short_desc}}</p> -->
+              <p id="description1">Status: {{ data["Status"] }}</p>
+            </div>
           </div>
-          <div class="col-md-4 col-sm-4">
-            <!-- <p id="description">{{data.short_desc}}</p> -->
-            <p id="description1">
-              Issue Description: {{ data["Issue Description"] }}
-            </p>
-          </div>
-          <div class="col-md-4 col-sm-4">
-            <!-- <p id="description">{{data.short_desc}}</p> -->
-            <p id="description1">Status: {{ data["Status"] }}</p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-4 col-sm-4">
-            <a style="text-align: left">
-              <span id="incid" class="la la-trash">
-                Ticket ID: {{ data.hrsd_id }}</span
-              ></a
-            >
+          <div class="row">
+            <div class="col-md-4 col-sm-4">
+              <a style="text-align: left">
+                <span id="incid" class="la la-trash">
+                  Ticket ID: {{ data.hrsd_id }}</span
+                ></a
+              >
+            </div>
+
+            <div class="col-md-4 col-sm-4">
+              <!-- <p id="created">Created :{{data.createddate}}</p> -->
+              <p id="from">Call Type: {{ data["Call Type"] }}</p>
+            </div>
+            <div class="col-md-4 col-sm-4">
+              <p id="from">Department: {{ data.Department }}</p>
+            </div>
           </div>
 
-          <div class="col-md-4 col-sm-4">
-            <!-- <p id="created">Created :{{data.createddate}}</p> -->
-            <p id="from">Call Type: {{ data["Call Type"] }}</p>
-          </div>
-          <div class="col-md-4 col-sm-4">
-            <p id="from">Department: {{ data.Department }}</p>
-          </div>
-        </div>
+          <div class="row">
+            <div class="col-md-4 col-sm-4">
+              <p id="from">Assigned To: {{ data.assignto }}</p>
+            </div>
 
-        <div class="row">
-          <div class="col-md-4 col-sm-4">
-                   
-                    <p id="from">Assigned To: {{data.assignto}}</p>
-                  </div>
-
-          <div class="col-md-4 col-sm-4">
-            <!-- <p id="created">Created :{{data.createddate}}</p> -->
-           
+            <div class="col-md-4 col-sm-4">
+              <!-- <p id="created">Created :{{data.createddate}}</p> -->
+            </div>
+            <div class="col-md-4 col-sm-4">
+              <!-- <p id="created">Created :{{data.createddate}}</p> -->
+            </div>
           </div>
-          <div class="col-md-4 col-sm-4">
-            <!-- <p id="created">Created :{{data.createddate}}</p> -->
-            
-          </div>
-        </div>
         </div>
         <div
           class="card mt-2"
           *ngIf="data.Priority === 'Low'"
           (click)="gotoincHRdetails(data.hrsd_id)"
         >
-        <div class="row">
-          <div class="col-md-4 col-sm-4">
-            <!-- <p id="description">{{data.short_desc}}</p> -->
-            <p id="description1">Service: {{ data.Item}}</p>
+          <div class="row">
+            <div class="col-md-4 col-sm-4">
+              <!-- <p id="description">{{data.short_desc}}</p> -->
+              <p id="description1">Service: {{ data.Item }}</p>
+            </div>
+            <div class="col-md-4 col-sm-4">
+              <!-- <p id="description">{{data.short_desc}}</p> -->
+              <p id="description1">
+                Issue Description: {{ data["Issue Description"] }}
+              </p>
+            </div>
+            <div class="col-md-4 col-sm-4">
+              <!-- <p id="description">{{data.short_desc}}</p> -->
+              <p id="description1">Status: {{ data["Status"] }}</p>
+            </div>
           </div>
-          <div class="col-md-4 col-sm-4">
-            <!-- <p id="description">{{data.short_desc}}</p> -->
-            <p id="description1">
-              Issue Description: {{ data["Issue Description"] }}
-            </p>
-          </div>
-          <div class="col-md-4 col-sm-4">
-            <!-- <p id="description">{{data.short_desc}}</p> -->
-            <p id="description1">Status: {{ data["Status"] }}</p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-4 col-sm-4">
-            <a style="text-align: left">
-              <span id="incid" class="la la-trash">
-                Ticket ID: {{ data.hrsd_id }}</span
-              ></a
-            >
+          <div class="row">
+            <div class="col-md-4 col-sm-4">
+              <a style="text-align: left">
+                <span id="incid" class="la la-trash">
+                  Ticket ID: {{ data.hrsd_id }}</span
+                ></a
+              >
+            </div>
+
+            <div class="col-md-4 col-sm-4">
+              <!-- <p id="created">Created :{{data.createddate}}</p> -->
+              <p id="from">Call Type: {{ data["Call Type"] }}</p>
+            </div>
+            <div class="col-md-4 col-sm-4">
+              <p id="from">Department: {{ data.Department }}</p>
+            </div>
           </div>
 
-          <div class="col-md-4 col-sm-4">
-            <!-- <p id="created">Created :{{data.createddate}}</p> -->
-            <p id="from">Call Type: {{ data["Call Type"] }}</p>
-          </div>
-          <div class="col-md-4 col-sm-4">
-            <p id="from">Department: {{ data.Department }}</p>
-          </div>
-        </div>
+          <div class="row">
+            <div class="col-md-4 col-sm-4">
+              <p id="from">Assigned To: {{ data.assignto }}</p>
+            </div>
 
-        <div class="row">
-          <div class="col-md-4 col-sm-4">
-                   
-                    <p id="from">Assigned To: {{data.assignto}}</p>
-                  </div>
-
-          <div class="col-md-4 col-sm-4">
-            <!-- <p id="created">Created :{{data.createddate}}</p> -->
-           
+            <div class="col-md-4 col-sm-4">
+              <!-- <p id="created">Created :{{data.createddate}}</p> -->
+            </div>
+            <div class="col-md-4 col-sm-4">
+              <!-- <p id="created">Created :{{data.createddate}}</p> -->
+            </div>
           </div>
-          <div class="col-md-4 col-sm-4">
-            <!-- <p id="created">Created :{{data.createddate}}</p> -->
-          
-          </div>
-        </div>
         </div>
       </div>
     </div>

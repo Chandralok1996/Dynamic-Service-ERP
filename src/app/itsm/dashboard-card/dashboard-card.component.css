@@ -131,6 +131,7 @@ table {
     border-radius: 5px;
 
 }
+
 .cb{
     background-color:rgb(255, 255, 255);
     border-radius: 10px;
@@ -140,7 +141,9 @@ table {
     border-right-color: #ae2eb0;
 }
 .cb:hover{
-    box-shadow: 0 3px 5px 0;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 9px 11px 9px -3px rgba(171, 171, 171, 1);
     background-color:white;
     border-bottom-color:#883bd1;
     border-top-color: #ae2eb0;

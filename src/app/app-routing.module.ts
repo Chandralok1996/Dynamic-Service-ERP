@@ -32,8 +32,7 @@ const routes: Routes = [
   { path: 'add-field', loadChildren:()=>import('./master/add-field/add-field.module').then(m =>m.AddFieldModule), canActivate: [appGuard]},
   { path: 'qrCode', loadChildren:()=>import('./qrcode/qrcode.module').then(m =>m.QRCodeMainModule)},
   { path: 'alert-success', loadChildren:()=>import('./alert-message-dialog/alert-message-dialog.module').then(m =>m.AlertMessageModule)},
- 
- { path: '**', redirectTo: 'sign-in', pathMatch: 'full' }
+  { path: '**', redirectTo: 'sign-in', pathMatch: 'full'}
 ];
 
 @NgModule({

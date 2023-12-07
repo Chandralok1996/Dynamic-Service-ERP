@@ -178,14 +178,18 @@ export class AllTicketListComponent {
   }
  
   applyFilter() {
+    debugger
     //  const filterValue = event.target ? (event.target as HTMLInputElement).value : event;
-    this.filteredCardData = this.incidentlistdata.filter(
-      (filteredData: any) =>
-        filteredData.inid_id.includes(this.searchTerm.toUpperCase().trim()) ||
-        filteredData.Priority.includes(this.searchTerm.toUpperCase().trim())
-    );
-    console.log(this.filteredCardData);
-    this.incidentlistdata = this.filteredCardData;
+    if(this.searchTerm == '')
+    {
+      this.incidentlistData('');
+    }
+    else{
+      this.filteredCardData = this.incidentlistdata.filter((ele:any) =>
+        Object.keys(ele).some(k => ele[k].toLowerCase().includes(this.searchTerm.toLowerCase())));
+        this.incidentlistdata = this.filteredCardData;
+     }
+   
   }
   getStatusWiseTicketData(data:any){
     this.incidentlistdata = [];
