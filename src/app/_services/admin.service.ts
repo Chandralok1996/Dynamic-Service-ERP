@@ -613,6 +613,10 @@ getReportData(type:any,days:any,sDate:any,eDate:any):Observable<any>
   httpOptions
    );
 }
+//get ticket list by filter
+getTicketListOnFilter(status:any,days:any,sDate:any,eDate:any): Observable<any> {
+  return this._http.get<any>( `${environment._url}/formTemplate/getTicketsList?status=${status}&days=${days}&sDate=${sDate}&eDate=${eDate}`);
+}
 }
 
 

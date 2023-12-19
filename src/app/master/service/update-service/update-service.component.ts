@@ -194,7 +194,7 @@ export class UpdateServiceComponent {
       if(res.status==200)
       {
         this.toaster.success(res.message);
-        this.router.navigate(['/ci-master']);
+        this.router.navigate(['/service-master']);
       }
       else
       {

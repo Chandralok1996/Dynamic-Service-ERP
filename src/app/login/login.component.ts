@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router,ActivatedRoute } from '@angular/router';
 import { AppService, ToasterService } from '../_services';
 import { Subscription } from 'rxjs';
 
@@ -12,12 +12,24 @@ import { Subscription } from 'rxjs';
 export class LoginComponent {
   showPass: boolean = true;
   form: any;
+paramData:any;
+private ignoreURL1:string='approval';
+url:any;
   private subscription: Subscription = new Subscription();
 
-  constructor(private toaster: ToasterService, private service: AppService, public router: Router) {
+
+  constructor(private toaster: ToasterService, private service: AppService, public router: Router,public route: ActivatedRoute) {
+
+this.url=window.location.pathname.slice(1);
+
+  
+
  this.service.user.subscribe((res: any) => {
       const response = JSON.parse(res);
       if(response?.roleName) {
+ if(this.url.includes(this.ignoreURL1)){
+	this.router.navigate(['/admin/approvals']);
+	    }
         if(response.roleName == 'developer') {
          // this.router.navigate(['/admin/organization']);
          this.router.navigate(['/home']);
@@ -105,6 +117,7 @@ export class LoginComponent {
       this.service.userLogIn(match).subscribe((res: any) => {
         if (res.status) {
           this.toaster.success('User login successful!');
+ 
           window.location.reload();
         } else {
           this.toaster.error(res.message);

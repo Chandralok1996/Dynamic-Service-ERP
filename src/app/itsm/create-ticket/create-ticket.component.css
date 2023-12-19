@@ -15,7 +15,9 @@
     margin-left: 10px;
     font-weight: bold;
   }
-
+.label{
+  font-size: 14px;
+}
   .attach-icon {
     width: 30px;
     height: 30px;

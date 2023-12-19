@@ -49,6 +49,12 @@ export class ApprovalListComponent {
     this.form = this.formBuilder.group({
       comment: ['', Validators.required]
     });
+
+    var login = localStorage.getItem('user')
+
+    if (login == null) {
+      this.service.logout()
+    }
   }
 
   approvalList() {
@@ -65,6 +71,9 @@ export class ApprovalListComponent {
          
           this.dataSource = new MatTableDataSource(this.approvalListData);
           this.dataSource.paginator = this.paginator;
+        }
+        else if(res.status == 400){
+          this.service.logout();
         }
         else{
           this.toaster.error("Something went wrong,Please contact to your administrator");
@@ -100,7 +109,7 @@ export class ApprovalListComponent {
         setTimeout(() => {
           this.modalClose.nativeElement.click();
         }, 500);
-        this.approvalList();
+        window.location.reload();
       }
     })
   }

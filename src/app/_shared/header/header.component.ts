@@ -1,6 +1,6 @@
 import { Component,EventEmitter, Output } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { AppService } from 'src/app/_services';
+import { AdminService, AppService, ToasterService } from 'src/app/_services';
 import { MaterialModule } from 'src/app/material.module';
 
 
@@ -22,8 +22,10 @@ export class HeaderComponent {
   private ignoreURL1:string='IncidentList';
   public ignoreURL2:string='feedback_form';
   url:any;
+  approvalListData: any = [];
+  notifiLength: any;
 
-  constructor(public router: Router, private service: AppService) {
+  constructor(public router: Router, private service: AppService, private adminService: AdminService,private toaster: ToasterService) {
     
     this.url=window.location.pathname.slice(1);
    
@@ -53,6 +55,25 @@ export class HeaderComponent {
   ngOnInit() {
     this.updateDateTime();
     setInterval(() => this.updateDateTime(), 1000); // Update every 1 second
+    
+    var a = this.adminService.getapprovalsList().subscribe(
+      (res: any) => {
+        if(res.status == 200)
+        {
+          console.log(res);
+          this.approvalListData = res.result;
+          if(this.approvalListData.length > 0){
+            this.notifiLength = 1;
+          }
+          console.log(a);
+  
+          var keyarr: any = [];
+        }
+        else{
+          this.toaster.error("Something went wrong,Please contact to your administrator");
+        }
+      
+      })
   }
 
   private updateDateTime() {

@@ -22,6 +22,8 @@ export class RoleComponent {
   fmmid:any;
   dataSource: any;
   pagination: any;
+  user:any;
+  userRole:any;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   displayedColumns: string[] = ['sr', 'id', 'value','action'];
 
@@ -29,6 +31,13 @@ export class RoleComponent {
   constructor(private matDialog: MatDialog, private adminService: AdminService, 
     private toaster: ToasterService,public router: Router, private service: AppService, private route : Router) {
     this.pagination = this.service.pagination;
+    this.service.user.subscribe((res:any)=>{
+      if(res!=null){
+        this.user=JSON.parse(res);
+        this.userRole = this.user.roleName;
+    
+      }
+    })
    // this.getFormData();
     this.getFormDataById();
   }
@@ -125,7 +134,36 @@ export class RoleComponent {
       this.dataSource.paginator.firstPage();
     }
   }
-
+  goBack(){
+    if(this.userRole == 'enduser')
+     {
+      this.router.navigate(['/it-sm']);
+     }
+     else if(this.userRole == 'Housekeeping'){
+      this.router.navigate(['/it-sm']);
+     }
+     else if(this.userRole == 'Administrator'){
+      this.router.navigate(['/it-sm/allTickets']);
+     }
+     else if(this.userRole == 'HR'){
+      this.router.navigate(['/it-sm']);
+     }
+     else if(this.userRole == 'IT Engineer'){
+      this.router.navigate(['/it-sm']);
+     }
+     else if(this.userRole == 'Accountant'){
+      this.router.navigate(['/it-sm']);
+     }
+     else if(this.userRole == 'Procurement'){
+      this.router.navigate(['/it-sm']);
+     }
+     else if(this.userRole == 'Manager'){
+      this.router.navigate(['/it-sm/dashboard-card']);
+     }
+     else if(this.userRole == 'Helpdesk'){
+      this.router.navigate(['/it-sm/dashboard-card']);
+     }
+}
   ngOnDestroy(): void {
     this.formListSubscription.unsubscribe();
   }

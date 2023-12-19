@@ -2,14 +2,14 @@
   <div class="container">
     <form [formGroup]="dynamicForm">
       <div class="row card p-3">
-        <h2>Create User</h2>
+        <h2 class="label">User</h2>
         <hr />
 
         <div class="row">
           <div class="col-md-6 px-2 py-1" *ngFor="let field of formFields">
             <mat-form-field class="d-grid gap-2" appearance="outline">
-              <mat-label>{{ field?.column_label }} </mat-label>
-              <input
+              <mat-label class="label">{{ field?.column_label }} </mat-label>
+              <input class="label"
                 [readonly]="field.read_only"
                 *ngIf="
                   field.type != 'dropdown'
@@ -20,12 +20,12 @@
                 formControlName="{{ field.column_label }}"
                 type="{{ field?.type }}"
               />
-              <mat-select
+              <mat-select class="label"
                 formControlName="{{ field.column_label }}"
                 *ngIf="field.type == 'dropdown'"
               >
-                <mat-option>Select Column name</mat-option>
-                <mat-option
+                <mat-option class="label">Select Column name</mat-option>
+                <mat-option class="label"
                   [value]="options.id"
                   *ngFor="let options of field.column_value"
                   >{{ options.value | titlecase }}</mat-option
@@ -36,11 +36,11 @@
                                 <mat-option [value]=options.id *ngFor="let options of field.column_value">{{options.value | titlecase}}</mat-option>
                             </mat-select> -->
               <mat-select
-                [multiple]="true"
+                [multiple]="true" class="label"
                 formControlName="{{ field.column_label }}"
                 *ngIf="field.type == 'assigndropdown'"
               >
-                <mat-option
+                <mat-option class="label"
                   [value]="options.id"
                   *ngFor="let options of field.column_value"
                 >
@@ -55,7 +55,7 @@
                 (click)="$event.stopPropagation(); addField(field)"
                 >add_circle</mat-icon
               >
-              <mat-error *ngIf="checkMandatory"
+              <mat-error *ngIf="checkMandatory" class="label"
                 >{{ field.column_label }} is required.</mat-error
               >
             
@@ -65,13 +65,13 @@
       </div>
 
       <div class="row card p-3 mt-2" *ngIf="subformdata.length != 0">
-        <h2 class="">{{ subformdata[0].module_title }}</h2>
+        <h2 class="label">{{ subformdata[0].module_title }}</h2>
         <hr />
         <div class="row">
           <div class="col-md-6 px-2 py-1" *ngFor="let field of subformdata">
             <mat-form-field class="d-grid gap-2" appearance="outline">
-              <mat-label>{{ field?.column_label }}</mat-label>
-              <input
+              <mat-label class="label">{{ field?.column_label }}</mat-label>
+              <input class="label"
                 pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}|[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}"
                 [readonly]="field.read_only"
                 (keypress)="OnlyNumbersAllowed($event, field.column_label)"
@@ -87,7 +87,7 @@
                 formControlName="{{ field.column_label }}"
                 type="{{ field?.type }}"
               />
-              <mat-select
+              <mat-select class="label"
                 formControlName="{{ field.column_label }}"
                 *ngIf="
                   field.type == 'dropdown'
@@ -97,8 +97,8 @@
                     : false
                 "
               >
-                <mat-option>Select Column name</mat-option>
-                <mat-option
+                <mat-option class="label">Select Column name</mat-option>
+                <mat-option class="label"
                   [value]="options.id"
                   *ngFor="let options of field.column_value"
                   >{{ options.value | titlecase }}</mat-option
@@ -111,7 +111,7 @@
                 (click)="$event.stopPropagation(); addField(field)"
                 >add_circle</mat-icon
               >
-              <mat-error *ngIf="checkMandatory"
+              <mat-error *ngIf="checkMandatory" class="label"
                 >{{ field.column_label }} is required.</mat-error
               >
              
@@ -122,7 +122,7 @@
       <div class="footer row mt-2 bg-light">
         <div class="text-center">
           <button
-            class="me-2"
+            class="me-2 label"
             mat-raised-button
             type="submit"
             color="secondary"
@@ -131,7 +131,7 @@
             Cancel
           </button>
           <button
-            mat-raised-button
+            mat-raised-button class="label"
             type="submit"
             [disabled]="!dynamicForm.valid"
             color="primary"

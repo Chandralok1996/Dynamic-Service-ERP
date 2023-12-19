@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-1">
-                <button type="button" class="btn btn-danger" [routerLink]="['/home']"><mat-icon style="float: left;">keyboard_return</mat-icon> </button>
+                <button type="button" class="btn btn-danger label" (click)="goBack()"><mat-icon style="float: left;">keyboard_return</mat-icon> </button>
             </div>
             <div class="col-md-4">
               <div class="searchBar d-flex justify-content-center align-items-center">
@@ -12,7 +12,7 @@
             </div>
             
             <div class="col-md-7 text-end">
-                <button  mat-raised-button [routerLink]="['/ci-master/create']" color="primary"><mat-icon style="float: left;">add</mat-icon> Create CI</button>
+                <button class="label" mat-raised-button [routerLink]="['/ci-master/create']" color="primary"><mat-icon style="float: left;">add</mat-icon> Create CI</button>
                 <!-- <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
                     <mat-icon >more_vert</mat-icon>
                   </button> -->
@@ -28,12 +28,12 @@
                 <div class="table-hight">
                     <table mat-table [dataSource]="dataSource" tabindex="0">
                         <ng-container [matColumnDef]="column" *ngFor="let column of copyDisplayColumn">
-                          <th mat-header-cell *matHeaderCellDef> {{column | titlecase}} </th>
-                          <td mat-cell *matCellDef="let element"> <span *ngIf="column !='Action'">{{element[column]}}</span> <span *ngIf="column =='Action'"> 
-                            <button mat-mini-fab color="primary"  (click)="configupdate(element.cicd_id)"
+                          <th mat-header-cell *matHeaderCellDef class="label"> {{column | titlecase}} </th>
+                          <td mat-cell *matCellDef="let element" class="label"> <span *ngIf="column !='Action'">{{element[column]}}</span> <span *ngIf="column =='Action'"> 
+                            <button mat-mini-fab color="primary" class="label" (click)="configupdate(element.cicd_id)"
                             ><mat-icon>edit</mat-icon></button> </span> </td>
                         </ng-container>
-                        <tr mat-header-row *matHeaderRowDef="copyDisplayColumn; sticky: true"></tr>
+                        <tr mat-header-row  *matHeaderRowDef="copyDisplayColumn; sticky: true"></tr>
                         <tr mat-row *matRowDef="let row; columns: copyDisplayColumn;"></tr>
                         <tr class="mat-row" *matNoDataRow>
                             <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>

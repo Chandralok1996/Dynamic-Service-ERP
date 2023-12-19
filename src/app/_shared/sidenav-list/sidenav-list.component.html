@@ -28,27 +28,14 @@
 
   <div
     *ngIf="
-      userRole === 'Administrator' ||
       userRole === 'enduser' ||
       userRole === 'HR' ||
       userRole === 'Housekeeping' ||
       userRole === 'Accountant' ||
-      userRole === 'Manager' ||
-      userRole === 'Helpdesk'||
       userRole === 'IT Engineer' ||
       userRole === 'Procurement'
-      
     "
   >
-    <a
-      class=""
-      mat-list-item
-      [routerLink]="['/it-sm/dashboard-card']"
-      (click)="onToggleClose()"
-    >
-      <mat-icon>dashboard</mat-icon>
-      <span>Dashboard</span>
-    </a>
     <a class="" mat-list-item routerLink="/home" (click)="onToggleClose()">
       <mat-icon>home</mat-icon>
       <span>Home</span>
@@ -99,7 +86,11 @@
       <mat-icon>horizontal_split</mat-icon>
       <span>Configuration Item Management</span>
     </a>
-    <a mat-list-item [routerLink]="['service-master']" (click)="onToggleClose()">
+    <a
+      mat-list-item
+      [routerLink]="['service-master']"
+      (click)="onToggleClose()"
+    >
       <mat-icon>horizontal_split</mat-icon>
       <span>Service Management</span>
     </a>
@@ -107,7 +98,7 @@
     <mat-icon>supervisor_account</mat-icon>
     <span>Customer Management</span>
   </a> -->
-
+    <!-- 
     <a mat-list-item (click)="onToggle(); openArrow()">
       <mat-icon>view_list</mat-icon>
       <span
@@ -128,22 +119,11 @@
               <mat-icon>perm_media</mat-icon>
               <span>Tickets</span>
             </a>
-            <!-- <a mat-list-item [routerLink]="['incident/case']" (click)="onToggleClose()">
-                  <mat-icon>hourglass_full</mat-icon>
-                  <span>Case Management</span>
-                </a>
-                <a mat-list-item [routerLink]="['incident/task']" (click)="onToggleClose()">
-                  <mat-icon>line_style</mat-icon>
-                  <span>Task Management</span>
-                </a>
-                <a mat-list-item [routerLink]="['incident/eng']" (click)="onToggleClose()">
-                  <mat-icon>supervised_user_circle</mat-icon>
-                  <span>Engineer View</span>
-                </a> -->
+          
           </li>
         </ul>
       </div>
-    </ng-container>
+    </ng-container> -->
 
     <!-- <a mat-list-item (click)="onTogg();openArrow1()">
     <mat-icon>gamepad</mat-icon>
@@ -204,30 +184,6 @@
               <mat-icon> local_library</mat-icon>
               <span>ITSM</span>
             </a>
-            <!-- <a mat-list-item [routerLink]="['it-sm/laptop']" (click)="onToggleClose()">
-            <mat-icon>laptop_chromebook</mat-icon>
-            <span>Laptop Management</span>
-          </a>
-          <a mat-list-item [routerLink]="['it-sm/desktop']" (click)="onToggleClose()">
-            <mat-icon>tv</mat-icon>
-            <span>Desktop Management</span>
-          </a>
-          <a mat-list-item [routerLink]="['it-sm/server']" (click)="onToggleClose()">
-            <mat-icon>speaker</mat-icon>
-            <span>Server Management</span>
-          </a>
-          <a mat-list-item [routerLink]="['it-sm/monitor']" (click)="onToggleClose()">
-            <mat-icon>important_devices</mat-icon>
-            <span>Monitor Management</span>
-          </a>
-          <a mat-list-item [routerLink]="['it-sm/accessories']" (click)="onToggleClose()">
-            <mat-icon>memory</mat-icon>
-            <span>Accessories Management</span>
-          </a>
-          <a mat-list-item [routerLink]="['it-sm/history']" (click)="onToggleClose()">
-            <mat-icon>brightness_7</mat-icon>
-            <span>History Management</span>
-          </a> -->
           </li>
         </ul>
       </div>
@@ -251,7 +207,7 @@
       <mat-icon>lock_open</mat-icon>
       <span>Reset Password</span>
     </a>
-    <a
+    <!-- <a
       mat-list-item
       [routerLink]="['/qrCode']"
       (click)="onToggleClose()"
@@ -259,15 +215,15 @@
     >
       <mat-icon>grain</mat-icon>
       <span>QR Code Management</span>
-    </a>
+    </a> -->
     <a
       mat-list-item
       href="http://172.16.16.56:8000/"
       (click)="onToggleClose()"
-      *ngIf="userRole === 'Manager' || userRole === 'Helpdesk'"
+     
     >
       <mat-icon>monitor</mat-icon>
-      <span>Agent Monitoring</span>
+      <span>End Point Devices</span>
     </a>
     <!-- <a mat-list-item [routerLink]="['/help-support']" (click)="onToggleClose()">
     <mat-icon>headset_mic</mat-icon>
@@ -382,7 +338,117 @@
     <span>Help & Support</span>
   </a>
 </div> -->
+  <div
+    *ngIf="
+      userRole === 'Administrator' ||
+      userRole === 'Manager' ||
+      userRole === 'Helpdesk' ||
+      userRole === 'Guest'
+    ">
+    <a
+      class=""
+      mat-list-item
+      [routerLink]="['/it-sm/dashboard-card']"
+      (click)="onToggleClose()"
+    >
+      <mat-icon>dashboard</mat-icon>
+      <span>Dashboard</span>
+    </a>
+    <a mat-list-item (click)="onT(); openArro()">
+      <mat-icon>account_circle</mat-icon>
+      <span
+        >User Management
+        <mat-icon *ngIf="!open3" style="margin-left: 28px"
+          >keyboard_arrow_down</mat-icon
+        >
+        <mat-icon *ngIf="open3" style="margin-left: 28px"
+          >keyboard_arrow_up</mat-icon
+        >
+      </span>
+    </a>
 
+    <ng-container *ngIf="show4">
+      <div>
+        <ul class="flex-column nav" style="background-color: #e4e4e4cf">
+          <li class="nav-item" style="margin-left: 25px">
+            <a
+              mat-list-item
+              [routerLink]="['user-master']"
+              (click)="onToggleClose()"
+            >
+              <mat-icon>perm_identity</mat-icon>
+              <span>User Module</span>
+            </a>
+            <a
+              mat-list-item
+              [routerLink]="['role-master']"
+              (click)="onToggleClose()"
+            >
+              <mat-icon> contacts</mat-icon>
+              <span>User Role</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </ng-container>
+
+    <a mat-list-item [routerLink]="['item-master']" (click)="onToggleClose()">
+      <mat-icon>horizontal_split</mat-icon>
+      <span>Item Management</span>
+    </a>
+    <a mat-list-item [routerLink]="['ci-master']" (click)="onToggleClose()">
+      <mat-icon>horizontal_split</mat-icon>
+      <span>Configuration Item Management</span>
+    </a>
+    <a
+      mat-list-item
+      [routerLink]="['service-master']"
+      (click)="onToggleClose()"
+    >
+      <mat-icon>horizontal_split</mat-icon>
+      <span>Service Management</span>
+    </a>
+    <a mat-list-item (click)="onTog(); openArrow2()" *ngIf="
+    userRole === 'Administrator'
+  ">
+      <mat-icon>phonelink</mat-icon>
+      <span
+        >IT Soft. Management
+        <mat-icon *ngIf="!open2" style="margin-left: 5px"
+          >keyboard_arrow_down</mat-icon
+        >
+        <mat-icon *ngIf="open2" style="margin-left: 5px"
+          >keyboard_arrow_up</mat-icon
+        >
+      </span>
+    </a>
+
+    <ng-container *ngIf="show3">
+      <div>
+        <ul class="flex-column nav" style="background-color: #e4e4e4cf">
+          <li class="nav-item" style="margin-left: 25px">
+            <a
+              mat-list-item
+              [routerLink]="['/it-sm']"
+              (click)="onToggleClose()" 
+            >
+              <mat-icon> local_library</mat-icon>
+              <span>ITSM</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </ng-container>
+    <a
+    mat-list-item
+    href="http://172.16.16.56:8000/"
+    (click)="onToggleClose()"
+   
+  >
+    <mat-icon>monitor</mat-icon>
+    <span>End Point Devices</span>
+  </a>
+  </div>
   <div *ngIf="userRole === 'developer'">
     <a class="" mat-list-item routerLink="/home" (click)="onToggleClose()">
       <mat-icon>dashboard</mat-icon>

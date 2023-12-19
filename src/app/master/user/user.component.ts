@@ -33,13 +33,24 @@ export class UserComponent {
   getkeys: any;
   x: any=[];
   orgkeys: any;
+  user:any;
+  userRole:any;
 
   constructor(private adminService: AdminService, 
     private toaster: ToasterService, 
     private service: AppService,
     private router:Router
     ) {
-    this.userCreated = JSON.parse(this.userCreated);
+       this.service.user.subscribe((res:any)=>{
+      if(res!=null){
+        this.user=JSON.parse(res);
+        this.userRole = this.user.roleName;
+    
+      }
+
+   
+      
+    }) 
     this.pagination = this.service.pagination;
   }
   public hello: any;
@@ -296,6 +307,36 @@ console.log(this.displayedColumns);
   toggler(): void {
     this.isMenuOpened = !this.isMenuOpened;
   }
+  goBack(){
+    if(this.userRole == 'enduser')
+     {
+      this.router.navigate(['/it-sm']);
+     }
+     else if(this.userRole == 'Housekeeping'){
+      this.router.navigate(['/it-sm']);
+     }
+     else if(this.userRole == 'Administrator'){
+      this.router.navigate(['/it-sm/allTickets']);
+     }
+     else if(this.userRole == 'HR'){
+      this.router.navigate(['/it-sm']);
+     }
+     else if(this.userRole == 'IT Engineer'){
+      this.router.navigate(['/it-sm']);
+     }
+     else if(this.userRole == 'Accountant'){
+      this.router.navigate(['/it-sm']);
+     }
+     else if(this.userRole == 'Procurement'){
+      this.router.navigate(['/it-sm']);
+     }
+     else if(this.userRole == 'Manager'){
+      this.router.navigate(['/it-sm/dashboard-card']);
+     }
+     else if(this.userRole == 'Helpdesk'){
+      this.router.navigate(['/it-sm/dashboard-card']);
+     }
+}
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();

@@ -39,6 +39,7 @@ export class AppService {
     }));
   }
 
+
   gettoken() {
     return !!(localStorage.getItem('user') && this._cookie.get('token'));
   }

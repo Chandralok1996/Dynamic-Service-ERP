@@ -29,13 +29,10 @@
   .panel {
     margin-bottom: 6px !important;
   }
-  label{
-    font-family: TKReg;
-  font-style: normal;
-  font-weight: bold;
+  .label{
+  
   font-size: 14px;
-  line-height: 16px;
-  color: #2A2B2D;
+ 
   }
   .panel-body {
     background-color: #e6e4e4;

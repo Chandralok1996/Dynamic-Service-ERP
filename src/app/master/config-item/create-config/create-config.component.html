@@ -2,15 +2,15 @@
     <div class="container">
         <form [formGroup]="dynamicForm">
         <div class="row card p-3">
-            <h2 >Configuration Item</h2>
+            <h2 class="label">Configuration Item</h2>
             <hr>
             <div class="row">
                 <div class="col-md-6 px-2 py-1">
                   <mat-form-field class="d-grid gap-2" appearance="outline">
-                    <mat-label>Owner</mat-label>
-                    <mat-select formControlName="user_id">
-                      <mat-option>Select User Name</mat-option>
-                      <mat-option
+                    <mat-label class="label">Owner</mat-label>
+                    <mat-select class="label" formControlName="user_id">
+                      <mat-option class="label">Select User Name</mat-option>
+                      <mat-option class="label"
                         [value]="data.user_id"
                         *ngFor="let data of linkListUserData['User Name']"
                         >{{ data["User Name"] }}</mat-option
@@ -20,10 +20,10 @@
                 </div>
                 <div class="col-md-6 px-2 py-1">
                     <mat-form-field class="d-grid gap-2" appearance="outline">
-                      <mat-label>Service</mat-label>
-                      <mat-select formControlName="srvd_id">
-                        <mat-option>Select Service</mat-option>
-                        <mat-option
+                      <mat-label class="label">Service</mat-label>
+                      <mat-select class="label" formControlName="srvd_id">
+                        <mat-option class="label">Select Service</mat-option>
+                        <mat-option class="label"
                           [value]="data.srvd_id"
                           *ngFor="let data of linkListServiceData['Services']"
                           >{{ data.Services}}</mat-option
@@ -35,10 +35,10 @@
              <div class="row">
                 <div class="col-md-6 px-2 py-1">
                     <mat-form-field class="d-grid gap-2" appearance="outline">
-                        <mat-label>Asset Name</mat-label>
-                        <mat-select formControlName="astd_id" >
-                            <mat-option>Select Column name</mat-option>
-                            <mat-option [value]="item.astd_id" *ngFor="let item of itemlistdata" >
+                        <mat-label class="label">Asset Name</mat-label>
+                        <mat-select class="label" formControlName="astd_id" >
+                            <mat-option class="label">Select Column name</mat-option>
+                            <mat-option class="label" [value]="item.astd_id" *ngFor="let item of itemlistdata" >
                                 {{item['Asset Name']}}</mat-option>
                         </mat-select>
               <!-- <mat-icon matSuffix *ngIf="item.type =='dropdown' || item.type == 'assigndropdown'" (click)="$event.stopPropagation(); addField(item)">add_circle</mat-icon> -->
@@ -46,11 +46,11 @@
                 </div>
                 <div class="col-md-6 px-2 py-1" *ngFor="let field of formFields;">
                     <mat-form-field class="d-grid gap-2" appearance="outline">
-                        <mat-label>{{field?.column_label}}</mat-label>
-                        <input *ngIf="field.type != 'dropdown'" matInput formControlName="{{field.column_label}}" type="{{ field?.type }}">
-                        <mat-select formControlName="{{field.column_label}}" *ngIf="field.type == 'dropdown'">
-                            <mat-option>Select Column name</mat-option>
-                            <mat-option [value]=options.id *ngFor="let options of field.column_value">{{options.value}}</mat-option>
+                        <mat-label class="label">{{field?.column_label}}</mat-label>
+                        <input class="label" *ngIf="field.type != 'dropdown'" matInput formControlName="{{field.column_label}}" type="{{ field?.type }}">
+                        <mat-select class="label" formControlName="{{field.column_label}}" *ngIf="field.type == 'dropdown'">
+                            <mat-option class="label">Select Column name</mat-option>
+                            <mat-option class="label" [value]=options.id *ngFor="let options of field.column_value">{{options.value}}</mat-option>
                         </mat-select>
               <mat-icon matSuffix *ngIf="field.type =='dropdown' || field.type == 'assigndropdown'" (click)="$event.stopPropagation(); addField(field)">add_circle</mat-icon>
               <mat-error class="mb-4" *ngIf="field.mandatory">{{ field.column_label }} is
@@ -65,8 +65,8 @@
         <div class="footer row mt-2 bg-light">
             <div class="text-center">
 
-                <button class="me-2" mat-raised-button type="submit"  color="secondary" onclick="history.back()">Cancel</button>
-                <button mat-raised-button type="submit" [disabled]="!dynamicForm.valid" color="primary" (click)="submitForm()">Create CI</button>
+                <button class="me-2 label" mat-raised-button type="submit"  color="secondary" onclick="history.back()">Cancel</button>
+                <button class="label" mat-raised-button type="submit" [disabled]="!dynamicForm.valid" color="primary" (click)="submitForm()">Create CI</button>
             </div>
         </div>
         <br>

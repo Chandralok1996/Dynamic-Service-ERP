@@ -15,9 +15,9 @@ ngOnInit(): void {
   console.log(user);
   user=JSON.parse(user)
   console.log(user);
-  if(user.loginName!='developer')
-  {
-    this.app.logout()
-  }
+  // if(user.loginName!='developer')
+  // {
+  //   this.app.logout()
+  // }
 }
 }

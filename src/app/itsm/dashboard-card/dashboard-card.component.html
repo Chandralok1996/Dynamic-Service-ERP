@@ -6,218 +6,243 @@
     <a
       mat-tab-link
       *ngFor="let link of links"
-      (click)="getActiveLinkType(activeLink=link.value)"
-      [active]="activeLink == link.value">
+      (click)="getActiveLinkType((activeLink = link.value))"
+      [active]="activeLink == link.value"
+    >
       {{ link.type }}
     </a>
     <mat-icon (click)="toggleBackground()">swap_horiz</mat-icon>
   </nav>
 </div>
 <div class="container-fluid">
- <div class="row mt-2">
-   
-  </div>
- 
-    <div class="mt-1">
-      <!-- <ng-container *ngIf="showHousekeeping"> -->
-       <div class="row mt-1">
-        <div class="col-md-2"></div>
-        <div class="col-md-8">
-          <div class="card cb">
-            <div class="card-body">
-              <div class="row mt-1">
-                <div class="col-md-5">
-                  </div>
-                <div class="col-md-4">
-                  <span class="cst">{{requestName}}</span>
-                </div>
-                <div class="col-md-3">
-                </div>
-                
-               
+  <div class="row mt-2"></div>
+
+  <div class="mt-1">
+    <!-- <ng-container *ngIf="showHousekeeping"> -->
+    <div class="row mt-1">
+      <div class="col-md-6">
+        <div class="card cb">
+          <div class="card-body">
+            <div class="row mt-1">
+              <div class="col-md-4"></div>
+              <div class="col-md-5" *ngIf="showLabel">
+                <span class="cst">{{requestName}}</span>
               </div>
-              <div class="row" *ngIf="showForIT">
-                <div class="col-md-1">
-                  <label style="font-size:16px;">Filter:</label>
-                </div>
-                <div class="col-md-3">
-                  <select [(ngModel)]="selected" style="width:145px;" (change)="getTicketCountForIT($event.target)">
-                    <option *ngFor="let day of daysData"
-                    [value]="day.value">
+              <div class="col-md-3"></div>
+            </div>
+            <div class="row" *ngIf="showForIT">
+              <div class="col-md-1">
+                <label style="font-size: 16px">Filter:</label>
+              </div>
+              <div class="col-md-3">
+                <select
+                  [(ngModel)]="selected"
+                  style="width: 145px"
+                  (change)="getTicketCountForIT($event.target)"
+                >
+                  <option *ngFor="let day of daysData" [value]="day.value">
                     {{ day.name }}
-                    </option>
+                  </option>
                 </select>
-                </div>
-                  <form [formGroup]="form5" class="mt-4">
-                  <div class="row" *ngIf="showdate5">
-                    <div class="col-md-4">
-                      <label for=""><strong>Start Date</strong></label>
-                      <input type="date" class="f-10 form-control" formControlName="sDate">
-                      <span class="text-danger f-10">{{error}}</span>
-                    </div>
-                    <div class="col-md-4">
-                      <label for=""><strong>End Date</strong></label>
-                      <input type="date" class="f-10 form-control" formControlName="eDate">
-                    </div>
-                    <div class="col-md-2">
-                      <label for=""></label>
-                      <button (click)="onSubmit()"  style="margin-top: 20px;" [disabled]="form5?.invalid" class="btn btn-primary"
-                        >Submit</button>
-                    </div>
-                  </div>
-                </form>
               </div>
-              <div class="row" *ngIf="showForHK">
-                <div class="col-md-1">
-                  <label style="font-size:16px;">Filter:</label>
+              <form [formGroup]="form4" class="mt-4">
+                <div class="row" *ngIf="showdate5">
+                  <div class="col-md-4">
+                    <label for=""><strong>Start Date</strong></label>
+                    <input
+                      type="date"
+                      class="f-10 form-control"
+                      formControlName="sDate"
+                    />
+                    <span class="text-danger f-10">{{ error }}</span>
+                  </div>
+                  <div class="col-md-4">
+                    <label for=""><strong>End Date</strong></label>
+                    <input
+                      type="date"
+                      class="f-10 form-control"
+                      formControlName="eDate"
+                    />
+                  </div>
+                  <div class="col-md-2">
+                    <label for=""></label>
+                    <button
+                      (click)="onSubmit4()"
+                      style="margin-top: 20px"
+                      [disabled]="form4?.invalid"
+                      class="btn btn-primary"
+                    >
+                      Submit
+                    </button>
+                  </div>
                 </div>
-                <div class="col-md-3">
-                  <select [(ngModel)]="selected1" style="width:145px;" (change)="getTicketCountForHK($event.target)">
-                    <option *ngFor="let day of daysData"
-                    [value]="day.value">
+              </form>
+            </div>
+            <div class="row" *ngIf="showForHK">
+              <div class="col-md-1">
+                <label style="font-size: 16px">Filter:</label>
+              </div>
+              <div class="col-md-3">
+                <select
+                  [(ngModel)]="selected1"
+                  style="width: 145px"
+                  (change)="getTicketCountForHK($event.target)"
+                >
+                  <option *ngFor="let day of daysData" [value]="day.value">
                     {{ day.name }}
-                    </option>
+                  </option>
                 </select>
-                </div>
-                  <form [formGroup]="form5" class="mt-4">
-                  <div class="row" *ngIf="showdate6">
-                    <div class="col-md-4">
-                      <label for=""><strong>Start Date</strong></label>
-                      <input type="date" class="f-10 form-control" formControlName="sDate">
-                      <span class="text-danger f-10">{{error}}</span>
-                    </div>
-                    <div class="col-md-4">
-                      <label for=""><strong>End Date</strong></label>
-                      <input type="date" class="f-10 form-control" formControlName="eDate">
-                    </div>
-                    <div class="col-md-2">
-                      <label for=""></label>
-                      <button (click)="onSubmit()"  style="margin-top: 20px;" [disabled]="form5?.invalid" class="btn btn-primary"
-                        >Submit</button>
-                    </div>
-                  </div>
-                </form>
               </div>
-              <div class="row" *ngIf="showForHR">
-                <div class="col-md-1">
-                  <label style="font-size:16px;">Filter:</label>
+              <form [formGroup]="form5" class="mt-4">
+                <div class="row" *ngIf="showdate6">
+                  <div class="col-md-4">
+                    <label for=""><strong>Start Date</strong></label>
+                    <input
+                      type="date"
+                      class="f-10 form-control"
+                      formControlName="sDate"
+                    />
+                    <span class="text-danger f-10">{{ error }}</span>
+                  </div>
+                  <div class="col-md-4">
+                    <label for=""><strong>End Date</strong></label>
+                    <input
+                      type="date"
+                      class="f-10 form-control"
+                      formControlName="eDate"
+                    />
+                  </div>
+                  <div class="col-md-2">
+                    <label for=""></label>
+                    <button
+                      (click)="onSubmit5()"
+                      style="margin-top: 20px"
+                      [disabled]="form5?.invalid"
+                      class="btn btn-primary"
+                    >
+                      Submit
+                    </button>
+                  </div>
                 </div>
-                <div class="col-md-3">
-                  <select [(ngModel)]="selected2" style="width:145px;" (change)="getTicketCountForHR($event.target)">
-                    <option *ngFor="let day of daysData"
-                    [value]="day.value">
+              </form>
+            </div>
+            <div class="row" *ngIf="showForHR">
+              <div class="col-md-1">
+                <label style="font-size: 16px">Filter:</label>
+              </div>
+              <div class="col-md-3">
+                <select
+                  [(ngModel)]="selected2"
+                  style="width: 145px"
+                  (change)="getTicketCountForHR($event.target)"
+                >
+                  <option *ngFor="let day of daysData" [value]="day.value">
                     {{ day.name }}
-                    </option>
+                  </option>
                 </select>
-                </div>
-                  <form [formGroup]="form5" class="mt-4">
-                  <div class="row" *ngIf="showdate7">
-                    <div class="col-md-4">
-                      <label for=""><strong>Start Date</strong></label>
-                      <input type="date" class="f-10 form-control" formControlName="sDate">
-                      <span class="text-danger f-10">{{error}}</span>
-                    </div>
-                    <div class="col-md-4">
-                      <label for=""><strong>End Date</strong></label>
-                      <input type="date" class="f-10 form-control" formControlName="eDate">
-                    </div>
-                    <div class="col-md-2">
-                      <label for=""></label>
-                      <button (click)="onSubmit()"  style="margin-top: 20px;" [disabled]="form5?.invalid" class="btn btn-primary"
-                        >Submit</button>
-                    </div>
-                  </div>
-                </form>
               </div>
-              <div class="row charts mt-3">
+              <form [formGroup]="form6" class="mt-4">
+                <div class="row" *ngIf="showdate7">
+                  <div class="col-md-4">
+                    <label for=""><strong>Start Date</strong></label>
+                    <input
+                      type="date"
+                      class="f-10 form-control"
+                      formControlName="sDate"
+                    />
+                    <span class="text-danger f-10">{{ error }}</span>
+                  </div>
+                  <div class="col-md-4">
+                    <label for=""><strong>End Date</strong></label>
+                    <input
+                      type="date"
+                      class="f-10 form-control"
+                      formControlName="eDate"
+                    />
+                  </div>
+                  <div class="col-md-2">
+                    <label for=""></label>
+                    <button
+                      (click)="onSubmit6()"
+                      style="margin-top: 20px"
+                      [disabled]="form6?.invalid"
+                      class="btn btn-primary"
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="row charts mt-2">
               <p class="card-text">Click on any bar to see details.</p>
 
-                <div class="col-md-3">
-                  </div>
+              <div class="col-md-3"></div>
               <div class="col-md-5 chart-container">
-                <canvas #housekeepingChart1 style="cursor:pointer;"></canvas>
+                <canvas #housekeepingChart1 style="cursor: pointer"></canvas>
                 <!-- <canvas #HRChart1 style="cursor:pointer;"  [style.opacity]="opacityHR"></canvas> -->
               </div>
-              <div class="col-md-2">
-              </div>
-              </div>
+              <!-- <div class="col-md-2"></div> -->
             </div>
           </div>
         </div>
-        <div class="col-md-3"></div>
-        <!-- <div class="col-md-6">
-          <div class="card cb">
-            <div class="card-body">
-              <div class="card-title">
-                <div class="row">
-                  <div class="col-md-8">
-                    <span class="cst">Assigned & Unassigned Assets</span>
-                  </div>
-                  <div class="col-md-4"></div>
+      </div>
+      <div class="col-md-6" [style.opacity]="opacityCategory">
+        <div class="card cb">
+          <div class="card-body">
+            <div class="card-title">
+              <div class="row">
+                <div class="col-md-8">
+                  <span class="cst">Call Category</span>
                 </div>
-                <div class="chart-container-pie">
-                  <canvas #assetAssignedUnassigned1 style="cursor:pointer;"></canvas>
-                </div>
+                <div class="col-md-4"></div>
+              </div>
+              <div class="row">
+              <div class="col-md-5 chart-container-pie" style="margin-top: 50px;">
+                <canvas #assetCategoryWise1 style="cursor: pointer"></canvas>
               </div>
             </div>
-          </div>
-        </div> -->
-      </div> 
-      <div class="row mt-2">
-        <div class="col-md-4" [style.opacity]="opacityCategory">
-          <div class="card cb">
-            <div class="card-body">
-              <div class="card-title">
-                <div class="row">
-                  <div class="col-md-8">
-                    <span class="cst">Call Category</span>
-                  </div>
-                  <div class="col-md-4"></div>
-                </div>
-                <div class="chart-container-pie">
-                  <canvas #assetCategoryWise1 style="cursor:pointer;"></canvas>
-                </div>
-              </div>
             </div>
           </div>
         </div>
-        <div class="col-md-4" [style.opacity]="opacityCallType">
-          <div class="card cb">
-            <div class="card-body">
-              <div class="card-title">
-                <div class="row">
-                  <div class="col-md-8">
-                    <span class="cst">Call Type</span>
-                  </div>
-                  <div class="col-md-4"></div>
-                </div>
-                <div class="chart-container-pie">
-                  <canvas #assetCallType1 style="cursor:pointer;"></canvas>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4" [style.opacity]="opacityCallMode">
-          <div class="card cb">
-            <div class="card-body">
-              <div class="card-title">
-                <div class="row">
-                  <div class="col-md-8">
-                    <span class="cst">Call Mode</span>
-                  </div>
-                  <div class="col-md-4"></div>
-                </div>
-                <div class="chart-container-pie">
-                  <canvas #assetCallMode1 style="cursor:pointer;"></canvas>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        </div>
-      <!-- </ng-container> -->        
+      </div>
     </div>
-
+    <div class="row my-3" [style.opacity]="opacityCallType">    
+      <div class="col-md-6">
+        <div class="card cb">
+          <div class="card-body">
+            <div class="card-title">
+              <div class="row">
+                <div class="col-md-8">
+                  <span class="cst">Call Type</span>
+                </div>
+                <div class="col-md-4"></div>
+              </div>
+              <div class="chart-container-pie">
+                <canvas #assetCallType1 style="cursor: pointer"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card cb">
+          <div class="card-body">
+            <div class="card-title">
+              <div class="row">
+                <div class="col-md-8">
+                  <span class="cst">Call Mode</span>
+                </div>
+                <div class="col-md-4"></div>
+              </div>
+              <div class="chart-container-pie">
+                <canvas #assetCallMode1 style="cursor: pointer"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- </ng-container> -->
   </div>
-  
+</div>

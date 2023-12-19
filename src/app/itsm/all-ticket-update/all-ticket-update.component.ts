@@ -33,13 +33,13 @@ export class AllTicketUpdateComponent {
   updateHRTicket: boolean = false;
   dynamicHRForm!: FormGroup;
   linkedData: any;
-  prev_notesData:any=[];
+  prev_notesData: any = [];
   user: any;
-  notes="";
+  notes = "";
   roleAcc: any;
   userRole: any;
   hksd_id: any;
-  notes1="";
+  notes1 = "";
   ShowLinkedData: boolean = false;
   updateITTicket: boolean = false;
   updateHouseKeepingTicket: boolean = false;
@@ -80,21 +80,21 @@ export class AllTicketUpdateComponent {
       user_id: this.formBuilder.control("", [Validators.required]),
       attachment: new FormControl(""),
       ["Support Group"]: this.formBuilder.control("", [Validators.required]),
-      assignto: new FormControl(null),
-      prev_notes:new FormControl({value:'',disabled:true})
+      assignto: new FormControl(null, Validators.required),
+      prev_notes: new FormControl({ value: "", disabled: true }),
     });
     this.dynamicHouseKeepingForm = this.formBuilder.group({
       cicd_id: new FormControl("", [Validators.required]),
       ["Support Group"]: this.formBuilder.control("", [Validators.required]),
       attachment: new FormControl(""),
-      prev_notes:new FormControl({value:'',disabled:true})
+      prev_notes: new FormControl({ value: "", disabled: true }),
     });
     this.dynamicHRForm = this.formBuilder.group({
       ["Support Group"]: this.formBuilder.control("", [Validators.required]),
       cicd_id: new FormControl("", [Validators.required]),
-      assignto: new FormControl(null),
+      assignto: new FormControl(null, Validators.required),
       attachment: new FormControl(""),
-      prev_notes:new FormControl({value:'',disabled:true})
+      prev_notes: new FormControl({ value: "", disabled: true }),
     });
     if (!this.userCreated) {
       this.userCreated = [];
@@ -444,36 +444,75 @@ export class AllTicketUpdateComponent {
         }
         if (this.incidentLogNotesData.length != 0) {
           //this.dynamicForm.patchValue(this.incidentLogNotesData[0].table51_id);
-          this.incidentLogNotesData.forEach((element:any) => {
-            this.prev_notesData.push(element['Log Notes']);
+          this.incidentLogNotesData.forEach((element: any) => {
+            this.prev_notesData.push(
+              "Created By :" +
+                " " +
+                element["User Name"] +
+                " " +
+                "Created On :" +
+                element.created +
+                " " +
+                "-" +
+                " " +
+                element["Log Notes"] +
+                "\n"
+            );
           });
-          this.notes = this.prev_notesData.toString(); 
+          this.notes = this.prev_notesData.toString();
+          var total = this.notes.replace(/,/g, "");
           this.dynamicForm.patchValue({
-            prev_notes:this.notes
+            prev_notes: total,
           });
         }
       } else if (this.hksd_id != null) {
         this.dynamicHouseKeepingForm.patchValue(this.incidentData[0]);
         if (this.incidentLogNotesData.length != 0) {
           //this.dynamicForm.patchValue(this.incidentLogNotesData[0].table51_id);
-          this.incidentLogNotesData.forEach((element:any) => {
-            this.prev_notesData.push(element['Log Notes']);
+          this.incidentLogNotesData.forEach((element: any) => {
+            this.prev_notesData.push(
+              "Created By :" +
+                " " +
+                element["User Name"] +
+                " " +
+                "Created On :" +
+                element.created +
+                " " +
+                "-" +
+                " " +
+                element["Log Notes"] +
+                "\n"
+            );
           });
-          this.notes = this.prev_notesData.toString(); 
+          this.notes = this.prev_notesData.toString();
+          var total = this.notes.replace(/,/g, "");
           this.dynamicHouseKeepingForm.patchValue({
-            prev_notes:this.notes
+            prev_notes: total,
           });
         }
       } else if (this.hrsd_id != null) {
         this.dynamicHRForm.patchValue(this.incidentData[0]);
         if (this.incidentLogNotesData.length != 0) {
           //this.dynamicForm.patchValue(this.incidentLogNotesData[0].table51_id);
-          this.incidentLogNotesData.forEach((element:any) => {
-            this.prev_notesData.push(element['Log Notes']);
+          this.incidentLogNotesData.forEach((element: any) => {
+            this.prev_notesData.push(
+              "Created By :" +
+                " " +
+                element["User Name"] +
+                " " +
+                "Created On :" +
+                element.created +
+                " " +
+                "-" +
+                " " +
+                element["Log Notes"] +
+                "\n"
+            );
           });
-          this.notes = this.prev_notesData.toString(); 
+          this.notes = this.prev_notesData.toString();
+          var total = this.notes.replace(/,/g, "");
           this.dynamicHRForm.patchValue({
-            prev_notes:this.notes
+            prev_notes: total,
           });
         }
       }
@@ -554,6 +593,31 @@ export class AllTicketUpdateComponent {
     this.listOfFiles.splice(index, 1);
     this.attachment.splice(index, 1);
   }
+  getAssignedToValue() {
+    if (this.dynamicForm.value.assignto != null) {
+      return this.dynamicForm.value.assignto;
+    } else if (this.dynamicHRForm.value.assignto != null) {
+      return this.dynamicHRForm.value.assignto;
+    }
+  }
+  getAssignedToValueOfLogNotes() {
+    if (this.dynamicForm.value["Log Notes"] != null) {
+      return this.dynamicForm.value["Log Notes"];
+    } else {
+      this.dynamicForm.patchValue({ "Log Notes": undefined });
+    }
+
+    if (this.dynamicHouseKeepingForm.value["Log Notes"] != null) {
+      return this.dynamicHouseKeepingForm.value["Log Notes"];
+    } else {
+      this.dynamicHouseKeepingForm.patchValue({ "Log Notes": undefined });
+    }
+    if (this.dynamicHRForm.value["Log Notes"] != null) {
+      return this.dynamicHRForm.value["Log Notes"];
+    } else {
+      this.dynamicHRForm.patchValue({ "Log Notes": undefined });
+    }
+  }
   submitForm() {
     if (this.inid_id != null) {
       // var match: any = this.dynamicForm.value, error: any = [];
@@ -583,10 +647,16 @@ export class AllTicketUpdateComponent {
       formData.append("Category", this.dynamicForm.value.Category);
       formData.append("Support Group", this.dynamicForm.value["Support Group"]);
       formData.append("user_id", this.dynamicForm.value.user_id);
-      formData.append("Log Notes", this.dynamicForm.value["Log Notes"]);
+      var someValue1 = this.getAssignedToValueOfLogNotes();
+      if (someValue1 !== undefined) {
+        formData.append("Log Notes", someValue1);
+      }
       formData.append("cicd_id", this.dynamicForm.value.cicd_id);
       formData.append("Status", this.dynamicForm.value.Status);
-      formData.append("assignto", this.dynamicForm.value.assignto);
+      var someValue = this.getAssignedToValue();
+      if (someValue !== null) {
+        formData.append("assignto", someValue);
+      }
       formData.append("inid_id", this.inid_id);
 
       this.adminService.incidentUpdate(formData).subscribe((res: any) => {
@@ -654,10 +724,10 @@ export class AllTicketUpdateComponent {
         this.dynamicHouseKeepingForm.value["Call Type"]
       );
       formData.append("Status", this.dynamicHouseKeepingForm.value["Status"]);
-      formData.append(
-        "Log Notes",
-        this.dynamicHouseKeepingForm.value["Log Notes"]
-      );
+      var someValue1 = this.getAssignedToValueOfLogNotes();
+      if (someValue1 !== undefined) {
+        formData.append("Log Notes", someValue1);
+      }
       formData.append(
         "Support Group",
         this.dynamicHouseKeepingForm.value["Support Group"]
@@ -685,22 +755,6 @@ export class AllTicketUpdateComponent {
       if (this.dynamicHRForm.invalid) {
         return;
       }
-      // var match: any = this.dynamicHRForm.value,
-      //   error: any = [];
-      // this.formFields.forEach((element: any) => {
-      //   if (element.mandatory) {
-      //     if (!match[element.column_label]) {
-      //       error.push(`${element.column_label}`);
-      //     }
-      //   }
-      // });
-      // console.log(error);
-      // if (error.length > 0) {
-      //   this.toaster.warning(`${error} is required!`);
-      //   return;
-      // }
-      // this.userCreated.push(match);
-      // console.log(match);
       const formData: any = new FormData();
       const files: Array<File> = this.filesToUpload;
 
@@ -716,16 +770,19 @@ export class AllTicketUpdateComponent {
       formData.append("Priority", this.dynamicHRForm.value["Priority"]);
       formData.append("Call Type", this.dynamicHRForm.value["Call Type"]);
       formData.append("Status", this.dynamicHRForm.value.Status);
-      formData.append(
-        "Log Notes",
-        this.dynamicHRForm.value["Log Notes"]
-      );
+      var someValue1 = this.getAssignedToValueOfLogNotes();
+      if (someValue1 !== undefined) {
+        formData.append("Log Notes", someValue1);
+      }
       formData.append(
         "Support Group",
         this.dynamicHRForm.value["Support Group"]
       );
       formData.append("cicd_id", this.dynamicHRForm.value.cicd_id);
-      formData.append("assignto", this.dynamicHRForm.value.assignto);
+      var someValue = this.getAssignedToValue();
+      if (someValue !== null) {
+        formData.append("assignto", someValue);
+      }
       formData.append("hrsd_id", this.hrsd_id);
 
       this.adminService.updateHRIncident(formData).subscribe((res: any) => {

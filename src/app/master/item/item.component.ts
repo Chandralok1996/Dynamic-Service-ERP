@@ -32,6 +32,8 @@ export class ItemComponent {
   formlabel: any
   formfield:any=[]
   getkeys: any;
+  user:any;
+  userRole:any;
   x: any=[];
   orgkeys: any;
   linkListData: any;
@@ -41,7 +43,17 @@ export class ItemComponent {
     private service: AppService,
     private router:Router
     ) {
-    this.userCreated = JSON.parse(this.userCreated);
+      
+      this.service.user.subscribe((res:any)=>{
+        if(res!=null){
+          this.user=JSON.parse(res);
+          this.userRole = this.user.roleName;
+      
+        }
+  
+     
+        
+      }) 
     this.pagination = this.service.pagination;
   }
   public hello: any;
@@ -180,11 +192,38 @@ this.copyDisplayColumn=this.x;
     }
   }
   itemCreateForm(){
-    
     this.router.navigate(['/item-master/create']);
-  
   }
-
+  goBack(){
+        if(this.userRole == 'enduser')
+         {
+          this.router.navigate(['/it-sm']);
+         }
+         else if(this.userRole == 'Housekeeping'){
+          this.router.navigate(['/it-sm']);
+         }
+         else if(this.userRole == 'Administrator'){
+          this.router.navigate(['/it-sm/allTickets']);
+         }
+         else if(this.userRole == 'HR'){
+          this.router.navigate(['/it-sm']);
+         }
+         else if(this.userRole == 'IT Engineer'){
+          this.router.navigate(['/it-sm']);
+         }
+         else if(this.userRole == 'Accountant'){
+          this.router.navigate(['/it-sm']);
+         }
+         else if(this.userRole == 'Procurement'){
+          this.router.navigate(['/it-sm']);
+         }
+         else if(this.userRole == 'Manager'){
+          this.router.navigate(['/it-sm/dashboard-card']);
+         }
+         else if(this.userRole == 'Helpdesk'){
+          this.router.navigate(['/it-sm/dashboard-card']);
+         }
+  }
   ngOnDestroy(): void {
     this.formListSubscription.unsubscribe();
   }

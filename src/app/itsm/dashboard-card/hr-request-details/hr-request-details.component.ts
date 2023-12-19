@@ -43,18 +43,22 @@ export class HrRequestDetailsComponent {
   paramData:any;
   reportData:any;
   status:any;
+  sDate:any;
+  eDate:any;
   reportStatusData:any=[];
   constructor(private route:ActivatedRoute,private adminService: AdminService) { }
 
   ngOnInit(): void {
-    debugger
+    
     this.paramData = this.route.snapshot.params;
    this.status=this.paramData.label;
    this.days=this.paramData.days;
-   this.getReportData('hr',this.days,'','');
+   this.sDate=this.paramData.sDate;
+   this.eDate=this.paramData.eDate;
+   this.getReportData('hr',this.days,this.sDate,this.eDate);
   }
   getReportData(data: any, days: any, sDate: any, eDate: any) {
-    debugger;
+    ;
     this.reportData = [];
    this.reportStatusData=[];
       this.adminService
@@ -69,7 +73,7 @@ export class HrRequestDetailsComponent {
             else if(this.status == 'Opened'){
               this.reportStatusData = this.reportData[1].hrListOpened;
             }
-            else if(this.status == 'inprogress'){
+            else if(this.status == 'In Progress'){
               this.reportStatusData = this.reportData[3].hrListInProgress;
             }
             this.dataSource = new MatTableDataSource(this.reportStatusData);

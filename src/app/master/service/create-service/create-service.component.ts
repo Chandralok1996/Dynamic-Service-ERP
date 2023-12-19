@@ -112,7 +112,7 @@ addField(item: any) {
       if(res.status==201)
       {
         this.toaster.success(res.message);
-        this.router.navigate(["/ci-master"]);
+        this.router.navigate(["/service-master"]);
       }
       else
       {

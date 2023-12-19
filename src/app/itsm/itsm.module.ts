@@ -24,9 +24,9 @@ import { ItRequestDetailsComponent } from './dashboard-card/it-request-details/i
 const routes: Routes = [
   { path: '', component: ItsmComponent },
   { path: 'dashboard-card', component: DashboardCardComponent },
-  { path: 'HKDetails/:label/:days', component:HousekeepingRequestDetailsComponent  },
-  { path: 'ITDetails/:label/:days', component:ItRequestDetailsComponent  },
-  { path: 'HRDetails/:label/:days', component:HrRequestDetailsComponent  },
+  { path: 'HKDetails/:label/:days/:sDate/:eDate', component:HousekeepingRequestDetailsComponent  },
+  { path: 'ITDetails/:label/:days/:sDate/:eDate', component:ItRequestDetailsComponent  },
+  { path: 'HRDetails/:label/:days/:sDate/:eDate', component:HrRequestDetailsComponent  },
  { path: 'create-tickets', component: CreateTicketComponent },
  { path: 'allTickets', component: AllTicketListComponent },
   { path: 'update-tickets/:id', component: UpdateTicketComponent },

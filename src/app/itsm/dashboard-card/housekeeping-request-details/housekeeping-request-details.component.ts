@@ -43,6 +43,8 @@ export class HousekeepingRequestDetailsComponent {
   paramData:any;
   reportData:any;
   status:any;
+  sDate:any;
+  eDate:any;
   reportStatusData:any=[];
   constructor(private route:ActivatedRoute,private adminService: AdminService) { }
 
@@ -51,7 +53,9 @@ export class HousekeepingRequestDetailsComponent {
     this.paramData = this.route.snapshot.params;
    this.status=this.paramData.label;
    this.days=this.paramData.days;
-   this.getReportData('hk',this.days,'','');
+   this.sDate=this.paramData.sDate;
+   this.eDate=this.paramData.eDate;
+   this.getReportData('hk',this.days,this.sDate,this.eDate);
   }
   getReportData(data: any, days: any, sDate: any, eDate: any) {
     ;
@@ -69,8 +73,8 @@ export class HousekeepingRequestDetailsComponent {
             else if(this.status == 'Opened'){
               this.reportStatusData = this.reportData[1].hkListOpened;
             }
-            else if(this.status == 'inprogress'){
-              this.reportStatusData = this.reportData[1].hkListInProgress;
+            else if(this.status == 'In Progress'){
+              this.reportStatusData = this.reportData[3].hkListInProgress;
             }
             
             this.dataSource = new MatTableDataSource(this.reportStatusData);

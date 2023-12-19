@@ -2,13 +2,13 @@
   <div class="container">
     <form [formGroup]="dynamicForm" *ngIf="createITTicket">
       <div class="row card p-3">
-        <h2>Create IT Request</h2>
+        <h4 class="label"><strong>Create IT Request</strong></h4>
         <hr />
 
         <div class="row">
           <div class="col-md-6 px-2 py-1" *ngFor="let field of nosubform">
             <mat-form-field class="d-grid gap-2" appearance="outline" *ngIf="field?.column_label != 'Log Notes'">
-              <mat-label>{{ field?.column_label }}</mat-label>
+              <mat-label class="label">{{ field?.column_label }}</mat-label>
               <input
                 *ngIf="
                   field.type != 'dropdown'
@@ -21,7 +21,7 @@
                 [readonly]="field.read_only"
                 (keypress)="OnlyNumbersAllowed($event, field.column_label)"
               />
-              <mat-select
+              <mat-select class="label"
                 formControlName="{{ field.column_label }}"
                 *ngIf="
                   field.type == 'dropdown'
@@ -31,8 +31,8 @@
                     : false
                 "
               >
-                <mat-option>Select Column name</mat-option>
-                <mat-option
+                <mat-option class="label">Select Column name</mat-option>
+                <mat-option class="label"
                   [value]="options.id"
                   *ngFor="let options of field.column_value"
                   >{{ options.value}}</mat-option
@@ -46,7 +46,7 @@
                 (click)="$event.stopPropagation(); addField(field)"
                 >add_circle</mat-icon
               >
-              <mat-error *ngIf="checkMandatory"
+              <mat-error *ngIf="checkMandatory" class="label"
                 >{{ field.column_label }} is required.</mat-error
               >
               <!-- <mat-error *ngIf="checkValid"
@@ -58,24 +58,25 @@
         <div class="row">
           <div class="col-md-6 px-2 py-1">
             <mat-form-field class="d-grid gap-2" appearance="outline">
-              <mat-label>User Name</mat-label>
-              <mat-select formControlName="user_id">
-                <mat-option>Select User Name</mat-option>
-                <mat-option
+              <mat-label class="label">User Name</mat-label>
+              <mat-select formControlName="user_id" (keyup.enter)="onEnter($event)" class="label">
+                <mat-option class="label">Select User Name</mat-option>
+                <mat-option class="label"
                   [value]="data.user_id"
                   *ngFor="let data of linkFormuserData['User Name']"
+                  (onSelectionChange)="onEnter($event)"
                   (click)="getIDBasedLinkingByUser(data.user_id)"
-                  >{{ data["User Name"] }}</mat-option
+                  >{{data["User Name"]}}</mat-option
                 >
               </mat-select>
             </mat-form-field>
           </div>
           <div class="col-md-6 px-2 py-1" *ngIf="ShowLinkedData">
             <mat-form-field class="d-grid gap-2" appearance="outline">
-              <mat-label>Affected Product</mat-label>
-              <mat-select formControlName="cicd_id">
-                <mat-option>Select product name</mat-option>
-                <mat-option
+              <mat-label class="label">Affected Product</mat-label>
+              <mat-select class="label" formControlName="cicd_id">
+                <mat-option class="label">Select product name</mat-option>
+                <mat-option class="label"
                   [value]="data.cicd_id"
                   *ngFor="let data of linkedAssetData"
                   >{{ data.ciname }}</mat-option
@@ -87,10 +88,10 @@
         <div class="row">
           <div class="col-md-6 px-2 py-1">
             <mat-form-field class="d-grid gap-2" appearance="outline">
-              <mat-label>Support Group</mat-label>
-              <mat-select formControlName="Support Group">
-                <mat-option>Select Support Group</mat-option>
-                <mat-option
+              <mat-label class="label">Support Group</mat-label>
+              <mat-select class="label" formControlName="Support Group">
+                <mat-option class="label">Select Support Group</mat-option>
+                <mat-option class="label"
                   [value]="data.table14_id"
                   *ngFor="let data of linkFormData['Support Group']"
                   >{{ data["Support Group"] }}</mat-option
@@ -100,10 +101,10 @@
           </div>
           <div class="col-md-6 px-2 py-1">
             <mat-form-field class="d-grid gap-2" appearance="outline">
-              <mat-label>Assigned to</mat-label>
-              <mat-select formControlName="assignto">
-                <mat-option>Select User Name</mat-option>
-                <mat-option
+              <mat-label class="label">Assigned to</mat-label>
+              <mat-select class="label" formControlName="assignto">
+                <mat-option class="label">Select User Name</mat-option>
+                <mat-option class="label"
                   [value]="data.user_id"
                   *ngFor="let data of itUserData"
                   >{{ data["Assign TO"] }}</mat-option
@@ -117,7 +118,7 @@
             <div *ngFor="let selected of listOfFiles; let index = index">
               <div class="panel panel-default mt-2">
                 <div class="panel-body">
-                  <h3 class="f-attach">
+                  <h3 class="label">
                     {{ selected }}
                     <button
                       (click)="removeSelectedFile(index)"
@@ -142,7 +143,7 @@
             </div>
 
             <div class="" [innerHTML]="result" style="cursor: pointer">
-              <input
+              <input class="label"
                 style="display: none"
                 formControlName="attachment"
                 #attachments
@@ -154,7 +155,7 @@
               />
             </div>
             <hr />
-            <label id="label" class="mb-2">
+            <label class="label" class="mb-2">
               Attach File (Optional)
               <button
                 type="button"
@@ -185,7 +186,7 @@
         <div class="row">
           <div class="col-md-6 px-2 py-1" *ngFor="let field of subformdata">
             <mat-form-field class="d-grid gap-2" appearance="outline">
-              <mat-label>{{ field?.column_label }}</mat-label>
+              <mat-label class="label">{{ field?.column_label }}</mat-label>
               <input
                 *ngIf="
                   field.type != 'dropdown'
@@ -254,16 +255,16 @@
       *ngIf="createHouseKeepingTicket"
     >
       <div class="row card p-3">
-        <h2>Create Request</h2>
+        <h3 class="label"><strong>Create Request</strong></h3>
         <hr />
 
         <div class="row">
           <div class="col-md-6 px-2 py-1">
             <mat-form-field class="d-grid gap-2" appearance="outline">
-              <mat-label>Item</mat-label>
-              <mat-select formControlName="cicd_id">
-                <mat-option>Select Item</mat-option>
-                <mat-option
+              <mat-label class="label">Item</mat-label>
+              <mat-select class="label" formControlName="cicd_id">
+                <mat-option class="label">Select Item</mat-option>
+                <mat-option class="label"
                   [value]="data.cicd_id"
                   *ngFor="let data of linkFormCIData['Config Item']"
                   >{{ data["Config Item"] }}</mat-option
@@ -277,8 +278,8 @@
               appearance="outline"
               *ngIf="field?.column_label != 'Log Notes'"
             >
-              <mat-label>{{ field?.column_label }}</mat-label>
-              <input
+              <mat-label class="label">{{ field?.column_label }}</mat-label>
+              <input class="label"
                 *ngIf="
                   field.type != 'dropdown'
                     ? field.type != 'assigndropdown'
@@ -293,7 +294,7 @@
                 minlength="{{field.isactive}}"
                 pattern="{{field.pattern}}"
               />
-              <mat-select
+              <mat-select class="label"
                 formControlName="{{ field.column_label }}"
                 *ngIf="
                   field.type == 'dropdown'
@@ -303,8 +304,8 @@
                     : false
                 "
               >
-                <mat-option>Select Column name</mat-option>
-                <mat-option
+                <mat-option class="label">Select Column name</mat-option>
+                <mat-option class="label"
                   [value]="options.id"
                   *ngFor="let options of field.column_value"
                   >{{ options.value}}</mat-option
@@ -320,7 +321,7 @@
                 (click)="$event.stopPropagation(); addField(field)"
                 >add_circle</mat-icon
               >
-              <mat-error *ngIf="checkMandatory"
+              <mat-error *ngIf="checkMandatory" class="label"
                 >{{ field.column_label }} is required.</mat-error
               >
               <!-- <mat-error *ngIf="checkValid"
@@ -331,10 +332,10 @@
 
           <div class="col-md-6 px-2 py-1">
             <mat-form-field class="d-grid gap-2" appearance="outline">
-              <mat-label>Support Group</mat-label>
-              <mat-select formControlName="Support Group">
-                <mat-option>Select Support Group</mat-option>
-                <mat-option
+              <mat-label class="label">Support Group</mat-label>
+              <mat-select class="label" formControlName="Support Group">
+                <mat-option class="label">Select Support Group</mat-option>
+                <mat-option class="label"
                   [value]="data.table14_id"
                   *ngFor="let data of linkFormData['Support Group']"
                   >{{ data["Support Group"] }}</mat-option
@@ -348,7 +349,7 @@
             <div *ngFor="let selected of listOfFiles; let index = index">
               <div class="panel panel-default mt-2">
                 <div class="panel-body">
-                  <h3 class="f-attach">
+                  <h3 class="label">
                     {{ selected }}
                     <button
                       (click)="removeSelectedFile(index)"
@@ -373,7 +374,7 @@
             </div>
 
             <div class="" [innerHTML]="result" style="cursor: pointer">
-              <input
+              <input class="label"
                 style="display: none"
                 formControlName="attachment"
                 #attachments
@@ -385,7 +386,7 @@
               />
             </div>
             <hr />
-            <label id="label" class="mb-2">
+            <label class="label" class="mb-2">
               Attach File (Optional)
               <button
                 type="button"
@@ -412,13 +413,13 @@
       </div>
 
       <div class="row card p-3 mt-2" *ngIf="subformdata.length != 0">
-        <h2 class="">{{ subformdata[0].module_title }}</h2>
+        <h2 class="label">{{ subformdata[0].module_title }}</h2>
         <hr />
         <div class="row">
           <div class="col-md-6 px-2 py-1" *ngFor="let field of subformdata">
             <mat-form-field class="d-grid gap-2" appearance="outline">
-              <mat-label>{{ field?.column_label }}</mat-label>
-              <input
+              <mat-label class="label">{{ field?.column_label }}</mat-label>
+              <input class="label"
                 *ngIf="
                   field.type != 'dropdown'
                     ? field.type != 'assigndropdown'
@@ -428,7 +429,7 @@
                 formControlName="{{ field.column_label }}"
                 type="{{ field?.type }}"
               />
-              <mat-select
+              <mat-select class="label"
                 formControlName="{{ field.column_label }}"
                 *ngIf="
                   field.type == 'dropdown'
@@ -438,8 +439,8 @@
                     : false
                 "
               >
-                <mat-option>Select Column name</mat-option>
-                <mat-option
+                <mat-option class="label">Select Column name</mat-option>
+                <mat-option class="label"
                   [value]="options.id"
                   *ngFor="let options of field.column_value"
                   >{{options.value}}</mat-option
@@ -483,16 +484,16 @@
     </form>
     <form [formGroup]="dynamicHRForm" *ngIf="createHRTicket">
       <div class="row card p-3">
-        <h2>Create HR Request</h2>
-        <hr />
+        <h3 class="label">Create HR Request</h3>
+        <hr/>
 
         <div class="row">
           <div class="col-md-6 px-2 py-1">
             <mat-form-field class="d-grid gap-2" appearance="outline">
-              <mat-label>Service</mat-label>
-              <mat-select formControlName="cicd_id">
-                <mat-option>Select Service</mat-option>
-                <mat-option
+              <mat-label class="label">Service</mat-label>
+              <mat-select formControlName="cicd_id" class="label">
+                <mat-option class="label">Select Service</mat-option>
+                <mat-option class="label"
                   [value]="data.cicd_id"
                   *ngFor="let data of linkFormCIData['Config Item']"
                   >{{ data["Config Item"] }}</mat-option
@@ -507,20 +508,20 @@
               appearance="outline"
               *ngIf="field?.column_label != 'Log Notes'"
             >
-              <mat-label>{{ field?.column_label }}</mat-label>
+              <mat-label class="label">{{ field?.column_label }}</mat-label>
               <input
                 *ngIf="
                   field.type != 'dropdown'
                     ? field.type != 'assigndropdown'
                     : false
                 "
-                matInput
+                matInput class="label"
                 formControlName="{{ field.column_label }}"
                 type="{{ field?.type }}"
                 [readonly]="field.read_only"
                 (keypress)="OnlyNumbersAllowed($event, field.column_label)"
               />
-              <mat-select
+              <mat-select class="label"
                 formControlName="{{ field.column_label }}"
                 *ngIf="
                   field.type == 'dropdown'
@@ -530,8 +531,8 @@
                     : false
                 "
               >
-                <mat-option>Select Column name</mat-option>
-                <mat-option
+                <mat-option class="label">Select Column name</mat-option>
+                <mat-option class="label"
                   [value]="options.id"
                   *ngFor="let options of field.column_value"
                   >{{ options.value }}</mat-option
@@ -551,7 +552,7 @@
                 >add_circle</mat-icon
               >
 
-              <mat-error *ngIf="checkMandatory"
+              <mat-error *ngIf="checkMandatory" class="label"
                 >{{ field.column_label }} is required.</mat-error
               >
               <!-- <mat-error *ngIf="checkValid"
@@ -564,10 +565,10 @@
         <div class="row">
           <div class="col-md-6 px-2 py-1">
             <mat-form-field class="d-grid gap-2" appearance="outline">
-              <mat-label>Support Group</mat-label>
-              <mat-select formControlName="Support Group">
-                <mat-option>Select Support Group</mat-option>
-                <mat-option
+              <mat-label class="label">Support Group</mat-label>
+              <mat-select class="label" formControlName="Support Group">
+                <mat-option class="label">Select Support Group</mat-option>
+                <mat-option class="label"
                   [value]="data.table14_id"
                   *ngFor="let data of linkFormData['Support Group']"
                   >{{ data["Support Group"] }}</mat-option
@@ -577,10 +578,10 @@
           </div>
           <div class="col-md-6 px-2 py-1">
             <mat-form-field class="d-grid gap-2" appearance="outline">
-              <mat-label>Assigned to</mat-label>
-              <mat-select formControlName="assignto">
-                <mat-option>Select User Name</mat-option>
-                <mat-option
+              <mat-label class="label">Assigned to</mat-label>
+              <mat-select class="label" formControlName="assignto">
+                <mat-option class="label">Select User Name</mat-option>
+                <mat-option class="label"
                   [value]="data.user_id"
                   *ngFor="let data of HRUserData"
                   >{{ data["Assign TO"] }}</mat-option
@@ -593,7 +594,7 @@
           <div *ngFor="let selected of listOfFiles; let index = index">
             <div class="panel panel-default mt-2">
               <div class="panel-body">
-                <h3 class="f-attach">
+                <h3 class="label">
                   {{ selected }}
                   <button
                     (click)="removeSelectedFile(index)"
@@ -618,7 +619,7 @@
           </div>
 
           <div class="" [innerHTML]="result" style="cursor: pointer">
-            <input
+            <input class="label"
               style="display: none"
               formControlName="attachment"
               #attachments
@@ -630,7 +631,7 @@
             />
           </div>
           <hr />
-          <label id="label" class="mb-2">
+          <label class="label" class="mb-2">
             Attach File (Optional)
             <button
               type="button"
@@ -661,8 +662,8 @@
         <div class="row">
           <div class="col-md-6 px-2 py-1" *ngFor="let field of subformdata">
             <mat-form-field class="d-grid gap-2" appearance="outline">
-              <mat-label>{{ field?.column_label }}</mat-label>
-              <input
+              <mat-label class="label">{{ field?.column_label }}</mat-label>
+              <input class="label"
                 *ngIf="
                   field.type != 'dropdown'
                     ? field.type != 'assigndropdown'
@@ -672,7 +673,7 @@
                 formControlName="{{ field.column_label }}"
                 type="{{ field?.type }}"
               />
-              <mat-select
+              <mat-select class="label"
                 formControlName="{{ field.column_label }}"
                 *ngIf="
                   field.type == 'dropdown'
@@ -682,8 +683,8 @@
                     : false
                 "
               >
-                <mat-option>Select Column name</mat-option>
-                <mat-option
+                <mat-option class="label">Select Column name</mat-option>
+                <mat-option class="label"
                   [value]="options.id"
                   *ngFor="let options of field.column_value"
                   >{{ options.value}}</mat-option

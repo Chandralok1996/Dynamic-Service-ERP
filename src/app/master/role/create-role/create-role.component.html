@@ -1,16 +1,16 @@
    <div mat-dialog-content>
     <div class="container mt-3">
       <div class="row">
-        <div class="card p-3" style="background-color: whitesmoke; border-bottom: 3px solid rgb(66, 66, 201);">
-            <h1 class="">Create New Role</h1>
+        <div class="card p-3" style="background-color: white; border-bottom: 3px solid rgb(66, 66, 201);">
+            <h2 class="label">Role</h2>
           <div class="card-body">
             <form [formGroup]="form" (ngSubmit)="onSubmit()">
               <div class="form-group ">
-                <mat-form-field class="col-md-12">
-                  <mat-label>Role Name</mat-label>
-                <input matInput id="column_value" formControlName="column_value" autocomplete="off" required [ngClass]="{ 'is-invalid': submitted && f.column_value.errors}">
+                <mat-form-field class="col-md-12" appearance="outline">
+                  <mat-label class="label">Role Name</mat-label>
+                <input matInput class="label" id="column_value" formControlName="column_value" autocomplete="off" required [ngClass]="{ 'is-invalid': submitted && f.column_value.errors}">
                 <div *ngIf="submitted && f.column_value.errors" class="invalid-feedback">
-                  <div *ngIf="f.column_value.errors.required">
+                  <div *ngIf="f.column_value.errors.required" class="label">
                     Role name is required.
                   </div>
                 </div>
@@ -25,8 +25,8 @@
               </div> -->
               <br>
               <div mat-dialog-actions class="float-end">
-                <button class="btn btn-secondary me-2" onclick="history.back()">Cancel</button>
-                <button type="submit" [disabled]="form.invalid" class="btn btn-primary">Create</button>
+                <button class="btn btn-secondary me-2 label" onclick="history.back()">Cancel</button>
+                <button type="submit" [disabled]="form.invalid" class="btn btn-primary label">Create</button>
               </div>
             </form>
           </div>

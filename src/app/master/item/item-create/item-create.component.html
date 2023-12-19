@@ -2,16 +2,16 @@
   <div class="container">
     <form [formGroup]="dynamicForm">
       <div class="row card p-3">
-        <h2>Create Item</h2>
+        <h2 class="label">Item</h2>
         <hr />
 
         <div class="row">
           <div class="col-md-12 px-2 py-1">
             <mat-form-field class="d-grid gap-2" appearance="outline">
-              <mat-label>Assigned To</mat-label>
-              <mat-select formControlName="user_id">
-                <mat-option>Select User Name</mat-option>
-                <mat-option
+              <mat-label class="label">Assigned To</mat-label>
+              <mat-select class="label" formControlName="user_id">
+                <mat-option class="label">Select User Name</mat-option>
+                <mat-option class="label"
                   [value]="data.user_id"
                   *ngFor="let data of linkListUserData['User Name']"
                   (click)="getIDBasedLinkingByUser(data.user_id)"
@@ -24,8 +24,8 @@
         <div class="row">
           <div class="col-md-6 px-2 py-1" *ngFor="let field of nosubform">
             <mat-form-field class="d-grid gap-2" appearance="outline">
-              <mat-label>{{ field?.column_label }}</mat-label>
-              <input
+              <mat-label class="label">{{ field?.column_label }}</mat-label>
+              <input class="label"
                 *ngIf="
                   field.type != 'dropdown'
                     ? field.type != 'assigndropdown'
@@ -35,7 +35,7 @@
                 formControlName="{{ field.column_label }}"
                 type="{{ field?.type }}"
               />
-              <mat-select
+              <mat-select class="label"
                 formControlName="{{ field.column_label }}"
                 *ngIf="
                   field.type == 'dropdown'
@@ -45,8 +45,8 @@
                     : false
                 "
               >
-                <mat-option>Select Column name</mat-option>
-                <mat-option
+                <mat-option class="label">Select Column name</mat-option>
+                <mat-option class="label"
                   [value]="options.id"
                   *ngFor="let options of field.column_value"
                   >{{ options.value | titlecase }}</mat-option
@@ -68,13 +68,13 @@
         </div>
       </div>
       <div class="row card p-3 mt-2" *ngIf="subformdata.length != 0">
-        <h2 class="">{{ subformdata[0].module_title }}</h2>
+        <h2 class="label">{{ subformdata[0].module_title }}</h2>
         <hr />
         <div class="row">
           <div class="col-md-6 px-2 py-1" *ngFor="let field of subformdata">
             <mat-form-field class="d-grid gap-2" appearance="outline">
-              <mat-label>{{ field?.column_label }}</mat-label>
-              <input
+              <mat-label class="label">{{ field?.column_label }}</mat-label>
+              <input class="label"
                 *ngIf="
                   field.type != 'dropdown'
                     ? field.type != 'assigndropdown'
@@ -84,7 +84,7 @@
                 formControlName="{{ field.column_label }}"
                 type="{{ field?.type }}"
               />
-              <mat-select
+              <mat-select class="label"
                 formControlName="{{ field.column_label }}"
                 *ngIf="
                   field.type == 'dropdown'
@@ -94,8 +94,8 @@
                     : false
                 "
               >
-                <mat-option>Select Column name</mat-option>
-                <mat-option
+                <mat-option class="label">Select Column name</mat-option>
+                <mat-option class="label"
                   [value]="options.id"
                   *ngFor="let options of field.column_value"
                   >{{ options.value | titlecase }}</mat-option
@@ -119,7 +119,7 @@
       <div class="footer row mt-2 bg-light">
         <div class="text-center">
           <button
-            class="me-2"
+            class="me-2 label"
             mat-raised-button
             type="submit"
             color="secondary"
@@ -128,7 +128,7 @@
             Cancel
           </button>
           <button
-            mat-raised-button
+            mat-raised-button class="label"
             type="submit"
             [disabled]="!dynamicForm.valid"
             color="primary"

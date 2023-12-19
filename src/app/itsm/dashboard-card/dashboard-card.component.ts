@@ -8,6 +8,7 @@ import { MatSort } from "@angular/material/sort";
 import { MatPaginator } from "@angular/material/paginator";
 import { SelectionModel } from "@angular/cdk/collections";
 import { HttpParams } from "@angular/common/http";
+
 import {
   Chart,
   BarElement,
@@ -21,6 +22,7 @@ import {
   registerables,
 } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
+Chart.register(...registerables, ChartDataLabels);
 
 import { MatDialog } from "@angular/material/dialog";
 import { AdminService, AppService, ToasterService } from "src/app/_services";
@@ -97,6 +99,9 @@ export class DashboardCardComponent {
   showHR: boolean = false;
   reportData: any;
   dataset2: any;
+  background_1:any;
+  background_2:any;
+  background_3:any;
   reportData1: any = [];
   dataset3: any = [];
   ITCount: any = [];
@@ -133,12 +138,15 @@ export class DashboardCardComponent {
   showForHK: boolean = false;
   showForHR: boolean = false;
   reportData3: any = [];
+  showLabel:boolean=true;
   opacityCategory = 0;
   callTypeReportData: any = [];
   callModeReportData: any = [];
   categoryHardwareCount = 0;
   categorySoftwareCount = 0;
   reportData2: any = [];
+  form4:any;
+  form6:any;
   daysData = [
     { value: "7", name: "Last 7 Days" },
     { value: "14", name: "Last 14 Days" },
@@ -167,15 +175,19 @@ export class DashboardCardComponent {
       sDate: ["", Validators.required],
       eDate: ["", Validators.required],
     });
-    // this.form4 = this.formBuilder.group({
-    //   sDate: ["", Validators.required],
-    //   eDate: ["", Validators.required],
-    // });
+    this.form4 = this.formBuilder.group({
+      sDate: ["", Validators.required],
+      eDate: ["", Validators.required],
+    });
+    this.form6 = this.formBuilder.group({
+      sDate: ["", Validators.required],
+      eDate: ["", Validators.required],
+    });
     this.getReportData(this.type, this.selected, this.sDate, this.eDate);
   }
 
   getReportData(data: any, days: any, sDate: any, eDate: any) {
-    debugger;
+    ;
     this.reportData = [];
     this.reportData1 = [];
     this.reportData2 = [];
@@ -186,12 +198,12 @@ export class DashboardCardComponent {
     this.categoryReportData = [];
     this.assetCallTypeWiseCount = [];
     this.assetCallModeWiseCount = [];
-
     this.requestName = "";
     if (data == "it") {
+      this.requestName = "IT Requests";
       this.opacityCategory = 1;
       this.opacityCallType = 1;
-      this.opacityCallMode = 1;
+     
       this.showForIT = true;
       this.showForHK = false;
       this.showForHR = false;
@@ -206,7 +218,7 @@ export class DashboardCardComponent {
           this.reportData2 = this.reportData;
           this.reportData3 = this.reportData;
           if (this.reportData.length != 0) {
-            this.requestName = "IT Requests";
+            
 
             this.ITData = this.reportData[0].incidentStatus;
             this.ITOpenedData = this.ITData[0].opened;
@@ -276,7 +288,7 @@ export class DashboardCardComponent {
               (ele: any) => ele.webcount
             );
             this.callModeMobile = this.callModeReportData.filter(
-              (ele: any) => ele.mobilecount
+              (ele: any) => ele.mobileappcount
             );
             if (this.callModeWeb.length != 0) {
               this.callModeWebCount = this.callModeWeb[0].webcount;
@@ -302,6 +314,7 @@ export class DashboardCardComponent {
           this.pieChartCallModeWise();
         });
     } else if (data == "hk") {
+      this.requestName = "Housekeeping Requests";
       this.opacityCategory = 0;
       this.opacityCallType = 0;
       this.opacityCallMode = 0;
@@ -318,7 +331,6 @@ export class DashboardCardComponent {
           if (this.reportData.length != 0) {
             // this.showHousekeeping = true;
             // this.showHR = false;
-            this.requestName = "Housekeeping Requests";
 
             // this.opacityHousekeeping = 1;
             // this.opacityHR = 0;
@@ -339,6 +351,7 @@ export class DashboardCardComponent {
           this.getBarchartForHouseKeeping();
         });
     } else if (data == "hr") {
+      this.requestName = "HR Requests";
       this.opacityCategory = 0;
       this.opacityCallType = 0;
       this.opacityCallMode = 0;
@@ -353,7 +366,6 @@ export class DashboardCardComponent {
           console.log(res);
           this.reportData = res.result;
           if (this.reportData.length != 0) {
-            this.requestName = "HR Requests";
             // this.showHousekeeping = false;
             // this.showHR = true;
             // this.opacityHR = 1;
@@ -377,12 +389,14 @@ export class DashboardCardComponent {
   }
 
   getTicketCountForIT(data: any) {
+    
     //for it
+    this.showLabel=true;
     if (data.value == "") {
       this.showdate5 = true;
     } else {
       this.showdate5 = false;
-      this.getReportData(this.type, data, this.sDate, this.eDate);
+      this.getReportData(this.type, data.value,'','');
     }
   }
 
@@ -405,31 +419,28 @@ export class DashboardCardComponent {
   }
 
   getBarchartForHouseKeeping() {
+    
+    this.canvas = this.housekeepingChart1.nativeElement;
+    this.ctx = this.canvas.getContext("2d");
+    this.background_1 = this.ctx.createLinearGradient(0, 30, 200, 400);
+this.background_1.addColorStop(0, 'white');
+this.background_1.addColorStop(1, 'blue');
+
+this.background_2 = this.ctx.createLinearGradient(0, 30, 200, 400);
+this.background_2.addColorStop(0, 'white');
+this.background_2.addColorStop(1, 'purple');
+
+this.background_3 = this.ctx.createLinearGradient(0, 30, 200, 400);
+this.background_3.addColorStop(0, 'white');
+this.background_3.addColorStop(1, 'coral');
+
     if (this.type == "it") {
       this.dataset1 = {
         label: "IT Requests",
         data: this.ITCount,
-        backgroundColor: [
-          "rgb(112, 219, 112)",
-          "rgb(255, 77, 77)",
-          "rgb(128, 191, 255)",
-          "rgb(255, 77, 196)",
-          "rgb(255, 166, 77)",
-        ],
-        hoverBackgroundColor: [
-          "rgb(112, 219, 112)",
-          "rgb(255, 77, 77)",
-          "rgb(128, 191, 255)",
-          "rgb(255, 77, 196)",
-          "rgb(255, 166, 77)",
-        ],
-        borderColor: [
-          "rgb(112, 219, 112)",
-          "rgb(255, 77, 77)",
-          "rgb(128, 191, 255)",
-          "rgb(255, 77, 196)",
-          "rgb(255, 166, 77)",
-        ],
+        backgroundColor: [this.background_1, this.background_2, this.background_3],
+        hoverBackgroundColor: [this.background_1, this.background_2, this.background_3],
+        borderColor: [this.background_1, this.background_2, this.background_3],
         borderWidth: 1,
         borderRadius: 10,
       };
@@ -440,30 +451,9 @@ export class DashboardCardComponent {
       this.dataset2 = {
         label: "Housekeeping Requests",
         data: this.houseKeepingCount,
-        backgroundColor: [
-          "rgb(112, 219, 112)",
-          "rgb(255, 77, 77)",
-
-          "rgb(128, 191, 255)",
-          "rgb(255, 77, 196)",
-          "rgb(255, 166, 77)",
-        ],
-        hoverBackgroundColor: [
-          "rgb(112, 219, 112)",
-          "rgb(255, 77, 77)",
-
-          "rgb(128, 191, 255)",
-          "rgb(255, 77, 196)",
-          "rgb(255, 166, 77)",
-        ],
-        borderColor: [
-          "rgb(112, 219, 112)",
-          "rgb(255, 77, 77)",
-
-          "rgb(128, 191, 255)",
-          "rgb(255, 77, 196)",
-          "rgb(255, 166, 77)",
-        ],
+        backgroundColor: [this.background_1, this.background_2, this.background_3],
+        hoverBackgroundColor: [this.background_1, this.background_2, this.background_3],
+        borderColor: [this.background_1, this.background_2, this.background_3],
         borderWidth: 1,
         borderRadius: 10,
       };
@@ -474,30 +464,9 @@ export class DashboardCardComponent {
       this.dataset3 = {
         label: "HR Requests",
         data: this.HRCount,
-        backgroundColor: [
-          "rgb(112, 219, 112)",
-          "rgb(255, 77, 77)",
-
-          "rgb(128, 191, 255)",
-          "rgb(255, 77, 196)",
-          "rgb(255, 166, 77)",
-        ],
-        hoverBackgroundColor: [
-          "rgb(112, 219, 112)",
-          "rgb(255, 77, 77)",
-
-          "rgb(128, 191, 255)",
-          "rgb(255, 77, 196)",
-          "rgb(255, 166, 77)",
-        ],
-        borderColor: [
-          "rgb(112, 219, 112)",
-          "rgb(255, 77, 77)",
-
-          "rgb(128, 191, 255)",
-          "rgb(255, 77, 196)",
-          "rgb(255, 166, 77)",
-        ],
+        backgroundColor: [this.background_1, this.background_2, this.background_3],
+        hoverBackgroundColor: [this.background_1, this.background_2, this.background_3],
+        borderColor: [this.background_1, this.background_2, this.background_3],
         borderWidth: 1,
         borderRadius: 10,
       };
@@ -511,13 +480,12 @@ export class DashboardCardComponent {
   }
 
   getBarChart() {
-    debugger;
+    ;
     // this line of code is for destroy the previously loaded chart instance and data
     if (this.housekeepingChart) {
       this.housekeepingChart.destroy();
     }
-    this.canvas = this.housekeepingChart1.nativeElement;
-    this.ctx = this.canvas.getContext("2d");
+  
     this.housekeepingChart = new Chart(this.ctx, {
       type: "bar",
       data: {
@@ -528,7 +496,7 @@ export class DashboardCardComponent {
         responsive: true,
         maintainAspectRatio: false,
         onClick: (event: any, activeEls: any) => {
-          debugger;
+          ;
           var datasetIndex = activeEls[0].datasetIndex;
 
           let dataIndex = activeEls[0].index;
@@ -538,33 +506,28 @@ export class DashboardCardComponent {
           let value = event.chart.data.datasets[datasetIndex].data[dataIndex];
 
           let label = event.chart.data.labels[dataIndex];
-
+         
           if (datasetLabel == "IT Requests") {
-            this.router.navigate([`/it-sm/ITDetails/`, label, this.selected]);
+            this.router.navigate([`/it-sm/ITDetails/`, label, this.selected,this.sDate,this.eDate]);
           } else if (datasetLabel == "Housekeeping Requests") {
-            this.router.navigate([`/it-sm/HKDetails/`, label, this.selected]);
+            this.router.navigate([`/it-sm/HKDetails/`, label, this.selected1,this.sDate,this.eDate]);
           } else if (datasetLabel == "HR Requests") {
-            this.router.navigate([`/it-sm/HRDetails/`, label, this.selected]);
+            this.router.navigate([`/it-sm/HRDetails/`, label, this.selected2,this.sDate,this.eDate]);
           }
         },
         plugins: {
           datalabels: {
-            display: true,
-
-            anchor: "center",
-
-            align: "center",
-
-            color: "#ffffff",
-
-            borderRadius: 1,
-
+            anchor: 'center',
+            align: 'top',
+            formatter: Math.round,
+            color: '#ffffff',
             font: {
-              size: 10,
-            },
+                weight: 'bold',
+                size: 16
+            }
           },
           legend: {
-            position: "top",
+            position: "bottom",
           },
         },
         animation: {
@@ -593,35 +556,51 @@ export class DashboardCardComponent {
         datasets: [
           {
             data: this.assetCategoryWiseCount,
-            backgroundColor: ["rgb(112, 219, 112)", "rgb(255, 77, 77)"],
+            backgroundColor: [this.background_2, this.background_3],
           },
         ],
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
+        
         onClick: (event: any, activeEls: any) => {
+          
           var datasetIndex = activeEls[0].datasetIndex;
+          console.log(datasetIndex);
 
           let dataIndex = activeEls[0].index;
+          console.log(dataIndex);
 
-          let datasetLabel = event.chart.data.datasets[datasetIndex].label;
+          let datasetLabel = event.chart.data.labels[dataIndex];
+         
+         
 
-          let value = event.chart.data.datasets[datasetIndex].data[dataIndex];
-
-          let label = event.chart.data.labels[dataIndex];
+          if (datasetLabel == "Hardware") {
+            this.router.navigate([`/it-sm/ITDetails/`, datasetLabel, this.selected]);
+          }
+          else if(datasetLabel == "Software")
+          {
+            this.router.navigate([`/it-sm/ITDetails/`, datasetLabel, this.selected]);
+          }
         },
         plugins: {
           datalabels: {
             display: true,
             anchor: "center",
-            align: "center",
-            // backgroundColor: '#ccc',
-            color: "#ffffff",
-            borderRadius: 3,
+            align: 'center',
+            color: '#ffffff',
+            formatter: Math.round,
             font: {
-              size: 18,
+              weight: 'bold',
+              size: 14,
             },
+            borderRadius: 3,
+        
+           
+          },
+          legend: {
+            position: "bottom",
           },
         },
       },
@@ -639,7 +618,7 @@ export class DashboardCardComponent {
         datasets: [
           {
             data: this.assetCallTypeWiseCount,
-            backgroundColor: ["rgb(112, 219, 112)", "rgb(255, 77, 77)"],
+            backgroundColor: [this.background_2, this.background_3],
           },
         ],
       },
@@ -648,14 +627,22 @@ export class DashboardCardComponent {
         maintainAspectRatio: false,
         onClick: (event: any, activeEls: any) => {
           var datasetIndex = activeEls[0].datasetIndex;
+          console.log(datasetIndex);
 
           let dataIndex = activeEls[0].index;
+          console.log(dataIndex);
 
-          let datasetLabel = event.chart.data.datasets[datasetIndex].label;
+          let datasetLabel = event.chart.data.labels[dataIndex];
+         
+         
 
-          let value = event.chart.data.datasets[datasetIndex].data[dataIndex];
-
-          let label = event.chart.data.labels[dataIndex];
+          if (datasetLabel == "Incident") {
+            this.router.navigate([`/it-sm/ITDetails/`, datasetLabel, this.selected]);
+          }
+          else if(datasetLabel == "Request")
+          {
+            this.router.navigate([`/it-sm/ITDetails/`, datasetLabel, this.selected]);
+          }
         },
         plugins: {
           datalabels: {
@@ -668,6 +655,9 @@ export class DashboardCardComponent {
             font: {
               size: 18,
             },
+          },
+          legend: {
+            position: "bottom",
           },
         },
       },
@@ -685,7 +675,7 @@ export class DashboardCardComponent {
         datasets: [
           {
             data: this.assetCallModeWiseCount,
-            backgroundColor: ["rgb(112, 219, 112)", "rgb(255, 77, 77)"],
+            backgroundColor: [this.background_2, this.background_3],
           },
         ],
       },
@@ -694,14 +684,22 @@ export class DashboardCardComponent {
         maintainAspectRatio: false,
         onClick: (event: any, activeEls: any) => {
           var datasetIndex = activeEls[0].datasetIndex;
+          console.log(datasetIndex);
 
           let dataIndex = activeEls[0].index;
+          console.log(dataIndex);
 
-          let datasetLabel = event.chart.data.datasets[datasetIndex].label;
+          let datasetLabel = event.chart.data.labels[dataIndex];
+         
+         
 
-          let value = event.chart.data.datasets[datasetIndex].data[dataIndex];
-
-          let label = event.chart.data.labels[dataIndex];
+          if (datasetLabel == "Web") {
+            this.router.navigate([`/it-sm/ITDetails/`, datasetLabel, this.selected]);
+          }
+          else if(datasetLabel == "Mobile App")
+          {
+            this.router.navigate([`/it-sm/ITDetails/`, datasetLabel, this.selected]);
+          }
         },
         plugins: {
           datalabels: {
@@ -715,6 +713,9 @@ export class DashboardCardComponent {
               size: 18,
             },
           },
+          legend: {
+            position: "bottom",
+          },
         },
       },
     });
@@ -723,22 +724,59 @@ export class DashboardCardComponent {
     this.background = this.background ? "" : "primary";
   }
   getActiveLinkType(data1: any) {
+    
     this.type = data1;
+    this.showdate5=false;
+    this.showdate6=false;
+    this.showdate7=false;
+    this.selected='7';
+    this.selected1='7';
+    this.selected2='7';
     if (this.type == "it") {
-      this.getReportData(this.type, this.selected, this.sDate, this.eDate);
+      this.getReportData(this.type, this.selected,this.form4.value.sDate,this.form4.value.eDate);
     } else if (this.type == "hk") {
-      this.getReportData(this.type, this.selected1, this.sDate, this.eDate);
+      this.getReportData(this.type, this.selected1,this.form5.value.sDate,this.form5.value.eDate);
     } else if (this.type == "hr") {
-      this.getReportData(this.type, this.selected2, this.sDate, this.eDate);
+      this.getReportData(this.type, this.selected2,this.form6.value.sDate,this.form6.value.eDate);
     }
   }
-  onSubmit() {
+  onSubmit4() {
+    this.sDate='';
+    this.eDate='';
+    if (this.form4.invalid) {
+      return;
+    }
+    this.sDate = this.form4.value.sDate;
+    this.eDate = this.form4.value.eDate;
+    this.getReportData(this.type, this.selected, this.sDate, this.eDate);
+    this.form4.reset();
+    this.form4.value.sDate='';
+    this.form4.value.eDate='';
+  }
+  onSubmit5() {
+    this.sDate='';
+     this.eDate='';
     if (this.form5.invalid) {
       return;
     }
     this.sDate = this.form5.value.sDate;
     this.eDate = this.form5.value.eDate;
-    this.getReportData(this.type, this.selected, this.sDate, this.eDate);
+    this.getReportData(this.type, this.selected1, this.sDate, this.eDate);
     this.form5.reset();
+    this.form5.value.sDate='';
+    this.form5.value.eDate='';
+  }
+  onSubmit6() {
+    this.sDate='';
+    this.eDate='';
+    if (this.form6.invalid) {
+      return;
+    }
+    this.sDate = this.form6.value.sDate;
+    this.eDate = this.form6.value.eDate;
+    this.getReportData(this.type, this.selected2, this.sDate, this.eDate);
+    this.form6.reset();
+    this.form6.value.sDate='';
+    this.form6.value.eDate='';
   }
 }

@@ -75,7 +75,7 @@ export class CreateTicketComponent {
         if (this.userRole == "Guest") {
           this.roleAcc = "50007";
         } else if (this.userRole == "Housekeeping") {
-          this.roleAcc = "50007";
+          this.roleAcc = "50008";
         } else if (this.userRole == "HR") {
           this.roleAcc = "50008";
         } else if (this.userRole == "IT Engineer") {
@@ -532,6 +532,22 @@ export class CreateTicketComponent {
     this.listOfFiles.splice(index, 1);
     this.attachment.splice(index, 1);
   }
+  getAssignedToValue(){
+    
+    if(this.dynamicForm.value.assignto != null){
+      return this.dynamicForm.value.assignto;
+    }
+    else{
+      this.dynamicForm.patchValue({assignto:undefined})
+    }
+   if(this.dynamicHRForm.value.assignto != null)
+    {
+      return this.dynamicHRForm.value.assignto;
+    }
+    else{
+      this.dynamicHRForm.patchValue({assignto:undefined})
+    }
+  }
   submitForm() {
     
     if (this.dynamicForm.invalid) {
@@ -543,6 +559,8 @@ export class CreateTicketComponent {
     for (let i = 0; i < this.attachment.length; i++) {
       formData.append("attachment", this.attachment[i]);
     }
+  
+
     formData.append(
       "Issue Description",
       this.dynamicForm.value["Issue Description"]
@@ -556,7 +574,11 @@ export class CreateTicketComponent {
     // formData.append('astd_id', this.dynamicForm.value.astd_id);
     formData.append("cicd_id", this.dynamicForm.value.cicd_id);
     formData.append("Status", 1000);
-    formData.append("assignto", this.dynamicForm.value.assignto);
+    var someValue = this.getAssignedToValue(); 
+if (someValue !== undefined) {
+    formData.append('assignto', someValue);
+}
+ //   formData.append("assignto",null);
 
     // var match: any = this.dynamicForm.value,
     //   error: any = [];
@@ -649,6 +671,8 @@ export class CreateTicketComponent {
     for (let i = 0; i < this.attachment.length; i++) {
       formData.append("attachment", this.attachment[i]);
     }
+   // var valueToSend = this.dynamicHRForm.value.assignto !== null ? this.dynamicHRForm.value.assignto : null;
+
     // formData.append("Mobile Number", this.dynamicForm.value['Mobile Number']);
     formData.append(
       "Issue Description",
@@ -660,8 +684,10 @@ export class CreateTicketComponent {
     formData.append("Status", 1000);
     formData.append("Support Group", "1009");
     formData.append("cicd_id", this.dynamicHRForm.value.cicd_id);
-    formData.append("assignto", this.dynamicHRForm.value.assignto);
-
+    var someValue = this.getAssignedToValue(); 
+    if (someValue !== undefined) {
+        formData.append('assignto', someValue);
+    }
     //   var match: any = this.dynamicHRForm.value,
     //     error: any = [];
     //   this.formFields.forEach((element: any) => {
@@ -689,5 +715,16 @@ export class CreateTicketComponent {
   }
   ngOnDestroy(): void {
     this.formDataSubscription.unsubscribe();
+  }
+  onEnter(event:any){
+    
+    if (event.source.value != '') {
+    //  this.ShowLinkedData = true;
+      this.getIDBasedLinkingByUser(event.source.value);
+      }
+      else{
+        this.ShowLinkedData = false;
+        this.toaster.warning('Please select User from list');
+      }
   }
 }

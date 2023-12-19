@@ -35,6 +35,8 @@ export class ServiceComponent {
   x: any = [];
   orgkeys: any;
   columnfiled: any = [];
+  user:any;
+  userRole:any;
 
   constructor(
     private adminService: AdminService,
@@ -42,7 +44,16 @@ export class ServiceComponent {
     private service: AppService,
     private router: Router
   ) {
-    this.userCreated = JSON.parse(this.userCreated);
+    this.service.user.subscribe((res:any)=>{
+      if(res!=null){
+        this.user=JSON.parse(res);
+        this.userRole = this.user.roleName;
+    
+      }
+
+   
+      
+    }) 
     this.pagination = this.service.pagination;
   }
   public hello: any;
@@ -73,6 +84,7 @@ export class ServiceComponent {
   // })
   //   }
   serviceItemlist() {
+    
     var a = this.adminService.getServiceList().subscribe(
       (res: any) => {
         console.log(res);
@@ -114,7 +126,36 @@ export class ServiceComponent {
       this.dataSource.paginator.firstPage();
     }
   }
-
+  goBack(){
+    if(this.userRole == 'enduser')
+     {
+      this.router.navigate(['/it-sm']);
+     }
+     else if(this.userRole == 'Housekeeping'){
+      this.router.navigate(['/it-sm']);
+     }
+     else if(this.userRole == 'Administrator'){
+      this.router.navigate(['/it-sm/allTickets']);
+     }
+     else if(this.userRole == 'HR'){
+      this.router.navigate(['/it-sm']);
+     }
+     else if(this.userRole == 'IT Engineer'){
+      this.router.navigate(['/it-sm']);
+     }
+     else if(this.userRole == 'Accountant'){
+      this.router.navigate(['/it-sm']);
+     }
+     else if(this.userRole == 'Procurement'){
+      this.router.navigate(['/it-sm']);
+     }
+     else if(this.userRole == 'Manager'){
+      this.router.navigate(['/it-sm/dashboard-card']);
+     }
+     else if(this.userRole == 'Helpdesk'){
+      this.router.navigate(['/it-sm/dashboard-card']);
+     }
+}
   ngOnDestroy(): void {
     this.formListSubscription.unsubscribe();
   }

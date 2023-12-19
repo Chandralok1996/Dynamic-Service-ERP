@@ -4,6 +4,7 @@ import { Router } from "@angular/router";
 import { MatTableDataSource } from "@angular/material/table";
 import { Subscription } from "rxjs";
 import { AdminService, AppService, ToasterService } from "src/app/_services";
+import { FormBuilder, Validators } from "@angular/forms";
 
 @Component({
   selector: 'app-all-ticket-list',
@@ -13,14 +14,15 @@ import { AdminService, AppService, ToasterService } from "src/app/_services";
 export class AllTicketListComponent {
  
   links = [
-    {status:'',value: "All Tickets"},
-    // {status:'My',value:"My Tickets"},
-    // {status:'assigned',value:"Assigned Tickets"},
+   // {status:'',value: "All Tickets"},
+     {status:'My',value:"My Tickets"},
+     {status:'assigned',value:"Grouped Tickets"},
     // {status:'unassigned',value:"Unassigned Tickets"},
     {status:'Closed',value:"Closed Tickets"},
   ];
-  activeLink = '';
+  activeLink = 'My';
   background: any = "";
+  showStatusFilter:boolean=false;
   dataSource: any;
   currentTime: any;
   startDate = new Date(2000, 0, 1);
@@ -47,9 +49,17 @@ export class AllTicketListComponent {
   filteredCardData: any[] = [];
   labelsArray:any=[];
   labelsArrayData:any=[];
+  filterData1='7';
+  filterData=[{id: "Last 7 Days", value: "7" },{id: "Last 14 Days", value: "14" },{id: "Select Date", value: ""}]
   user:any;
   userRole:any;
+  form5:any;
   roleAcc:any;
+  MyTicetListData:any=[];
+  assignedTicketList: any = [];
+  groupTicketList: any = [];
+  status1 = "My";
+  ticketListData: any = [];
   type=1;
   types=[ { id: 1, name: 'IT' },
   { id: 2, name: 'Housekeeping' },
@@ -60,6 +70,7 @@ export class AllTicketListComponent {
     private adminService: AdminService,
     private toaster: ToasterService,
     private service: AppService,
+    private formBuilder: FormBuilder,
     private router: Router
   ) {
     
@@ -80,7 +91,7 @@ export class AllTicketListComponent {
        else if(this.userRole == 'HR'){
         this.roleAcc = "50008";
        }
-       else if(this.userRole == 'IT Enginner'){
+       else if(this.userRole == 'IT Engineer'){
         this.roleAcc = "50008";
        }
        else if(this.userRole == 'Accountant'){
@@ -96,35 +107,156 @@ export class AllTicketListComponent {
     }) 
   }
   ngOnInit(): void {
-  //  this.getFormDataById();
-    this.incidentlistData('');
+    this.form5 = this.formBuilder.group({
+      sDate: ["", Validators.required],
+      eDate: ["", Validators.required],
+    });
+    this.getTicketList('Open','7','','');
   }
   toggleBackground() {
     this.background = this.background ? "" : "primary";
   }
-  // getFormDataById(): void {
-  //   ;
-  //   this.formDataSubscription.add(
-  //     this.adminService.getFormByID(this.roleAcc).subscribe(
-  //       (res: any) => {
-  //         if (res.status == 200) {
-  //           this.formFields = res.rows;
-        
-         
+  getTicketList(status:any,days:any,sDate:any,eDate:any) {
+    this.incidentlistdata = [];
+    this.MyTicetListData = [];
+    this.assignedTicketList = [];
+    this.ticketListData = [];
+    this.groupTicketList = [];
+    var a = this.adminService.getTicketListOnFilter(status,days,sDate,eDate).subscribe((res: any) => {
+      console.log(res.status);
+      if (res.status == 200) {
+        this.MyTicetListData = res.myTickets;
+        if (this.MyTicetListData.length != 0) {
+          if (this.userRole == "IT Engineer") {
+            if (this.status1 == "My") {
+              this.showStatusFilter = true;
+              this.showHRIncident = true;
+              this.showIncident = false;
+              this.showHousekeepingIncident = false;
+              this.ticketListData = this.MyTicetListData[2].hrMyTickets;
+              this.incidentlistdata = this.ticketListData;
+            } else if (this.status1 == "assigned") {
+              this.showStatusFilter = false;
+              this.showIncident = true;
+              this.showHRIncident = false;
+              this.showHousekeepingIncident = false;
+              this.assignedTicketList = res.assigntoTickets;
+              this.incidentlistdata = this.assignedTicketList;
+            } else if (this.status1 == "Closed") {
+              this.showStatusFilter = false;
+              this.showIncident = true;
+              this.showHRIncident = false;
+              this.showHousekeepingIncident = false;
+              this.incidentlistData("Closed");
+            }
+          } else if (this.userRole == "Housekeeping") {
+            if (this.status1 == "My") {
+              this.showStatusFilter = true;
+              this.showHRIncident = true;
+              this.showIncident = false;
+              this.showHousekeepingIncident = false;
+              this.ticketListData = this.MyTicetListData[2].hrMyTickets;
+              this.incidentlistdata = this.ticketListData;
+            } else if (this.status1 == "assigned") {
+              this.showStatusFilter = false;
+              this.showHousekeepingIncident = true;
+              this.showHRIncident = false;
+              this.showIncident = false;
 
-  //           this.toaster.success(res.message);
-  //         } else {
-  //           this.toaster.error(res.message);
-  //         }
-  //       }
-       
-  //     )
-  //   );
-  // }
+              this.assignedTicketList = res.groupTickets;
+              this.incidentlistdata = this.assignedTicketList;
+            } else if (this.status1 == "Closed") {
+              this.showStatusFilter = false;
+              this.showHousekeepingIncident = true;
+              this.showHRIncident = false;
+              this.showIncident = false;
+              this.incidentlistData("Closed");
+            }
+          } else if (this.userRole == "HR") {
+            if (this.status1 == "My") {
+              this.showStatusFilter = true;
+              this.showIncident = true;
+              this.showHousekeepingIncident = false;
+              this.showHRIncident = false;
+
+              this.ticketListData = this.MyTicetListData[0].incMyTickets;
+              this.incidentlistdata = this.ticketListData;
+            } else if (this.status1 == "assigned") {
+              this.showStatusFilter = false;
+              this.showHRIncident = true;
+              this.showHousekeepingIncident = false;
+
+              this.showIncident = false;
+              this.assignedTicketList = res.assigntoTickets;
+              this.incidentlistdata = this.assignedTicketList;
+            } else if (this.status1 == "Closed") {
+              this.showStatusFilter = false;
+              this.showHRIncident = true;
+              this.showHousekeepingIncident = false;
+
+              this.showIncident = false;
+              this.incidentlistData("Closed");
+            }
+          } else if (this.userRole == "Accountant") {
+            if (this.status1 == "My") {
+              this.showStatusFilter = true;
+              this.showIncident = true;
+              this.showHousekeepingIncident = false;
+              this.showHRIncident = false;
+
+              this.ticketListData = this.MyTicetListData[0].incMyTickets;
+              this.incidentlistdata = this.ticketListData;
+            } else if (this.status1 == "assigned") {
+              this.showStatusFilter = false;
+              this.showHRIncident = true;
+              this.showHousekeepingIncident = false;
+
+              this.showIncident = false;
+              this.assignedTicketList = res.assigntoTickets;
+              this.incidentlistdata = this.assignedTicketList;
+            } else if (this.status1 == "Closed") {
+              this.showStatusFilter = false;
+              this.showHRIncident = true;
+              this.showHousekeepingIncident = false;
+
+              this.showIncident = false;
+              this.incidentlistData("Closed");
+            }
+           } 
+           //else if (this.userRole == "Guest") {
+          //   if (this.status1 == "My") {
+          //     this.showStatusFilter = false;
+          //     this.showHousekeepingIncident = true;
+          //     this.showHRIncident = false;
+          //     this.showIncident = false;
+          //     this.ticketListData = this.MyTicetListData[1].hkMyTickets;
+          //     this.incidentlistdata = this.ticketListData;
+          //   } else if (this.status1 == "assigned") {
+          //     this.showStatusFilter = true;
+          //     this.showHousekeepingIncident = true;
+          //     this.showHRIncident = false;
+          //     this.showIncident = false;
+          //     this.assignedTicketList = res.assigntoTickets;
+          //     this.incidentlistdata = this.assignedTicketList;
+          //   } else if (this.status1 == "Closed") {
+          //     this.showStatusFilter = false;
+          //     this.showHousekeepingIncident = true;
+          //     this.showHRIncident = false;
+          //     this.showIncident = false;
+          //     this.incidentlistData("Closed");
+          //   }
+          // }
+        }
+
+        // this.groupTicketList = res.groupTickets;
+      }
+    });
+  }
   incidentlistData(status:any) {
     this.incidentlistdata=[];
     if (this.type == 1 && (status == '' || status == 'Closed' || status == 'Open' || status == 'inprogress')) {
       this.showIncident = true;
+      this.showStatusFilter = true;
       this.showHousekeepingIncident = false;
       this.adminService.incidentList(status).subscribe((res: any) => {
         console.log(res);
@@ -143,6 +275,7 @@ export class AllTicketListComponent {
       });
     } else if (this.type == 2 && (status == '' || status == 'Closed' || status == 'Open' || status == 'inprogress')) {
       this.showHousekeepingIncident = true;
+      this.showStatusFilter = true;
       this.showIncident = false;
       this.adminService.getHouseKeepingTickets(status).subscribe((res: any) => {
         console.log(res);
@@ -161,6 +294,7 @@ export class AllTicketListComponent {
       });
     } else if (this.type == 3 && (status == '' || status == 'Closed' || status == 'Open' || status == 'inprogress')) {
       this.showHRIncident = true;
+      this.showStatusFilter = true;
       this.showHousekeepingIncident = false;
       this.showIncident = false;
       this.adminService.getHRServiceTicketList(status).subscribe((res: any) => {
@@ -178,7 +312,7 @@ export class AllTicketListComponent {
   }
  
   applyFilter() {
-    debugger
+    
     //  const filterValue = event.target ? (event.target as HTMLInputElement).value : event;
     if(this.searchTerm == '')
     {
