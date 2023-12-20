@@ -4,7 +4,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AdminService } from 'src/app/_services';
 import * as XLSX from 'xlsx';
@@ -46,7 +46,7 @@ export class HousekeepingRequestDetailsComponent {
   sDate:any;
   eDate:any;
   reportStatusData:any=[];
-  constructor(private route:ActivatedRoute,private adminService: AdminService) { }
+  constructor(private route:ActivatedRoute,private adminService: AdminService,private router: Router) { }
 
   ngOnInit(): void {
     

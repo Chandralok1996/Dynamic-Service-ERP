@@ -98,6 +98,7 @@ export class HrRequestDetailsComponent {
   //    });
       
   // }
+  
   toggler(): void {
     this.isMenuOpened = !this.isMenuOpened;
   }

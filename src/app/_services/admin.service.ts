@@ -614,8 +614,8 @@ getReportData(type:any,days:any,sDate:any,eDate:any):Observable<any>
    );
 }
 //get ticket list by filter
-getTicketListOnFilter(status:any,days:any,sDate:any,eDate:any): Observable<any> {
-  return this._http.get<any>( `${environment._url}/formTemplate/getTicketsList?status=${status}&days=${days}&sDate=${sDate}&eDate=${eDate}`);
+getTicketListOnFilter(status:any,days:any,sDate:any,eDate:any,type:any): Observable<any> {
+  return this._http.get<any>( `${environment._url}/formTemplate/getTicketsList?status=${status}&days=${days}&sDate=${sDate}&eDate=${eDate}&type=${type}`);
 }
 }
 

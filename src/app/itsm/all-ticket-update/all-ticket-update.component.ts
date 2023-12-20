@@ -446,7 +446,7 @@ export class AllTicketUpdateComponent {
           //this.dynamicForm.patchValue(this.incidentLogNotesData[0].table51_id);
           this.incidentLogNotesData.forEach((element: any) => {
             this.prev_notesData.push(
-              "Created By :" +
+              "Assigned To :" +
                 " " +
                 element["User Name"] +
                 " " +
@@ -471,7 +471,7 @@ export class AllTicketUpdateComponent {
           //this.dynamicForm.patchValue(this.incidentLogNotesData[0].table51_id);
           this.incidentLogNotesData.forEach((element: any) => {
             this.prev_notesData.push(
-              "Created By :" +
+              "Assigned To:" +
                 " " +
                 element["User Name"] +
                 " " +
@@ -496,7 +496,7 @@ export class AllTicketUpdateComponent {
           //this.dynamicForm.patchValue(this.incidentLogNotesData[0].table51_id);
           this.incidentLogNotesData.forEach((element: any) => {
             this.prev_notesData.push(
-              "Created By :" +
+              "Assigned To :" +
                 " " +
                 element["User Name"] +
                 " " +

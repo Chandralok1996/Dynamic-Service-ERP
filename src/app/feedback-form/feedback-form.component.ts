@@ -104,7 +104,11 @@ export class FeedbackFormComponent {
     this.selectedValue = star;
     console.log('Value of star', star);
   }
-  submitForm(){}
+  submitForm(){
+    if(this.form.invalid){
+      return;
+    }
+  }
  
   ngOnDestroy(): void {
    // this.formDataSubscription.unsubscribe();

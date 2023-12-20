@@ -58,7 +58,7 @@ export class ItsmComponent {
   error: any;
   status = [
     { name: "Open", value: "Open" },
-    { name: "In Progress", value: "inprogress" },
+    { name: "In Progress", value: "In progress" },
     { name: "Closed", value: "Closed" },
   ];
   type: any;
@@ -109,19 +109,20 @@ export class ItsmComponent {
       sDate: ["", Validators.required],
       eDate: ["", Validators.required],
     });
-    this.getTicketList('Open','7','','');
+    this.getTicketList('Open','7','','','');
     // this.getActiveLinkStatus('My');
   }
   toggleBackground() {
     this.background = this.background ? "" : "primary";
   }
-  getTicketList(status:any,days:any,sDate:any,eDate:any) {
+  getTicketList(status:any,days:any,sDate:any,eDate:any,type:any) {
+    
     this.incidentlistdata = [];
     this.MyTicetListData = [];
     this.assignedTicketList = [];
     this.ticketListData = [];
     this.groupTicketList = [];
-    var a = this.adminService.getTicketListOnFilter(status,days,sDate,eDate).subscribe((res: any) => {
+    var a = this.adminService.getTicketListOnFilter(status,days,sDate,eDate,type).subscribe((res: any) => {
       console.log(res.status);
       if (res.status == 200) {
         this.MyTicetListData = res.myTickets;
@@ -140,7 +141,7 @@ export class ItsmComponent {
               this.showHRIncident = false;
               this.showHousekeepingIncident = false;
               this.assignedTicketList = res.groupTickets;
-              this.incidentlistdata = this.assignedTicketList.filter((ele:any)=>ele.Status=='In progress');
+              this.incidentlistdata = this.assignedTicketList.filter((ele:any)=>(ele.Status=='In progress' || ele.Status=='Open'));
             } else if (this.status1 == "Closed") {
               this.showStatusFilter = false;
               this.showIncident = true;
@@ -163,7 +164,7 @@ export class ItsmComponent {
               this.showIncident = false;
 
               this.assignedTicketList = res.groupTickets;
-              this.incidentlistdata = this.assignedTicketList.filter((ele:any)=>ele.Status=='In progress');
+              this.incidentlistdata = this.assignedTicketList.filter((ele:any)=>(ele.Status=='In progress' || ele.Status=='Open'));
 
             } else if (this.status1 == "Closed") {
               this.showStatusFilter = false;
@@ -188,7 +189,7 @@ export class ItsmComponent {
 
               this.showIncident = false;
               this.assignedTicketList = res.groupTickets;
-              this.incidentlistdata = this.assignedTicketList.filter((ele:any)=>ele.Status=='In progress');
+              this.incidentlistdata = this.assignedTicketList.filter((ele:any)=>(ele.Status=='In progress' || ele.Status=='Open'));
 
             } else if (this.status1 == "Closed") {
               this.showStatusFilter = false;
@@ -214,7 +215,7 @@ export class ItsmComponent {
 
               this.showIncident = false;
               this.assignedTicketList = res.groupTickets;
-              this.incidentlistdata = this.assignedTicketList.filter((ele:any)=>ele.Status=='In progress');
+              this.incidentlistdata = this.assignedTicketList.filter((ele:any)=>(ele.Status=='In progress' || ele.Status=='Open'));
 
             } else if (this.status1 == "Closed") {
               this.showStatusFilter = false;
@@ -261,17 +262,17 @@ export class ItsmComponent {
       return;
     }
 
-    this.getTicketList(this.statusData,this.filterData1,this.form5.value.sDate,this.form5.value.eDate);
+    this.getTicketList(this.statusData,this.filterData1,this.form5.value.sDate,this.form5.value.eDate,'');
   }
   getFilterList(value:any)
   {
     if(value==''){
       this.show=true;
-      this.getTicketList('Open','',this.sDate,this.eDate);
+      this.getTicketList('Open','',this.sDate,this.eDate,'');
     }
     else{
       this.show=false;
-      this.getTicketList(this.statusData,this.filterData1,'','');
+      this.getTicketList(this.statusData,this.filterData1,'','','');
     }
   }
   incidentlistData(status: any) {
@@ -325,11 +326,11 @@ export class ItsmComponent {
     if(this.status1=='assigned')
     {
       this.statusData = '';
-      this.getTicketList(this.statusData,'7','','');
+      this.getTicketList(this.statusData,'7','','','');
     }
     else{
     this.statusData = 'Open';
-    this.getTicketList(this.statusData,'7','','');
+    this.getTicketList(this.statusData,'7','','','');
     }
     // else if(status=='assigned')
     // {

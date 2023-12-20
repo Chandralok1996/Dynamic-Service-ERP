@@ -33,10 +33,9 @@ export class QRCodeComponent {
   ) {}
   ngOnInit(): void {
     this.getLocationList();
+    this.getFeedbackForm();
   }
-
   getLocationList() {
-    ;
     this.adminService.getQRCodeLocation().subscribe((res: any) => {
       if (res.status) {
         this.locationList = res.rows;
@@ -78,4 +77,5 @@ export class QRCodeComponent {
     }
    
   }
+  getFeedbackForm(){}
 }

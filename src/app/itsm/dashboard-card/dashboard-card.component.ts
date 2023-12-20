@@ -577,11 +577,11 @@ this.background_3.addColorStop(1, 'coral');
          
 
           if (datasetLabel == "Hardware") {
-            this.router.navigate([`/it-sm/ITDetails/`, datasetLabel, this.selected]);
+            this.router.navigate([`/it-sm/ITDetails/`, datasetLabel, this.selected,'','']);
           }
           else if(datasetLabel == "Software")
           {
-            this.router.navigate([`/it-sm/ITDetails/`, datasetLabel, this.selected]);
+            this.router.navigate([`/it-sm/ITDetails/`, datasetLabel, this.selected,'','']);
           }
         },
         plugins: {
@@ -637,11 +637,11 @@ this.background_3.addColorStop(1, 'coral');
          
 
           if (datasetLabel == "Incident") {
-            this.router.navigate([`/it-sm/ITDetails/`, datasetLabel, this.selected]);
+            this.router.navigate([`/it-sm/ITDetails/`, datasetLabel, this.selected,'','']);
           }
           else if(datasetLabel == "Request")
           {
-            this.router.navigate([`/it-sm/ITDetails/`, datasetLabel, this.selected]);
+            this.router.navigate([`/it-sm/ITDetails/`, datasetLabel, this.selected,'','']);
           }
         },
         plugins: {
@@ -694,11 +694,11 @@ this.background_3.addColorStop(1, 'coral');
          
 
           if (datasetLabel == "Web") {
-            this.router.navigate([`/it-sm/ITDetails/`, datasetLabel, this.selected]);
+            this.router.navigate([`/it-sm/ITDetails/`, datasetLabel, this.selected,'','']);
           }
           else if(datasetLabel == "Mobile App")
           {
-            this.router.navigate([`/it-sm/ITDetails/`, datasetLabel, this.selected]);
+            this.router.navigate([`/it-sm/ITDetails/`, datasetLabel, this.selected,'','']);
           }
         },
         plugins: {

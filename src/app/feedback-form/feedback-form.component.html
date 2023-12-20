@@ -200,6 +200,7 @@
                   <button
                     class="btn btn-primary"
                     (click)="submitForm()"
+                    [disabled]="this.form.invalid"
                     style="float: right"
                   >
                     Send Feedback
